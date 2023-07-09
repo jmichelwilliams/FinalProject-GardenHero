@@ -1,5 +1,5 @@
-const App = () => {
-  return <div>Garden Hero</div>;
-};
+import React from 'react';
+
+const App = () => <div>Garden Hero</div>;
 
 export default App;
