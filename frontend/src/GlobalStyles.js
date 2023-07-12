@@ -40,7 +40,7 @@ const GlobalStyle = createGlobalStyle`
     }
     body,textarea {
         line-height: 1;
-        font-family:'Roboto' , sans-serif;
+        font-family: 'Roboto', sans-serif;
     }
     ol, ul {
         list-style: none;
