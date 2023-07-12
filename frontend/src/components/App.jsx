@@ -4,11 +4,13 @@ import Homepage from './Homepage';
 import Registration from './Registration';
 import Loginpage from './Loginpage';
 import Planner from './Planner';
+import GlobalStyle from '../GlobalStyles';
 
 const App = () => {
   console.log('app');
   return (
     <Router>
+      <GlobalStyle />
       <Routes>
         <Route path="/" element={<Homepage />} />
         <Route path="/registration" element={<Registration />} />
