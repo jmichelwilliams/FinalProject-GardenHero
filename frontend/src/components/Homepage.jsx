@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import Button from '@mui/material/Button';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+import CropLookup from './CropLookup';
+
 const theme = createTheme({
   palette: {
     primary: {
@@ -36,15 +38,16 @@ const Homepage = () => {
             save the day!
           </SubTitle>
         </TitleBox>
-        <ImageBox>Insert Preview Screenshot</ImageBox>
+        {/* <ImageBox>Insert Preview Screenshot</ImageBox> */}
         <SignUpBox>
-          <Button
+          <CropLookup />
+          {/* <Button
             variant="contained"
             color="secondary"
             sx={{ borderRadius: 0, height: '60px', width: '150px' }}
           >
             Sign up!
-          </Button>
+          </Button> */}
         </SignUpBox>
       </Wrapper>
     </ThemeProvider>
@@ -79,12 +82,6 @@ const SubTitle = styled.h2`
   color: #606c38;
 `;
 
-const ImageBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 50px;
-`;
 const SignUpBox = styled.div`
   display: flex;
   justify-content: center;
