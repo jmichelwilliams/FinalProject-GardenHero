@@ -21,7 +21,7 @@ const getCrops = async (req, res) => {
 
     const collection = db.collection(collectionName);
     const result = await collection.find().toArray();
-    console.log(result);
+
     res.status(200).json({ status: 200, data: result });
   } catch (error) {
     res.status(500).json({ status: 500, error: 'Server Error' });
