@@ -2,11 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import CropLookup from './CropLookup';
 import Header from './Header';
+import Wrapper from './Wrapper';
 
 const Homepage = () => {
   console.log('Homepage');
   return (
-    <Wrapper>
+    <StyledWrapper>
       <Header />
       <TitleBox>
         <Title>Garden Hero</Title>
@@ -26,14 +27,11 @@ const Homepage = () => {
             Sign up!
           </Button> */}
       </SignUpBox>
-    </Wrapper>
+    </StyledWrapper>
   );
 };
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  background-color: #fefae0;
+const StyledWrapper = styled(Wrapper)`
   height: 100vh;
 `;
 
