@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { styled } from 'styled-components';
+import styled from 'styled-components';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import Wrapper from './Wrapper';
 
 const CropLookup = () => {
   const [crops, setCrops] = useState(null);
@@ -34,31 +35,47 @@ const CropLookup = () => {
 
   return (
     <Wrapper>
-      <SearchInput id="CropSearch" label="Search Crop" variant="outlined" />
-      <Button
-        variant="contained"
-        color="primary"
-        sx={{
-          borderRadius: 0,
-          height: '55px',
-          width: '150px',
-          marginLeft: '8px',
-        }}
-      >
-        Search
-      </Button>
+      <RowWrapper>
+        <SearchInput type="text" placeholder="Search Crop" />
+        <StyledButton variant="contained" color="primary">
+          Search
+        </StyledButton>
+      </RowWrapper>
     </Wrapper>
   );
 };
 
-const Wrapper = styled.div`
+const RowWrapper = styled.div`
   display: flex;
   flex-direction: row;
-`;
+  justify-content: center;
 
-const SearchInput = styled(TextField)`
+  @media (max-width: 1180px) {
+    flex-direction: column;
+    align-items: center;
+  }
+`;
+const SearchInput = styled.input`
   width: 400px;
   background-color: white;
-  margin: 100px;
+  height: 50px;
+  margin-right: 8px;
+  font-size: 24px;
+
+  @media (max-width: 1180px) {
+    font-size: 16px;
+    margin: 0;
+    width: 300px;
+    margin-bottom: 16px;
+  }
+`;
+
+const StyledButton = styled(Button)`
+  height: 55px;
+  width: 150px;
+
+  @media (max-width: 1180px) {
+    width: 300px;
+  }
 `;
 export default CropLookup;
