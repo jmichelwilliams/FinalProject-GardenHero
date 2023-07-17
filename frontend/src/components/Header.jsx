@@ -11,7 +11,6 @@ const Header = () => {
         variant="contained"
         color="primary"
         sx={{
-          borderRadius: 0,
           height: '60px',
           width: '150px',
           marginRight: '8px',
@@ -23,7 +22,6 @@ const Header = () => {
         variant="contained"
         color="secondary"
         sx={{
-          borderRadius: 0,
           height: '60px',
           width: '150px',
         }}
