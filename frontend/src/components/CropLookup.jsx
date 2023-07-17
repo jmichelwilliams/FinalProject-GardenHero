@@ -167,6 +167,7 @@ const SearchInput = styled.input`
 `;
 
 const StyledSuggestions = styled.ul`
+  background-color: white;
   border-radius: 4px;
   border: solid 1px #d9d4d4;
   list-style: none;
@@ -200,8 +201,8 @@ const SuggestionBox = styled.div`
     text-align: center;
     margin: 0;
     width: 300px;
-    position: relative;
     bottom: 240px;
+    left: 0;
   }
 `;
 export default CropLookup;
