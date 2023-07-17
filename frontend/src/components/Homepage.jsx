@@ -31,6 +31,7 @@ const TitleBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 64px;
 `;
 
 const SubTitle = styled.h2`
