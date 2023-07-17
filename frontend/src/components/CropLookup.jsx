@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { styled } from 'styled-components';
 import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 
 const CropLookup = () => {
   const [crops, setCrops] = useState(null);
@@ -34,6 +35,16 @@ const CropLookup = () => {
   return (
     <Wrapper>
       <SearchInput id="CropSearch" label="Search Crop" variant="outlined" />
+      <Button
+        variant="contained"
+        color="primary"
+        sx={{
+          borderRadius: 0,
+          height: '60px',
+          width: '150px',
+          marginRight: '8px',
+        }}
+      />
     </Wrapper>
   );
 };
