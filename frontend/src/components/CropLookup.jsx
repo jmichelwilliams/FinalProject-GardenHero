@@ -93,6 +93,49 @@ const CropLookup = () => {
           Search
         </Button>
       </RowWrapper>
+      {matchedSuggestions.length > 0 && (
+        <SuggestionBox>
+          <StyledSuggestions>
+            {matchedSuggestions.map((suggestion, index) => {
+              const indexOfSuggestion = suggestion.name
+                .toLowerCase()
+                .indexOf(value.toLowerCase());
+
+              const firstSegment = suggestion.name.substring(
+                0,
+                indexOfSuggestion + value.length,
+              );
+
+              const secondSegment = suggestion.name.substring(
+                indexOfSuggestion + value.length,
+              );
+
+              const isSelected =
+                matchedSuggestions.indexOf(suggestion) ===
+                selectedSuggestionIndex;
+
+              return (
+                <Suggestion
+                  // eslint-disable-next-line no-underscore-dangle
+                  key={suggestion._id}
+                  onClick={() => handleSelect(suggestion.title)}
+                  onMouseEnter={() => setSelectedSuggestionIndex(index)}
+                  style={{
+                    background: isSelected
+                      ? 'hsla(50deg, 100%,80%,0.25)'
+                      : 'transparent',
+                  }}
+                >
+                  <span>
+                    {firstSegment}
+                    <Prediction>{secondSegment}</Prediction>
+                  </span>
+                </Suggestion>
+              );
+            })}
+          </StyledSuggestions>
+        </SuggestionBox>
+      )}
     </Wrapper>
   );
 };
@@ -123,4 +166,42 @@ const SearchInput = styled.input`
   }
 `;
 
+const StyledSuggestions = styled.ul`
+  border-radius: 4px;
+  border: solid 1px #d9d4d4;
+  list-style: none;
+  margin: 0;
+  padding: 10px;
+  max-height: 250px;
+  width: 385px;
+  box-shadow: 10px 5px 5px lightgrey;
+  overflow-y: scroll;
+  font-size: 24px;
+`;
+
+const Suggestion = styled.li`
+  padding: 8px;
+  cursor: pointer;
+`;
+
+const Prediction = styled.span`
+  font-weight: 700;
+`;
+
+const SuggestionBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  right: 80px;
+
+  @media (max-width: 1180px) {
+    align-items: center;
+    text-align: center;
+    margin: 0;
+    width: 300px;
+    position: relative;
+    bottom: 240px;
+  }
+`;
 export default CropLookup;
