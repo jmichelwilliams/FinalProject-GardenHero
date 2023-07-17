@@ -17,6 +17,7 @@ const StyledWrapper = styled.div`
   @media (max-width: 1180px) {
     align-items: center;
     text-align: center;
+    margin: 0;
   }
 `;
 export default Wrapper;
