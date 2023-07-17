@@ -21,7 +21,6 @@ const theme = createTheme({
 const App = () => (
   <Router>
     <GlobalStyle />
-
     <ThemeProvider theme={theme}>
       <Routes>
         <Route path="/" element={<Homepage />} />

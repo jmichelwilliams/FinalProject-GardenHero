@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Wrapper from './Wrapper';
 
@@ -55,6 +54,7 @@ const RowWrapper = styled.div`
     align-items: center;
   }
 `;
+
 const SearchInput = styled.input`
   width: 400px;
   background-color: white;
