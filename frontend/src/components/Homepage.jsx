@@ -7,7 +7,7 @@ import Wrapper from './Wrapper';
 const Homepage = () => {
   console.log('Homepage');
   return (
-    <StyledWrapper>
+    <Wrapper>
       <Header />
       <TitleBox>
         <Title>Garden Hero</Title>
@@ -16,24 +16,10 @@ const Homepage = () => {
           save the day!
         </SubTitle>
       </TitleBox>
-
-      <SignUpBox>
-        <CropLookup />
-        {/* <Button
-            variant="contained"
-            color="secondary"
-            sx={{ borderRadius: 0, height: '60px', width: '150px' }}
-          >
-            Sign up!
-          </Button> */}
-      </SignUpBox>
-    </StyledWrapper>
+      <CropLookup />
+    </Wrapper>
   );
 };
-
-const StyledWrapper = styled(Wrapper)`
-  height: 100vh;
-`;
 
 const Title = styled.h1`
   font-weight: bold;
@@ -52,9 +38,4 @@ const SubTitle = styled.h2`
   color: #606c38;
 `;
 
-const SignUpBox = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 100px;
-`;
 export default Homepage;
