@@ -4,7 +4,9 @@ import Button from '@mui/material/Button';
 import Wrapper from './Wrapper';
 
 const CropLookup = () => {
-  const [crops, setCrops] = useState(null);
+  const [crops, setCrops] = useState([]);
+  const [value, setValue] = useState('');
+  const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(0);
 
   useEffect(() => {
     let ignore = false;
@@ -32,13 +34,64 @@ const CropLookup = () => {
     };
   }, []);
 
+  const handleSelect = () => {
+    window.alert('works');
+  };
+
+  const matchedSuggestions = crops.filter(
+    (crop) =>
+      crop.name.toLowerCase().includes(value.toLowerCase()) &&
+      value.length >= 2,
+  );
+
   return (
     <Wrapper>
       <RowWrapper>
-        <SearchInput type="text" placeholder="Search Crop" />
-        <StyledButton variant="contained" color="primary">
+        <SearchInput
+          type="text"
+          placeholder="Search Crop"
+          value={value}
+          onChange={(ev) => setValue(ev.target.value)}
+          onKeyDown={(ev) => {
+            switch (ev.key) {
+              case 'Enter': {
+                if (matchedSuggestions.length >= 2) {
+                  handleSelect(
+                    matchedSuggestions[selectedSuggestionIndex].name,
+                  );
+                }
+                break;
+              }
+              case 'ArrowUp': {
+                if (matchedSuggestions.length >= 2) {
+                  setSelectedSuggestionIndex(selectedSuggestionIndex - 1);
+                }
+                break;
+              }
+              case 'ArrowDown': {
+                if (matchedSuggestions.length >= 2) {
+                  setSelectedSuggestionIndex(selectedSuggestionIndex + 1);
+                }
+                break;
+              }
+              default:
+                break;
+            }
+          }}
+        />
+        <Button
+          variant="contained"
+          color="primary"
+          sx={{
+            height: '60px',
+            width: '150px',
+            '@media (max-width: 1180px)': {
+              width: '300px',
+            },
+          }}
+        >
           Search
-        </StyledButton>
+        </Button>
       </RowWrapper>
     </Wrapper>
   );
@@ -70,12 +123,4 @@ const SearchInput = styled.input`
   }
 `;
 
-const StyledButton = styled(Button)`
-  height: 55px;
-  width: 150px;
-
-  @media (max-width: 1180px) {
-    width: 300px;
-  }
-`;
 export default CropLookup;
