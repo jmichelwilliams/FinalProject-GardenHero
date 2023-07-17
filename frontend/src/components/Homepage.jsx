@@ -1,56 +1,32 @@
 import React from 'react';
-
 import styled from 'styled-components';
-import Button from '@mui/material/Button';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-
 import CropLookup from './CropLookup';
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#606C38',
-    },
-    secondary: {
-      main: '#BC6C25',
-    },
-  },
-});
+import Header from './Header';
 
 const Homepage = () => {
   console.log('Homepage');
   return (
-    <ThemeProvider theme={theme}>
-      <Wrapper>
-        <Header>
-          <Button
-            variant="contained"
-            color="primary"
-            sx={{ borderRadius: 0, height: '60px', width: '150px' }}
-          >
-            Log in
-          </Button>
-        </Header>
-        <TitleBox>
-          <Title>Garden Hero</Title>
-          <SubTitle>
-            Need to keep track of your crops? Look no further. Garden hero will
-            save the day!
-          </SubTitle>
-        </TitleBox>
-        {/* <ImageBox>Insert Preview Screenshot</ImageBox> */}
-        <SignUpBox>
-          <CropLookup />
-          {/* <Button
+    <Wrapper>
+      <Header />
+      <TitleBox>
+        <Title>Garden Hero</Title>
+        <SubTitle>
+          Need to keep track of your crops? Look no further. Garden hero will
+          save the day!
+        </SubTitle>
+      </TitleBox>
+
+      <SignUpBox>
+        <CropLookup />
+        {/* <Button
             variant="contained"
             color="secondary"
             sx={{ borderRadius: 0, height: '60px', width: '150px' }}
           >
             Sign up!
           </Button> */}
-        </SignUpBox>
-      </Wrapper>
-    </ThemeProvider>
+      </SignUpBox>
+    </Wrapper>
   );
 };
 
@@ -61,10 +37,6 @@ const Wrapper = styled.div`
   height: 100vh;
 `;
 
-const Header = styled.div`
-  display: flex;
-  justify-content: flex-end;
-`;
 const Title = styled.h1`
   font-weight: bold;
   font-size: 48px;
