@@ -40,22 +40,25 @@ const CropLookup = () => {
         color="primary"
         sx={{
           borderRadius: 0,
-          height: '60px',
+          height: '55px',
           width: '150px',
-          marginRight: '8px',
+          marginLeft: '8px',
         }}
-      />
+      >
+        Search
+      </Button>
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 `;
 
 const SearchInput = styled(TextField)`
   width: 400px;
   background-color: white;
+  margin: 100px;
 `;
 export default CropLookup;
