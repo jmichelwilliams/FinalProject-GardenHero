@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '@mui/material/Button';
 import Wrapper from './Wrapper';
+
+// This component is the crop lookup search bar.
+// It will be used on the main page as well as the planner page
 
 const CropLookup = () => {
   const [crops, setCrops] = useState([]);
   const [value, setValue] = useState('');
   const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(0);
+  const [showSuggestions, setShowSuggestions] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     let ignore = false;
@@ -34,15 +40,41 @@ const CropLookup = () => {
     };
   }, []);
 
-  const handleSelect = () => {
-    window.alert('works');
-  };
-
   const matchedSuggestions = crops.filter(
     (crop) =>
       crop.name.toLowerCase().includes(value.toLowerCase()) &&
       value.length >= 2,
   );
+
+  // useEffect to reset showSuggestions when selectedIndex or value changes.
+  useEffect(() => {
+    setShowSuggestions(true);
+  }, [selectedSuggestionIndex, value.length > 0]);
+
+  const handleSelect = (selectedCropName) => {
+    setValue(selectedCropName);
+    setShowSuggestions(false);
+  };
+
+  // function to make sure that the suggestions box appears if the user erases part of what they typed.
+  const handleChange = (ev) => {
+    setValue(ev.target.value);
+    setShowSuggestions(ev.target.value.length > 0);
+  };
+
+  const handleSubmit = () => {
+    if (matchedSuggestions.length > 0) {
+      const selectedCropName =
+        matchedSuggestions[selectedSuggestionIndex]?.name;
+      if (selectedCropName) {
+        navigate(`/${selectedCropName}`);
+      } else {
+        window.alert('Please select a suggestion before searching.');
+      }
+    } else {
+      window.alert('No matching suggestions found.');
+    }
+  };
 
   return (
     <Wrapper>
@@ -51,7 +83,7 @@ const CropLookup = () => {
           type="text"
           placeholder="Search Crop"
           value={value}
-          onChange={(ev) => setValue(ev.target.value)}
+          onChange={handleChange}
           onKeyDown={(ev) => {
             switch (ev.key) {
               case 'Enter': {
@@ -82,6 +114,7 @@ const CropLookup = () => {
         <Button
           variant="contained"
           color="primary"
+          onClick={handleSubmit}
           sx={{
             height: '60px',
             width: '150px',
@@ -93,7 +126,7 @@ const CropLookup = () => {
           Search
         </Button>
       </RowWrapper>
-      {matchedSuggestions.length > 0 && (
+      {showSuggestions && matchedSuggestions.length > 0 && (
         <SuggestionBox>
           <StyledSuggestions>
             {matchedSuggestions.map((suggestion, index) => {
@@ -118,7 +151,9 @@ const CropLookup = () => {
                 <Suggestion
                   // eslint-disable-next-line no-underscore-dangle
                   key={suggestion._id}
-                  onClick={() => handleSelect(suggestion.title)}
+                  onClick={() => {
+                    handleSelect(suggestion.name);
+                  }}
                   onMouseEnter={() => setSelectedSuggestionIndex(index)}
                   style={{
                     background: isSelected
@@ -201,7 +236,7 @@ const SuggestionBox = styled.div`
     text-align: center;
     margin: 0;
     width: 300px;
-    bottom: 240px;
+    bottom: 197px;
     left: 0;
   }
 `;
