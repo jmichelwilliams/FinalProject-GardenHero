@@ -5,6 +5,7 @@ import Homepage from './Homepage';
 import Registration from './Registration';
 import Loginpage from './Loginpage';
 import Planner from './Planner';
+import CropDetails from './CropDetails';
 import GlobalStyle from '../GlobalStyles';
 
 const theme = createTheme({
@@ -24,9 +25,11 @@ const App = () => (
     <ThemeProvider theme={theme}>
       <Routes>
         <Route path="/" element={<Homepage />} />
+
         <Route path="/registration" element={<Registration />} />
         <Route path="/login" element={<Loginpage />} />
         <Route path="/planner" element={<Planner />} />
+        <Route path="/:cropname" element={<CropDetails />} />
       </Routes>
     </ThemeProvider>
   </Router>
