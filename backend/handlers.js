@@ -4,14 +4,15 @@ require('dotenv').config({ path: '../.env' });
 
 const { MONGO_URI } = process.env;
 const dbName = process.env.DB_NAME;
-const collectionName = process.env.CROP_COLLECTION;
+const cropCollection = process.env.CROP_COLLECTION;
 
 const options = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 };
 
-const getCrops = async (req, res) => {
+// Function to get all crops
+const getAllCrops = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   const db = client.db(dbName);
 
@@ -19,7 +20,7 @@ const getCrops = async (req, res) => {
     await client.connect();
     console.log('Connected!');
 
-    const collection = db.collection(collectionName);
+    const collection = db.collection(cropCollection);
     const result = await collection.find().toArray();
 
     res.status(200).json({ status: 200, data: result });
@@ -31,6 +32,32 @@ const getCrops = async (req, res) => {
   }
 };
 
+// Function for finding a specific crop
+const getCrop = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  const db = client.db(dbName);
+  const { cropname } = req.params;
+
+  try {
+    await client.connect();
+    console.log('Connected!');
+
+    const collection = db.collection(cropCollection);
+    const result = await collection.findOne({ name: cropname });
+
+    if (result) {
+      res.status(200).json({ status: 200, data: result });
+    } else {
+      res.status(400).json({ status: 400, error: 'Crop not found!' });
+    }
+  } catch (error) {
+    res.status(500).json({ status: 500, error: error });
+  } finally {
+    client.close();
+    console.log('Disconnected!');
+  }
+};
 module.exports = {
-  getCrops,
+  getAllCrops,
+  getCrop,
 };

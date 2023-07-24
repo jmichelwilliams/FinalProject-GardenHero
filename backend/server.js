@@ -1,14 +1,15 @@
 const express = require('express');
 const morgan = require('morgan');
 
-const { getCrops } = require('./handlers');
+const { getAllCrops, getCrop } = require('./handlers');
 const app = express();
 
 app.use(morgan('tiny'));
 app.use(express.json());
 app.use(express.static('public'));
 
-app.get('/crops', getCrops);
+app.get('/crops', getAllCrops);
+app.get('/crop/:cropname', getCrop);
 
 // catch all endpoint
 app.get('*', (req, res) => {
