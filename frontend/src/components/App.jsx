@@ -25,11 +25,10 @@ const App = () => (
     <ThemeProvider theme={theme}>
       <Routes>
         <Route path="/" element={<Homepage />} />
-
         <Route path="/registration" element={<Registration />} />
         <Route path="/login" element={<Loginpage />} />
         <Route path="/planner" element={<Planner />} />
-        <Route path="/:cropname" element={<CropDetails />} />
+        <Route path="/:cropName" element={<CropDetails />} />
       </Routes>
     </ThemeProvider>
   </Router>
