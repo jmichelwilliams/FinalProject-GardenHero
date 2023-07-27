@@ -2,12 +2,18 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-const Wrapper = ({ children }) => <StyledWrapper>{children}</StyledWrapper>;
+const Wrapper = ({ className, children }) => (
+  <StyledWrapper className={className}>{children}</StyledWrapper>
+);
 
 Wrapper.propTypes = {
+  className: PropTypes.string,
   children: PropTypes.node.isRequired,
 };
 
+Wrapper.defaultProps = {
+  className: '', // set default value to empty string
+};
 const StyledWrapper = styled.div`
   display: flex;
   flex-direction: column;
