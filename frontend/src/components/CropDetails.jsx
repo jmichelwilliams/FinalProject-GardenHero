@@ -6,6 +6,7 @@ import Wrapper from './Wrapper';
 const CropDetails = () => {
   const [cropInfo, setCropInfo] = useState();
   const { cropName } = useParams();
+  const imageBasePath = '/images/';
 
   useEffect(() => {
     let ignore = false;
@@ -33,11 +34,17 @@ const CropDetails = () => {
     };
   }, [cropName]);
 
+  if (!cropInfo) {
+    return <div>loading</div>;
+  }
+  const imageSrc = `${imageBasePath}Tomato.jpeg`;
+
   return (
     <StyledWrapper>
       <Box>
         <ImageContainer>image</ImageContainer>
         <div>Info</div>
+        <img src={imageSrc} alt={cropInfo.cropName} />
       </Box>
     </StyledWrapper>
   );
