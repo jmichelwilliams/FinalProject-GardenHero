@@ -7,6 +7,7 @@ const CropDetails = () => {
   const [cropInfo, setCropInfo] = useState();
   const { cropName } = useParams();
   const imageBasePath = '/images/';
+  let imageSrc = null;
 
   useEffect(() => {
     let ignore = false;
@@ -34,18 +35,22 @@ const CropDetails = () => {
     };
   }, [cropName]);
 
-  if (!cropInfo) {
-    return <div>loading</div>;
+  if (cropInfo) {
+    const nameWithNoSpaces = cropInfo.name.split(' ').join('');
+    imageSrc = `${imageBasePath}${nameWithNoSpaces}.jpeg`;
   }
-  const imageSrc = `${imageBasePath}Tomato.jpeg`;
 
   return (
     <StyledWrapper>
-      <Box>
-        <ImageContainer>image</ImageContainer>
-        <div>Info</div>
-        <img src={imageSrc} alt={cropInfo.cropName} />
-      </Box>
+      {!cropInfo ? (
+        <div>Loading...</div>
+      ) : (
+        <Box>
+          <ImageContainer>image</ImageContainer>
+          <div>Info</div>
+          <img src={imageSrc} alt={cropInfo.cropName} />
+        </Box>
+      )}
     </StyledWrapper>
   );
 };
