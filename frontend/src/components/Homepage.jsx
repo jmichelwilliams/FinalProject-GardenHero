@@ -7,7 +7,7 @@ import Wrapper from './Wrapper';
 const Homepage = () => {
   console.log('Homepage');
   return (
-    <Wrapper>
+    <StyledWrapper>
       <Header />
       <TitleBox>
         <Title>Garden Hero</Title>
@@ -17,10 +17,13 @@ const Homepage = () => {
         </SubTitle>
       </TitleBox>
       <CropLookup />
-    </Wrapper>
+    </StyledWrapper>
   );
 };
 
+const StyledWrapper = styled(Wrapper)`
+  height: 100vh;
+`;
 const Title = styled.h1`
   font-weight: bold;
   font-size: 48px;

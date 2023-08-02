@@ -9,6 +9,7 @@ const CropDetails = () => {
   const imageBasePath = '/images/';
   let imageSrc = null;
 
+  // Fetch crop data based on cropName
   useEffect(() => {
     let ignore = false;
 
@@ -29,19 +30,24 @@ const CropDetails = () => {
 
     fetchData();
 
-    // Cleanup function
+    // Cleanup function to prevent setting state on an unmounted component
     return () => {
       ignore = true;
     };
   }, [cropName]);
 
-  if (cropInfo) {
-    const nameWithNoSpaces = cropInfo.name.split(' ').join('');
-    imageSrc = `${imageBasePath}${nameWithNoSpaces}.jpeg`;
-  }
+  // Deconstructing CropInfo if available, if not an empty object is used as fallback
+  const { name, soil, temperature, plantingSeason, daysToHarvest, url } =
+    cropInfo || {};
+
+  const nameWithNoSpaces = name ? name.split(' ').join('') : '';
+
+  // Reconstructing the filepath using imageBasePath(/images/)nameWithNoSpaces.jpeg
+  imageSrc = `${imageBasePath}${nameWithNoSpaces}.jpeg`;
 
   return (
     <StyledWrapper>
+      {/* If cropInfo is falsy, display Loading... */}
       {!cropInfo ? (
         <div>Loading...</div>
       ) : (
@@ -49,25 +55,25 @@ const CropDetails = () => {
           <ImageContainer src={imageSrc} />
           <InfoContainer>
             <Title>Crop Details</Title>
-            <SubTitle>{cropInfo.name}</SubTitle>
+            <SubTitle>{name}</SubTitle>
             <InfoList>
               <ListItems>
                 <BoldSpan>Soil type:&nbsp;</BoldSpan>
-                {cropInfo.soil}
+                {soil}
               </ListItems>
               <ListItems>
                 <BoldSpan>Ideal Temperature:&nbsp;</BoldSpan>
-                {cropInfo.temperature}ºF
+                {temperature}ºF
               </ListItems>
               <ListItems>
                 <BoldSpan>Planting Season:&nbsp;</BoldSpan>
-                {cropInfo.plantingSeason}
+                {plantingSeason}
               </ListItems>
               <ListItems>
                 <BoldSpan>Days to Harvest:&nbsp;</BoldSpan>
-                {cropInfo.daysToHarvest}
+                {daysToHarvest}
               </ListItems>
-              <StyledLink to={cropInfo.url}>Additional Info</StyledLink>
+              <StyledLink to={url}>Additional Info</StyledLink>
             </InfoList>
           </InfoContainer>
         </Box>
@@ -80,6 +86,14 @@ const StyledWrapper = styled(Wrapper)`
   display: flex;
   flex-direction: row;
   justify-content: center;
+  height: 100vh;
+
+  @media (max-width: 1180px) {
+    align-items: center;
+    text-align: center;
+    margin: 0;
+    height: 100vh;
+  }
 `;
 
 const Box = styled.div`
@@ -87,18 +101,28 @@ const Box = styled.div`
   flex-direction: column;
   box-sizing: content-box;
   border: solid #606c38 10px;
-  width: 70vw;
+  width: 50vw;
   align-items: center;
   border-radius: 16px;
+
+  @media (max-width: 1180px) {
+    align-items: center;
+    text-align: center;
+    margin: 0;
+  }
 `;
 
 const ImageContainer = styled.div`
   display: flex;
   width: 100%;
-  height: 1000px;
+  height: 500px;
   background-image: ${({ src }) => `url(${src})`};
-  background-size: 100%;
+  background-size: cover;
   background-position: center;
+
+  @media (max-width: 1180px) {
+    height: 350px;
+  }
 `;
 
 const InfoContainer = styled.div`
