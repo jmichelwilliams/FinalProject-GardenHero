@@ -5,7 +5,10 @@ const GlobalStyle = createGlobalStyle`
         v2.0 | 20110126
         License: none (public domain)
     */
-
+        :root {
+    --margin-line: #941c5a;
+    --lines: #1d97b8;
+}
     html, body, div, span, applet, object, iframe,
     blockquote, pre,
     a, abbr, acronym, address, big, cite, code,
