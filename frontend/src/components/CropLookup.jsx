@@ -51,21 +51,12 @@ const CropLookup = () => {
     setShowSuggestions(true);
   }, [selectedSuggestionIndex, value.length > 0]);
 
-  const handleSelect = (selectedCropName) => {
-    setValue(selectedCropName);
-    setShowSuggestions(false);
-  };
-
-  // function to make sure that the suggestions box appears if the user erases part of what they typed.
-  const handleChange = (ev) => {
-    setValue(ev.target.value);
-    setShowSuggestions(ev.target.value.length > 0);
-  };
-
   const handleSubmit = () => {
+    console.log('matchedSuggestionsInSubmit: ', matchedSuggestions);
     if (matchedSuggestions.length > 0) {
       const selectedCropName =
         matchedSuggestions[selectedSuggestionIndex]?.name;
+      console.log('selectedCropNameSumbit: ', selectedCropName);
       if (selectedCropName) {
         navigate(`/${selectedCropName}`);
       } else {
@@ -74,6 +65,19 @@ const CropLookup = () => {
     } else {
       window.alert('No matching suggestions found.');
     }
+  };
+  const handleSelect = (selectedCropName) => {
+    console.log('selectedCropName: ', selectedCropName);
+    setValue(selectedCropName);
+    setShowSuggestions(false);
+    console.log('value: ', value);
+    handleSubmit();
+  };
+
+  // function to make sure that the suggestions box appears if the user erases part of what they typed.
+  const handleChange = (ev) => {
+    setValue(ev.target.value);
+    setShowSuggestions(ev.target.value.length > 0);
   };
 
   return (
