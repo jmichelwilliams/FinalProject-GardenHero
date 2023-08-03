@@ -1,7 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 
-const { getAllCrops, getCrop } = require('./handlers');
+const { getAllCrops, getCrop } = require('./crop_handlers');
 const app = express();
 
 app.use(morgan('tiny'));
