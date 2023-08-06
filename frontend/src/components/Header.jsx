@@ -1,33 +1,20 @@
 import React from 'react';
+import { useAuth0 } from '@auth0/auth0-react';
 
 import styled from 'styled-components';
-import Button from '@mui/material/Button';
+
+import LoginButton from './LoginButton';
+import LogoutButton from './LogoutButton';
+import Profile from './Profile';
 
 const Header = () => {
-  console.log('header');
+  const { isAuthenticated } = useAuth0();
+
   return (
     <Wrapper>
-      <Button
-        variant="contained"
-        color="primary"
-        sx={{
-          height: '60px',
-          width: '150px',
-          marginRight: '8px',
-        }}
-      >
-        Log in
-      </Button>
-      <Button
-        variant="contained"
-        color="secondary"
-        sx={{
-          height: '60px',
-          width: '150px',
-        }}
-      >
-        Register
-      </Button>
+      {!isAuthenticated && <LoginButton />}
+      <Profile />
+      {isAuthenticated && <LogoutButton />}
     </Wrapper>
   );
 };

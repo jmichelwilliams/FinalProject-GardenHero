@@ -1,7 +1,8 @@
 const express = require('express');
 const morgan = require('morgan');
 
-const { getAllCrops, getCrop } = require('./handlers');
+const { getAllCrops, getCrop } = require('./crop_handlers');
+const { logInUser } = require('./user_handlers');
 const app = express();
 
 app.use(morgan('tiny'));
@@ -10,7 +11,7 @@ app.use(express.static('public'));
 
 app.get('/crops', getAllCrops);
 app.get('/crop/:cropname', getCrop);
-
+app.post('/login', logInUser);
 // catch all endpoint
 app.get('*', (req, res) => {
   res.status(404).json({
