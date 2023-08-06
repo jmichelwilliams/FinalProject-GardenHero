@@ -1,36 +1,30 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import styled from 'styled-components';
 
 const Profile = () => {
   const { user, isAuthenticated, isLoading, getAccessTokenSilently } =
     useAuth0();
-  const [userCreated, setUserCreated] = useState(false); // Local state to track user creation
 
   useEffect(() => {
-    const createUserOnLogin = async () => {
-      if (isAuthenticated && !userCreated) {
+    const handleAuthenticationAndLogin = async () => {
+      if (isAuthenticated) {
         try {
-          const accessToken = await getAccessTokenSilently();
-          console.log('accessToken: ', accessToken);
-          await fetch('/create-user', {
+          await fetch('/login', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ access_token: accessToken }),
+            body: JSON.stringify({ user }),
           });
-
-          // Set the userCreated state to true after successful user creation
-          setUserCreated(true);
         } catch (error) {
           console.error('Error creating user:', error);
         }
       }
     };
 
-    createUserOnLogin();
-  }, [isAuthenticated, getAccessTokenSilently, userCreated]); // Run the effect whenever isAuthenticated, getAccessTokenSilently, or userCreated change
+    handleAuthenticationAndLogin();
+  }, [isAuthenticated, getAccessTokenSilently]); // Run the effect whenever isAuthenticated, getAccessTokenSilently, or userCreated change
 
   if (isLoading) {
     return <div>Loading ...</div>;

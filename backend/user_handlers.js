@@ -29,17 +29,34 @@ const getUser = async (req, res) => {
   }
 };
 
-const createUser = async (req, res) => {
+const logInUser = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   const db = client.db(dbName);
-  const { access_token } = req.body;
+  const { email, nickname, picture, sub } = req.body.user;
 
-  if (!access_token) {
-    return res.status(400).json({ message: 'Access token not provided' });
-  }
   try {
+    await client.connect();
+
+    const collection = db.collection(userCollection);
+    const isExistingUser = await collection.findOne({ _id: sub });
+
+    if (isExistingUser) {
+      res.status(200).json({ status: 200, data: isExistingUser });
+      return;
+    }
+
+    // if the user doesn't exist, add it to DB
+    const createUser = await collection.insertOne({
+      _id: sub,
+      email,
+      nickname,
+      picture,
+    });
+
+    res.status(200).json({ status: 200, data: createUser });
   } catch (error) {
-    res.status(500).json({ status: 500, error: erro });
+    console.log(error);
+    res.status(500).json({ status: 500, error: error });
   }
 };
-module.exports = { getUser };
+module.exports = { getUser, logInUser };
