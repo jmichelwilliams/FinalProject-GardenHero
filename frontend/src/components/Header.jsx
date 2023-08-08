@@ -5,6 +5,7 @@ import styled from 'styled-components';
 
 import LoginButton from './LoginButton';
 import LogoutButton from './LogoutButton';
+import NavigationButton from './NavigationButton';
 import Profile from './Profile';
 
 const Header = () => {
@@ -14,7 +15,12 @@ const Header = () => {
     <Wrapper>
       {!isAuthenticated && <LoginButton />}
       <Profile />
-      {isAuthenticated && <LogoutButton />}
+      {isAuthenticated && (
+        <>
+          <NavigationButton />
+          <LogoutButton />
+        </>
+      )}
     </Wrapper>
   );
 };
