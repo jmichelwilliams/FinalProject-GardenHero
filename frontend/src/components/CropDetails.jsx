@@ -86,7 +86,6 @@ const StyledWrapper = styled(Wrapper)`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  height: 100vh;
 
   @media (max-width: 1180px) {
     align-items: center;
@@ -99,7 +98,7 @@ const StyledWrapper = styled(Wrapper)`
 const Box = styled.div`
   display: flex;
   flex-direction: column;
-  box-sizing: content-box;
+  box-sizing: border-box;
   border: solid #606c38 10px;
   width: 50vw;
   align-items: center;
