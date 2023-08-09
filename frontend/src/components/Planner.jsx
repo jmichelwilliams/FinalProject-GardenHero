@@ -17,29 +17,6 @@ const Planner = () => {
 
   const tileDisabled = ({ date: calendarDate }) => calendarDate < new Date();
 
-  useEffect(() => {
-    const getWeather = async () => {
-      const url =
-        'https://weatherapi-com.p.rapidapi.com/forecast.json?q=Montreal&days=3';
-      const options = {
-        method: 'GET',
-        headers: {
-          'X-RapidAPI-Key': `${apiKey}`,
-          'X-RapidAPI-Host': 'weatherapi-com.p.rapidapi.com',
-        },
-      };
-
-      try {
-        const response = await fetch(url, options);
-        const result = await response.json();
-        setWeather(result);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getWeather();
-  }, []);
-
   return (
     <Wrapper>
       <PlannerContainer>
