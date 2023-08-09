@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useAuth0 } from '@auth0/auth0-react';
-import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
+import StyledCalendar from './StyledCalendar';
+
 import Header from './Header';
 import Wrapper from './Wrapper';
 
@@ -33,12 +33,6 @@ const Planner = () => {
 const PlannerContainer = styled.div`
   display: flex;
   justify-content: flex-end;
-`;
-
-const StyledCalendar = styled(Calendar)`
-  width: 220px;
-  font-size: 14px;
-  margin-right: 20px;
 `;
 
 export default Planner;
