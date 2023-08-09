@@ -4,7 +4,6 @@ import Button from '@mui/material/Button';
 
 const LoginButton = () => {
   const { loginWithRedirect, isLoading } = useAuth0();
-
   const handleLogin = async () => {
     if (isLoading) {
       return;

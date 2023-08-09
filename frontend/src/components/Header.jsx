@@ -1,14 +1,13 @@
 import React from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
-
 import styled from 'styled-components';
-
+import PropTypes from 'prop-types';
 import LoginButton from './LoginButton';
 import LogoutButton from './LogoutButton';
 import NavigationButton from './NavigationButton';
 import Profile from './Profile';
 
-const Header = () => {
+const Header = ({ isOnPlannerPage }) => {
   const { isAuthenticated } = useAuth0();
 
   return (
@@ -17,12 +16,16 @@ const Header = () => {
       <Profile />
       {isAuthenticated && (
         <>
-          <NavigationButton />
+          {!isOnPlannerPage && <NavigationButton />}
           <LogoutButton />
         </>
       )}
     </Wrapper>
   );
+};
+
+Header.propTypes = {
+  isOnPlannerPage: PropTypes.bool.isRequired,
 };
 
 const Wrapper = styled.div`
