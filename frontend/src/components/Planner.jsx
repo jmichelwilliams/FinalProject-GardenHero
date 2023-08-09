@@ -10,13 +10,31 @@ const Planner = () => {
   const { user, isAuthenticated } = useAuth0();
   const [date, setDate] = useState(new Date());
   const [weather, setWeather] = useState(null);
-  const apiKey = process.env.REACT_APP_API_KEY;
+
   const handleChange = (nextDate) => {
     setDate(nextDate);
   };
 
   const tileDisabled = ({ date: calendarDate }) => calendarDate < new Date();
 
+  useEffect(() => {
+    const fetchWeather = async () => {
+      try {
+        const res = await fetch('/weather');
+        if (!res.ok) {
+          throw new Error('Failed to fetch weather');
+        }
+        const data = await res.json();
+        setWeather(data.data);
+      } catch (error) {
+        console.log('An error occured:', error);
+      }
+    };
+
+    fetchWeather();
+  }, []);
+
+  console.log('weather: ', weather);
   return (
     <Wrapper>
       <PlannerContainer>
