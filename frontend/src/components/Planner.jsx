@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useAuth0 } from '@auth0/auth0-react';
 import StyledCalendar from './StyledCalendar';
-
+import Weather from './Weather';
 import Header from './Header';
 import Wrapper from './Wrapper';
 
@@ -19,6 +19,7 @@ const Planner = () => {
   return (
     <Wrapper>
       <PlannerContainer>
+        <Weather />
         <StyledCalendar
           onChange={handleChange}
           value={date}
