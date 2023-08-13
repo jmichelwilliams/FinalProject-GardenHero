@@ -3,11 +3,10 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 
 const StyledCalendar = styled(Calendar)`
-  width: 220px;
   font-size: 14px;
-  margin-right: 20px;
   background-color: #fefae0;
   border: none;
+  width: 270px;
 
   .react-calendar__tile:enabled:hover,
   .react-calendar__tile:enabled:focus {
