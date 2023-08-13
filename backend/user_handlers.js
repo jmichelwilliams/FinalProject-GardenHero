@@ -1,5 +1,5 @@
 const { MongoClient } = require('mongodb');
-
+const { createPlantbox } = require('./plantbox_handlers');
 require('dotenv').config({ path: '../.env' });
 
 const { MONGO_URI } = process.env;
@@ -9,24 +9,6 @@ const userCollection = process.env.USER_COLLECTION;
 const options = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-};
-
-const getUser = async (req, res) => {
-  const client = new MongoClient(MONGO_URI, options);
-  const db = client.db(dbName);
-
-  try {
-    await client.connect();
-
-    const collection = db.collection(userCollection);
-    const result = await collection.find().toArray();
-
-    res.status(200).json({ status: 200, data: result });
-  } catch (error) {
-    res.status(500).json({ status: 500, error: 'Server Error' });
-  } finally {
-    client.close();
-  }
 };
 
 // Function to handle login. If user exists return user if not create user
@@ -42,10 +24,13 @@ const logInUser = async (req, res) => {
     }
 
     const newUser = await createUser(sub, email, nickname, picture);
+    const newPlantbox = await createPlantbox(sub, email);
     res.status(200).json({ status: 200, data: newUser });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ status: 500, error: error });
+    res
+      .status(500)
+      .json({ status: 500, error: error.message || 'Internal Server Error' });
   }
 };
 
@@ -90,4 +75,5 @@ const createUser = async (sub, email, nickname, picture) => {
     client.close();
   }
 };
-module.exports = { getUser, logInUser };
+
+module.exports = { logInUser };
