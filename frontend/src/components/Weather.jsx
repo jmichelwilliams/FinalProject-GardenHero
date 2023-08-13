@@ -69,6 +69,7 @@ const Title = styled.p`
   color: #606c38;
   margin-bottom: 8px;
   font-size: 19px;
+  font-weight: bold;
 `;
 const ForecastBox = styled.div`
   display: flex;
@@ -81,6 +82,7 @@ const DateContainer = styled.div`
   justify-content: center;
   margin: 0px 8px;
   color: #606c38;
+  font-weight: bold;
 `;
 const Temperature = styled.p`
   text-align: center;
@@ -93,4 +95,5 @@ const Forecast = styled.div`
   display: flex;
   flex-direction: column;
 `;
+
 export default Weather;

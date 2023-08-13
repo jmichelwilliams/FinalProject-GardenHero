@@ -33,5 +33,6 @@ const Wrapper = styled.div`
   flex-direction: row;
   justify-content: flex-end;
   background-color: #fefae0;
+  margin-bottom: 24px;
 `;
 export default Header;
