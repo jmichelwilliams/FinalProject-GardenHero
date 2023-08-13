@@ -138,4 +138,5 @@ module.exports = {
   getUserPlantbox,
   createPlantbox,
   addToGarden,
+  removeFromGarden,
 };
