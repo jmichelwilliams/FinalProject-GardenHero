@@ -103,6 +103,36 @@ const addToGarden = async (req, res) => {
   }
 };
 
+// Function to remove crop from garden
+const removeFromGarden = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  const db = client.db(dbName);
+  const { sub, crop } = req.body;
+
+  try {
+    await client.connect();
+    const collection = db.collection(plantBoxCollection);
+
+    const updateGarden = {
+      $pull: { garden: crop },
+    };
+
+    const result = await collection.updateOne({ _id: sub }, updateGarden);
+
+    if (result.modifiedCount === 1) {
+      res
+        .status(200)
+        .json({ status: 200, message: 'Crop removed successfully' });
+    } else {
+      res.status(404).json({ status: 404, message: 'Plant box not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ status: 500, error });
+  } finally {
+    client.close();
+  }
+};
+
 module.exports = {
   checkIfUserHasPlantbox,
   getUserPlantbox,
