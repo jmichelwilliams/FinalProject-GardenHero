@@ -25,7 +25,10 @@ const Header = ({ isOnPlannerPage }) => {
 };
 
 Header.propTypes = {
-  isOnPlannerPage: PropTypes.bool.isRequired,
+  isOnPlannerPage: PropTypes.bool,
+};
+Header.defaultProps = {
+  isOnPlannerPage: false,
 };
 
 const Wrapper = styled.div`
