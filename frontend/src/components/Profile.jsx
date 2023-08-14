@@ -5,7 +5,7 @@ import styled from 'styled-components';
 const Profile = () => {
   const { user, isAuthenticated, isLoading, getAccessTokenSilently } =
     useAuth0();
-  console.log(useAuth0());
+  console.log('user: ', user);
 
   useEffect(() => {
     const handleAuthenticationAndLogin = async () => {
