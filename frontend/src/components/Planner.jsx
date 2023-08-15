@@ -43,9 +43,9 @@ const Planner = () => {
   return (
     <TableWrapper>
       <div>
-        <h3>Available Crops</h3>
+        <SubTitle>Available Crops</SubTitle>
         <CropTable data={tableData} />
-        <h3>Your Garden</h3>
+        <SubTitle>Your Garden</SubTitle>
         {/* <CropTable data={tableData} /> */}
       </div>
       <PlannerWrapper>
@@ -70,4 +70,8 @@ const PlannerWrapper = styled(Wrapper)`
   margin-left: 70px;
 `;
 
+const SubTitle = styled.h3`
+  text-align: center;
+  color: #606c38;
+`;
 export default Planner;

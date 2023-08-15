@@ -21,7 +21,7 @@ const getAllCrops = async (req, res) => {
     console.log('Connected!');
 
     const collection = db.collection(cropCollection);
-    const result = await collection.find().toArray();
+    const result = await collection.find().sort({ name: 1 }).toArray();
 
     res.status(200).json({ status: 200, data: result });
   } catch (error) {

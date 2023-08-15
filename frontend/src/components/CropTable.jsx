@@ -14,28 +14,29 @@ const CropTable = ({ data }) => (
     <StyledTable size="small" aria-label="Crop Table">
       <TableHead>
         <StyledTableHeadRow>
-          <StyledTableHeadCell>Crop ID</StyledTableHeadCell>
           <StyledTableHeadCell align="left">Name</StyledTableHeadCell>
           <StyledTableHeadCell align="left">Soil</StyledTableHeadCell>
           <StyledTableHeadCell align="left">
             Temperature&nbsp;ºF
           </StyledTableHeadCell>
-          <StyledTableHeadCell align="left">plantingSeason</StyledTableHeadCell>
-          <StyledTableHeadCell align="left">daysToHarvest</StyledTableHeadCell>
+          <StyledTableHeadCell align="left">
+            Planting Season
+          </StyledTableHeadCell>
+          <StyledTableHeadCell align="left">
+            Days To Harvest
+          </StyledTableHeadCell>
           <StyledTableHeadCell align="left">Add to Garden</StyledTableHeadCell>
         </StyledTableHeadRow>
       </TableHead>
       <StyledTableBody>
         {data.map((crop) => (
           <TableRow
-            key={crop.name}
+            key={crop._id}
             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
           >
             <TableCell component="th" scope="row">
-              {crop._id}
+              {crop.name}
             </TableCell>
-
-            <TableCell align="left">{crop.name}</TableCell>
             <TableCell align="left">{crop.soil}</TableCell>
             <TableCell align="left">{crop.temperature}</TableCell>
             <TableCell align="left">{crop.plantingSeason}</TableCell>
