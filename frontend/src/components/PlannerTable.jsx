@@ -7,47 +7,49 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import PropTypes from 'prop-types';
 import { Button } from '@mui/material';
+import styled from 'styled-components';
 
 const PlannerTable = ({ data }) => (
-  <TableContainer sx={{ width: '100%', height: '50%' }}>
-    <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+  <StyledTableContainer>
+    <StyledTable size="small" aria-label="planner table">
       <TableHead>
-        <TableRow>
-          <TableCell>Crop ID</TableCell>
-          <TableCell align="right">Name</TableCell>
-          <TableCell align="right">Soil</TableCell>
-          <TableCell align="right">Temperature&nbsp;ºF</TableCell>
-          <TableCell align="right">plantingSeason</TableCell>
-          <TableCell align="right">daysToHarvest</TableCell>
-          <TableCell align="right">Add to Garden</TableCell>
-        </TableRow>
+        <StyledTableHeadRow>
+          <StyledTableHeadCell>Crop ID</StyledTableHeadCell>
+          <StyledTableHeadCell align="left">Name</StyledTableHeadCell>
+          <StyledTableHeadCell align="left">Soil</StyledTableHeadCell>
+          <StyledTableHeadCell align="left">
+            Temperature&nbsp;ºF
+          </StyledTableHeadCell>
+          <StyledTableHeadCell align="left">plantingSeason</StyledTableHeadCell>
+          <StyledTableHeadCell align="left">daysToHarvest</StyledTableHeadCell>
+          <StyledTableHeadCell align="left">Add to Garden</StyledTableHeadCell>
+        </StyledTableHeadRow>
       </TableHead>
-      <TableBody>
+      <StyledTableBody>
         {data.map((crop) => (
           <TableRow
             key={crop.name}
             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
           >
             <TableCell component="th" scope="row">
-              {/*  eslint-disable-next-line no-underscore-dangle */}
               {crop._id}
             </TableCell>
 
-            <TableCell align="right">{crop.name}</TableCell>
-            <TableCell align="right">{crop.soil}</TableCell>
-            <TableCell align="right">{crop.temperature}</TableCell>
-            <TableCell align="right">{crop.plantingSeason}</TableCell>
-            <TableCell align="right">{crop.daysToHarvest}</TableCell>
-            <TableCell align="right">
+            <TableCell align="left">{crop.name}</TableCell>
+            <TableCell align="left">{crop.soil}</TableCell>
+            <TableCell align="left">{crop.temperature}</TableCell>
+            <TableCell align="left">{crop.plantingSeason}</TableCell>
+            <TableCell align="left">{crop.daysToHarvest}</TableCell>
+            <TableCell align="left">
               <Button variant="contained" size="small" color="primary">
                 Add
               </Button>
             </TableCell>
           </TableRow>
         ))}
-      </TableBody>
-    </Table>
-  </TableContainer>
+      </StyledTableBody>
+    </StyledTable>
+  </StyledTableContainer>
 );
 
 PlannerTable.propTypes = {
@@ -63,8 +65,31 @@ PlannerTable.propTypes = {
   ).isRequired,
 };
 
-// const StyledTableContainer = styled.div`
-//   width: 50%;
-//   background-color: white;
-// `;
+const StyledTableContainer = styled(TableContainer)`
+  width: 100%;
+  height: 40%;
+`;
+
+const StyledTable = styled(Table)`
+  min-width: 650px;
+  table-layout: fixed;
+`;
+
+const StyledTableHeadRow = styled(TableRow)`
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: #fefae0;
+`;
+
+const StyledTableHeadCell = styled(TableCell)`
+  &:first-child {
+    left: 0;
+  }
+`;
+
+const StyledTableBody = styled(TableBody)`
+  overflow-y: auto;
+  max-height: 200px;
+`;
 export default PlannerTable;

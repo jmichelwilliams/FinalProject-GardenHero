@@ -19,6 +19,7 @@ module.exports = {
     'no-process-exit': 'off',
     'object-shorthand': 'off',
     'class-methods-use-this': 'off',
+    'no-underscore-dangle': 'off',
     'react/function-component-definition': [
       2,
       { namedComponents: 'arrow-function' },
