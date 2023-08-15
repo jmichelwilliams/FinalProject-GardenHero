@@ -9,9 +9,9 @@ import PropTypes from 'prop-types';
 import { Button } from '@mui/material';
 import styled from 'styled-components';
 
-const PlannerTable = ({ data }) => (
+const CropTable = ({ data }) => (
   <StyledTableContainer>
-    <StyledTable size="small" aria-label="planner table">
+    <StyledTable size="small" aria-label="Crop Table">
       <TableHead>
         <StyledTableHeadRow>
           <StyledTableHeadCell>Crop ID</StyledTableHeadCell>
@@ -52,7 +52,7 @@ const PlannerTable = ({ data }) => (
   </StyledTableContainer>
 );
 
-PlannerTable.propTypes = {
+CropTable.propTypes = {
   data: PropTypes.arrayOf(
     PropTypes.shape({
       _id: PropTypes.string.isRequired,
@@ -92,4 +92,4 @@ const StyledTableBody = styled(TableBody)`
   overflow-y: auto;
   max-height: 200px;
 `;
-export default PlannerTable;
+export default CropTable;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import DenseTable from './PlannerTable';
+import CropTable from './CropTable';
 import StyledCalendar from './StyledCalendar';
 import Weather from './Weather';
 import Header from './Header';
@@ -44,9 +44,9 @@ const Planner = () => {
     <TableWrapper>
       <div>
         <h3>Available Crops</h3>
-        <DenseTable data={tableData} />
+        <CropTable data={tableData} />
         <h3>Your Garden</h3>
-        <DenseTable data={tableData} />
+        {/* <CropTable data={tableData} /> */}
       </div>
       <PlannerWrapper>
         <Header isOnPlannerPage />
