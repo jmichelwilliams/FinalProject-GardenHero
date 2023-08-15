@@ -17,7 +17,7 @@ const CropTable = ({ data }) => (
           <StyledTableHeadCell align="left">Name</StyledTableHeadCell>
           <StyledTableHeadCell align="left">Soil</StyledTableHeadCell>
           <StyledTableHeadCell align="left">
-            Temperature&nbsp;ºF
+            Temperature&nbsp;ºC
           </StyledTableHeadCell>
           <StyledTableHeadCell align="left">
             Planting Season
