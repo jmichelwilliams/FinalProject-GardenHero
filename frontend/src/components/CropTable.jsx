@@ -38,7 +38,9 @@ const CropTable = ({ data }) => (
               {crop.name}
             </TableCell>
             <TableCell align="left">{crop.soil}</TableCell>
-            <TableCell align="left">{crop.temperature}</TableCell>
+            <TableCell align="left">
+              {Math.round(((crop.temperature - 32) * 5) / 9)}
+            </TableCell>
             <TableCell align="left">{crop.plantingSeason}</TableCell>
             <TableCell align="left">{crop.daysToHarvest}</TableCell>
             <TableCell align="left">

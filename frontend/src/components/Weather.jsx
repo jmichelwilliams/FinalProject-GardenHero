@@ -46,7 +46,7 @@ const Weather = () => {
                 {formatDate(day.date)}
               </DateContainer>
               <img src={day.day.condition.icon} alt={index} />
-              <Temperature>{day.day.avgtemp_f}ºF</Temperature>
+              <Temperature>{Math.round(day.day.avgtemp_c)}ºC</Temperature>
             </Forecast>
           ))}
         </ForecastBox>
