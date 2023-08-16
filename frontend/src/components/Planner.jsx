@@ -1,20 +1,38 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { useAuth0 } from '@auth0/auth0-react';
 import CropTable from './CropTable';
+import GardenTable from './GardenTable';
 import StyledCalendar from './StyledCalendar';
 import Weather from './Weather';
 import Header from './Header';
 import Wrapper from './Wrapper';
 
 const Planner = () => {
+  const { user, isLoading } = useAuth0();
   const [date, setDate] = useState(new Date());
   const [tableData, setTableData] = useState([]);
+  const [garden, setGarden] = useState([]);
+
   const handleChange = (nextDate) => {
     setDate(nextDate);
   };
-
   const tileDisabled = ({ date: calendarDate }) => calendarDate < new Date();
 
+  const fetchGardenData = async () => {
+    try {
+      const res = await fetch(`/plantbox/${user.sub}`);
+      if (!res.ok) {
+        throw new Error('Failed to fetch garden');
+      }
+      const data = await res.json();
+      setGarden(data.data.garden);
+    } catch (error) {
+      console.log('An error occurred:', error);
+    }
+  };
+
+  // Fetch Available Crops
   useEffect(() => {
     let ignore = false;
 
@@ -40,13 +58,25 @@ const Planner = () => {
       ignore = true;
     };
   }, []);
+
+  useEffect(() => {
+    if (!isLoading) {
+      fetchGardenData();
+    }
+  }, [isLoading]);
+
+  // Callback function to re-fetch garden data
+  const handleChangeToGarden = () => {
+    fetchGardenData();
+  };
+
   return (
     <TableWrapper>
       <div>
         <SubTitle>Available Crops</SubTitle>
-        <CropTable data={tableData} />
+        <CropTable data={tableData} onAddToGarden={handleChangeToGarden} />
         <SubTitle>Your Garden</SubTitle>
-        {/* <CropTable data={tableData} /> */}
+        <GardenTable data={garden} onRemoveFromGarden={handleChangeToGarden} />
       </div>
       <PlannerWrapper>
         <Header isOnPlannerPage />

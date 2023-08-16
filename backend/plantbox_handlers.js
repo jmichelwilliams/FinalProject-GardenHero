@@ -107,8 +107,8 @@ const addToGarden = async (req, res) => {
 const removeFromGarden = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   const db = client.db(dbName);
-  const { sub, crop } = req.body;
-
+  const { crop } = req.body;
+  const { sub } = req.params.sub;
   try {
     await client.connect();
     const collection = db.collection(plantBoxCollection);

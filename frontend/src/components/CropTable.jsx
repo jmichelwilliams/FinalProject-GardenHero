@@ -11,7 +11,7 @@ import styled from 'styled-components';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Button, Snackbar } from '@mui/material';
 
-const CropTable = ({ data }) => {
+const CropTable = ({ data, onAddToGarden }) => {
   const { user } = useAuth0();
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
@@ -28,10 +28,11 @@ const CropTable = ({ data }) => {
       'en-US',
       options,
     );
-
+    const uniqueKey = `${crop._id}_${Date.now()}`;
     // added the 2 key/value plantedOn and harvestDate
     const modifiedCrop = {
       ...crop,
+      _id: uniqueKey,
       plantedOn: formattedDate,
       harvestDate: formattedHarvestDate,
     };
@@ -48,10 +49,12 @@ const CropTable = ({ data }) => {
       if (response.ok) {
         setSnackbarMessage('Crop added to the garden successfully.');
         setOpenSnackbar(true); // Open the Snackbar
+        onAddToGarden();
       } else {
         throw new Error();
       }
     } catch (error) {
+      console.log('error: ', error);
       setSnackbarMessage(
         'Failed to add crop to the garden, please try again later',
       );
@@ -131,6 +134,7 @@ CropTable.propTypes = {
       daysToHarvest: PropTypes.number.isRequired,
     }),
   ).isRequired,
+  onAddToGarden: PropTypes.func.isRequired,
 };
 
 const StyledTableContainer = styled(TableContainer)`
