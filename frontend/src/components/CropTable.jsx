@@ -28,10 +28,11 @@ const CropTable = ({ data, onAddToGarden }) => {
       'en-US',
       options,
     );
-
+    const uniqueKey = `${crop._id}_${Date.now()}`;
     // added the 2 key/value plantedOn and harvestDate
     const modifiedCrop = {
       ...crop,
+      _id: uniqueKey,
       plantedOn: formattedDate,
       harvestDate: formattedHarvestDate,
     };
