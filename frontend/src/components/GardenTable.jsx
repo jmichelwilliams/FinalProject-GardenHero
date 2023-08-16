@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import { Button } from '@mui/material';
 import styled from 'styled-components';
 
-const CropTable = ({ data }) => (
+const GardenTable = ({ data }) => (
   <StyledTableContainer>
     <StyledTable size="small" aria-label="Crop Table">
       <TableHead>
@@ -19,13 +19,11 @@ const CropTable = ({ data }) => (
           <StyledTableHeadCell align="left">
             Temperature&nbsp;ºC
           </StyledTableHeadCell>
+          <StyledTableHeadCell align="left">Planted on</StyledTableHeadCell>
+          <StyledTableHeadCell align="left">Harvest Date</StyledTableHeadCell>
           <StyledTableHeadCell align="left">
-            Planting Season
+            Remove from garden
           </StyledTableHeadCell>
-          <StyledTableHeadCell align="left">
-            Days To Harvest
-          </StyledTableHeadCell>
-          <StyledTableHeadCell align="left">Add to Garden</StyledTableHeadCell>
         </StyledTableHeadRow>
       </TableHead>
       <StyledTableBody>
@@ -41,11 +39,11 @@ const CropTable = ({ data }) => (
             <TableCell align="left">
               {Math.round(((crop.temperature - 32) * 5) / 9)}
             </TableCell>
-            <TableCell align="left">{crop.plantingSeason}</TableCell>
-            <TableCell align="left">{crop.daysToHarvest}</TableCell>
+            <TableCell align="left">{crop.plantedOn}</TableCell>
+            <TableCell align="left">{crop.harvestDate}</TableCell>
             <TableCell align="left">
-              <Button variant="contained" size="small" color="primary">
-                Add
+              <Button variant="contained" size="small" color="secondary">
+                Remove
               </Button>
             </TableCell>
           </TableRow>
@@ -55,7 +53,7 @@ const CropTable = ({ data }) => (
   </StyledTableContainer>
 );
 
-CropTable.propTypes = {
+GardenTable.propTypes = {
   data: PropTypes.arrayOf(
     PropTypes.shape({
       _id: PropTypes.string.isRequired,
@@ -95,4 +93,4 @@ const StyledTableBody = styled(TableBody)`
   overflow-y: auto;
   max-height: 200px;
 `;
-export default CropTable;
+export default GardenTable;

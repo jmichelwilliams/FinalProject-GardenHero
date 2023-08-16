@@ -41,12 +41,10 @@ const Weather = () => {
       <div>
         <ForecastBox>
           {weather.forecast.forecastday.map((day, index) => (
-            <Forecast>
-              <DateContainer key={day.date_epoch}>
-                {formatDate(day.date)}
-              </DateContainer>
+            <Forecast key={day.date_epoch}>
+              <DateContainer>{formatDate(day.date)}</DateContainer>
               <img src={day.day.condition.icon} alt={index} />
-              <Temperature>{day.day.avgtemp_f}ºF</Temperature>
+              <Temperature>{Math.round(day.day.avgtemp_c)}ºC</Temperature>
             </Forecast>
           ))}
         </ForecastBox>
