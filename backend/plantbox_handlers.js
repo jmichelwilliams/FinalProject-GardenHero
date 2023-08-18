@@ -15,19 +15,24 @@ const options = {
 const getUserPlantbox = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   const db = client.db(dbName);
-  const { sub } = req.params.sub;
+  const { userid } = req.params;
 
   try {
     await client.connect();
     const collection = db.collection(plantBoxCollection);
 
-    const result = await collection.findOne({ _id: sub });
+    const result = await collection.findOne({
+      _id: userid,
+    });
 
     if (!result) {
-      res.status(400).json({ status: 400, message: 'Planbox not found!' });
+      res.status(400).json({ status: 400, message: 'Plantbox not found!' });
+      return;
     }
+    console.log('result: ', result);
     res.status(200).json({ status: 200, data: result });
   } catch (error) {
+    console.error('MongoDB Error:', error); // Log the error for debugging
     res.status(500).json({ status: 500, error });
   } finally {
     client.close();
@@ -35,7 +40,7 @@ const getUserPlantbox = async (req, res) => {
 };
 
 // Function to check if user has an existing plantbox
-const checkIfUserHasPlantbox = async (sub) => {
+const checkIfUserHasPlantbox = async (userid) => {
   const client = new MongoClient(MONGO_URI, options);
   const db = client.db(dbName);
 
@@ -43,7 +48,7 @@ const checkIfUserHasPlantbox = async (sub) => {
     await client.connect();
     const collection = db.collection(plantBoxCollection);
 
-    const existingPlantBox = await collection.findOne({ _id: sub });
+    const existingPlantBox = await collection.findOne({ _id: userid });
     return existingPlantBox;
   } catch (error) {
     throw error;
@@ -53,7 +58,7 @@ const checkIfUserHasPlantbox = async (sub) => {
 };
 
 // Function to create a plantbox
-const createPlantbox = async (sub, email) => {
+const createPlantbox = async (userid, email) => {
   const client = new MongoClient(MONGO_URI, options);
   const db = client.db(dbName);
 
@@ -62,7 +67,7 @@ const createPlantbox = async (sub, email) => {
     const collection = db.collection(plantBoxCollection);
 
     const newPlantbox = {
-      _id: sub,
+      _id: userid,
       user: email,
       garden: [],
     };
@@ -81,7 +86,7 @@ const addToGarden = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   const db = client.db(dbName);
   const { crop } = req.body;
-  const { sub } = req.params.sub;
+  const { userid } = req.params;
 
   try {
     await client.connect();
@@ -91,7 +96,7 @@ const addToGarden = async (req, res) => {
       $push: { garden: crop },
     };
 
-    const result = await collection.updateOne({ _id: sub }, updateGarden);
+    const result = await collection.updateOne({ _id: userid }, updateGarden);
 
     if (result.modifiedCount === 1) {
       res.status(200).json({ status: 200, message: 'Crop added successfully' });
@@ -108,7 +113,7 @@ const removeFromGarden = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   const db = client.db(dbName);
   const { crop } = req.body;
-  const { sub } = req.params.sub;
+  const { userid } = req.params;
   try {
     await client.connect();
     const collection = db.collection(plantBoxCollection);
@@ -117,7 +122,7 @@ const removeFromGarden = async (req, res) => {
       $pull: { garden: crop },
     };
 
-    const result = await collection.updateOne({ _id: sub }, updateGarden);
+    const result = await collection.updateOne({ _id: userid }, updateGarden);
 
     if (result.modifiedCount === 1) {
       res
