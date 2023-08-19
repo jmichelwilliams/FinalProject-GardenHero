@@ -37,13 +37,15 @@ const getCrop = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   const db = client.db(dbName);
   const { cropname } = req.params;
+  const capitalizeFirstLetter =
+    cropname.charAt(0).toUpperCase() + cropname.slice(1);
 
   try {
     await client.connect();
     console.log('Connected!');
 
     const collection = db.collection(cropCollection);
-    const result = await collection.findOne({ name: cropname });
+    const result = await collection.findOne({ name: capitalizeFirstLetter });
 
     if (result) {
       res.status(200).json({ status: 200, data: result });
