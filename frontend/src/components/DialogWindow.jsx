@@ -41,7 +41,7 @@ const DialogWindow = () => {
         <DialogTitle id="alert-dialog-title">Login Required</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Please login to get access to the Planner.
+            Please log in to get access to the Planner.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
