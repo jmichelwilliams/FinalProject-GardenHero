@@ -16,7 +16,9 @@ const Header = ({ isOnPlannerPage }) => {
       <Profile />
       {isAuthenticated && (
         <>
-          {!isOnPlannerPage && <NavigationButton />}
+          {!isOnPlannerPage && (
+            <NavigationButton buttonText="Planner" destination="/planner" />
+          )}
           <LogoutButton />
         </>
       )}

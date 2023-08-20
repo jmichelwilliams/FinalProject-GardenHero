@@ -3,7 +3,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import Button from '@mui/material/Button';
 import PropTypes from 'prop-types';
 
-const LoginButton = ({ buttonText }) => {
+const SmallLoginButton = ({ buttonText }) => {
   const { loginWithRedirect, isLoading } = useAuth0();
   const handleLogin = async () => {
     if (isLoading) {
@@ -21,8 +21,8 @@ const LoginButton = ({ buttonText }) => {
       color="primary"
       onClick={handleLogin}
       sx={{
-        height: '60px',
-        width: '150px',
+        height: '36px',
+        width: '80px',
         marginRight: '8px',
       }}
     >
@@ -31,12 +31,12 @@ const LoginButton = ({ buttonText }) => {
   );
 };
 
-LoginButton.propTypes = {
+SmallLoginButton.propTypes = {
   buttonText: PropTypes.string,
 };
 
-LoginButton.defaultProps = {
+SmallLoginButton.defaultProps = {
   buttonText: 'Login / Register',
 };
 
-export default LoginButton;
+export default SmallLoginButton;

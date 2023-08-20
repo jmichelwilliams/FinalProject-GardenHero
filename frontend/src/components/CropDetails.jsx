@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { useAuth0 } from '@auth0/auth0-react';
 import Wrapper from './Wrapper';
+import NavigationButton from './NavigationButton';
+import DialogWindow from './DialogWindow';
 
 const CropDetails = () => {
   const [cropInfo, setCropInfo] = useState();
+  const { isAuthenticated } = useAuth0();
   const { cropName } = useParams();
   const imageBasePath = '/images/';
   let imageSrc = null;
@@ -47,6 +51,9 @@ const CropDetails = () => {
 
   return (
     <StyledWrapper>
+      <NavigationButtonWrapper>
+        <NavigationButton buttonText="Back" destination="/" />
+      </NavigationButtonWrapper>
       {/* If cropInfo is falsy, display Loading... */}
       {!cropInfo ? (
         <div>Loading...</div>
@@ -54,8 +61,7 @@ const CropDetails = () => {
         <Box>
           <ImageContainer src={imageSrc} />
           <InfoContainer>
-            <Title>Crop Details</Title>
-            <SubTitle>{name}</SubTitle>
+            <Title>{name}</Title>
             <InfoList>
               <ListItems>
                 <BoldSpan>Soil type:&nbsp;</BoldSpan>
@@ -63,7 +69,7 @@ const CropDetails = () => {
               </ListItems>
               <ListItems>
                 <BoldSpan>Ideal Temperature:&nbsp;</BoldSpan>
-                {temperature}ºF
+                {Math.round(((temperature - 32) * 5) / 9)}ºC
               </ListItems>
               <ListItems>
                 <BoldSpan>Planting Season:&nbsp;</BoldSpan>
@@ -73,9 +79,21 @@ const CropDetails = () => {
                 <BoldSpan>Days to Harvest:&nbsp;</BoldSpan>
                 {daysToHarvest}
               </ListItems>
-              <StyledLink to={url}>Additional Info</StyledLink>
+              <ListItems>
+                <StyledLink to={url}>Additional Info</StyledLink>
+              </ListItems>
             </InfoList>
           </InfoContainer>
+          <LoginButtonWrapper>
+            {!isAuthenticated ? (
+              <DialogWindow />
+            ) : (
+              <NavigationButton
+                buttonText="Go to Planner"
+                destination="/planner"
+              />
+            )}
+          </LoginButtonWrapper>
         </Box>
       )}
     </StyledWrapper>
@@ -86,6 +104,7 @@ const StyledWrapper = styled(Wrapper)`
   display: flex;
   flex-direction: row;
   justify-content: center;
+  padding: 16px;
 
   @media (max-width: 1180px) {
     align-items: center;
@@ -95,14 +114,22 @@ const StyledWrapper = styled(Wrapper)`
   }
 `;
 
+const NavigationButtonWrapper = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 16px;
+`;
+
 const Box = styled.div`
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  border: solid #606c38 10px;
-  width: 50vw;
+  border: solid #606c38 8px;
+  width: 750px;
   align-items: center;
   border-radius: 16px;
+  box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.5);
 
   @media (max-width: 1180px) {
     align-items: center;
@@ -118,6 +145,7 @@ const ImageContainer = styled.div`
   background-image: ${({ src }) => `url(${src})`};
   background-size: cover;
   background-position: center;
+  border-radius: 8px;
 
   @media (max-width: 1180px) {
     height: 350px;
@@ -130,22 +158,14 @@ const InfoContainer = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
-  border: solid 8px gray;
-  border-radius: 16px;
+  border-top: solid #606c38 10px;
 `;
 
 const Title = styled.h2`
   font-size: 36px;
   color: #283618;
-  margin-top: 0;
-  margin-bottom: 16px;
-`;
-
-const SubTitle = styled.h3`
-  font-size: 28px;
-  color: #606c38;
-  margin-top: 0;
-  margin-bottom: 16px;
+  margin-top: 32px;
+  margin-bottom: 24px;
 `;
 
 const InfoList = styled.ul`
@@ -158,12 +178,19 @@ const BoldSpan = styled.span`
 `;
 
 const ListItems = styled.li`
-  margin: 32px 0px;
+  margin: 48px 0px;
 `;
 
 const StyledLink = styled(Link)`
   text-decoration: none;
   font-size: 18px;
   color: blue;
+`;
+
+const LoginButtonWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-left: 570px;
+  margin-bottom: 8px;
 `;
 export default CropDetails;
