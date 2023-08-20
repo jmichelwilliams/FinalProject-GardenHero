@@ -1,8 +1,9 @@
 import React from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import Button from '@mui/material/Button';
+import PropTypes from 'prop-types';
 
-const LoginButton = () => {
+const LoginButton = ({ buttonText }) => {
   const { loginWithRedirect, isLoading } = useAuth0();
   const handleLogin = async () => {
     if (isLoading) {
@@ -25,9 +26,17 @@ const LoginButton = () => {
         marginRight: '8px',
       }}
     >
-      Log In / Register
+      {buttonText}
     </Button>
   );
+};
+
+LoginButton.propTypes = {
+  buttonText: PropTypes.string,
+};
+
+LoginButton.defaultProps = {
+  buttonText: 'Login / Register',
 };
 
 export default LoginButton;
