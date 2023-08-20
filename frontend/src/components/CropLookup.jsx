@@ -5,8 +5,6 @@ import Button from '@mui/material/Button';
 import Wrapper from './Wrapper';
 
 // This component is the crop lookup search bar.
-// It will be used on the main page as well as the planner page
-
 const CropLookup = () => {
   const [crops, setCrops] = useState([]);
   const [value, setValue] = useState('');
@@ -14,6 +12,7 @@ const CropLookup = () => {
   const [showSuggestions, setShowSuggestions] = useState(true);
   const navigate = useNavigate();
 
+  // Fetch all crops
   useEffect(() => {
     let ignore = false;
 
@@ -40,6 +39,7 @@ const CropLookup = () => {
     };
   }, []);
 
+  // Filtering through crops to see if contains the value and only if value has the length >= 2
   const matchedSuggestions = crops.filter(
     (crop) =>
       crop.name.toLowerCase().includes(value.toLowerCase()) &&
@@ -51,12 +51,11 @@ const CropLookup = () => {
     setShowSuggestions(true);
   }, [selectedSuggestionIndex, value.length > 0]);
 
+  // Function to handle the submit of a matchedSuggestion
   const handleSubmit = () => {
-    console.log('matchedSuggestionsInSubmit: ', matchedSuggestions);
     if (matchedSuggestions.length > 0) {
       const selectedCropName =
         matchedSuggestions[selectedSuggestionIndex]?.name;
-      console.log('selectedCropNameSumbit: ', selectedCropName);
       if (selectedCropName) {
         navigate(`/${selectedCropName}`);
       } else {
@@ -66,15 +65,15 @@ const CropLookup = () => {
       window.alert('No matching suggestions found.');
     }
   };
+
+  // Function to handle the selection of a suggestion. It calls handleSubmit on selection
   const handleSelect = (selectedCropName) => {
-    console.log('selectedCropName: ', selectedCropName);
     setValue(selectedCropName);
     setShowSuggestions(false);
-    console.log('value: ', value);
     handleSubmit();
   };
 
-  // function to make sure that the suggestions box appears if the user erases part of what they typed.
+  // Function to make sure that the suggestions box appears if the user erases part of what they typed.
   const handleChange = (ev) => {
     setValue(ev.target.value);
     setShowSuggestions(ev.target.value.length > 0);
@@ -153,7 +152,6 @@ const CropLookup = () => {
 
               return (
                 <Suggestion
-                  // eslint-disable-next-line no-underscore-dangle
                   key={suggestion._id}
                   onClick={() => {
                     handleSelect(suggestion.name);
@@ -191,11 +189,12 @@ const RowWrapper = styled.div`
 `;
 
 const SearchInput = styled.input`
-  width: 400px;
+  width: 384px;
   background-color: white;
   height: 50px;
   margin-right: 8px;
   font-size: 24px;
+  padding-left: 16px;
 
   @media (max-width: 1180px) {
     font-size: 16px;
