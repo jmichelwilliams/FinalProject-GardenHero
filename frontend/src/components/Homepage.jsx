@@ -3,23 +3,24 @@ import styled from 'styled-components';
 import CropLookup from './CropLookup';
 import Header from './Header';
 import Wrapper from './Wrapper';
+import logo from '../images/GardenHeroLogo.png';
 
-const Homepage = () => {
-  console.log('Homepage');
-  return (
-    <StyledWrapper>
-      <Header />
-      <TitleBox>
-        <Title>Garden Hero</Title>
-        <SubTitle>
-          Need to keep track of your crops? Look no further. Garden hero will
-          save the day!
-        </SubTitle>
-      </TitleBox>
-      <CropLookup />
-    </StyledWrapper>
-  );
-};
+// Component that renders the homepage
+const Homepage = () => (
+  <StyledWrapper>
+    <Header />
+    <TitleBox>
+      <Image src={logo} alt="GardenHero Logo" />
+      <Title>Garden Hero</Title>
+      <SubTitle>
+        Need to keep track of your crops? Look no further. Garden hero will save
+        the day!
+      </SubTitle>
+    </TitleBox>
+    <StyledParagraph>Search our available crops!</StyledParagraph>
+    <CropLookup />
+  </StyledWrapper>
+);
 
 const StyledWrapper = styled(Wrapper)`
   height: 100vh;
@@ -34,12 +35,21 @@ const TitleBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 64px;
+  margin-bottom: 36px;
 `;
 
+const Image = styled.img`
+  height: 150px;
+  width: 200px;
+`;
 const SubTitle = styled.h2`
   font-style: italic;
   color: #606c38;
 `;
 
+const StyledParagraph = styled.p`
+  font-size: 36px;
+  color: #283618;
+  text-align: center;
+`;
 export default Homepage;
