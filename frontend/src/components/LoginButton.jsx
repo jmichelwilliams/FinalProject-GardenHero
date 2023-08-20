@@ -3,6 +3,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import Button from '@mui/material/Button';
 import PropTypes from 'prop-types';
 
+// Component that renders a login button
 const LoginButton = ({ buttonText }) => {
   const { loginWithRedirect, isLoading } = useAuth0();
   const handleLogin = async () => {

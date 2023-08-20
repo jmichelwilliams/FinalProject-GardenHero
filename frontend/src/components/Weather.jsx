@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
+// Component that fetches the weather and renders it. Used in the planner page.
 const Weather = () => {
   const [weather, setWeather] = useState(null);
 

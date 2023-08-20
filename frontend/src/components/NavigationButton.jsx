@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import PropTypes from 'prop-types';
 
+// Component that renders a Navigation button, can be customised using buttonText and destination
 const NavigationButton = ({ buttonText, destination }) => {
   const navigate = useNavigate();
 
