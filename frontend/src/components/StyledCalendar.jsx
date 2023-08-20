@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 
+// Component that renders a styled Calendar, used in the planner page.
 const StyledCalendar = styled(Calendar)`
   font-size: 14px;
   background-color: #fefae0;

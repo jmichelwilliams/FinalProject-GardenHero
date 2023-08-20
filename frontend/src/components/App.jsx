@@ -6,6 +6,7 @@ import Planner from './Planner';
 import CropDetails from './CropDetails';
 import GlobalStyle from '../GlobalStyles';
 
+// Theme used throughout the app
 const theme = createTheme({
   palette: {
     primary: {
@@ -17,6 +18,7 @@ const theme = createTheme({
   },
 });
 
+// This function renders the App
 const App = () => (
   <Router>
     <GlobalStyle />

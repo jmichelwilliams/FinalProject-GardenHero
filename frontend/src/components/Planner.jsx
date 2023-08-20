@@ -8,15 +8,19 @@ import Weather from './Weather';
 import Header from './Header';
 import Wrapper from './Wrapper';
 
+// Component that renders the planner page
 const Planner = () => {
   const { user, isLoading } = useAuth0();
   const [date, setDate] = useState(new Date());
   const [tableData, setTableData] = useState([]);
   const [garden, setGarden] = useState([]);
 
+  // Function to change the date on click of the calendar
   const handleChange = (nextDate) => {
     setDate(nextDate);
   };
+
+  // Used to disable the past dates on the calendar
   const tileDisabled = ({ date: calendarDate }) => calendarDate < new Date();
 
   const fetchGardenData = async () => {
@@ -59,6 +63,7 @@ const Planner = () => {
     };
   }, []);
 
+  // Fetch the user's garden
   useEffect(() => {
     if (!isLoading) {
       fetchGardenData();

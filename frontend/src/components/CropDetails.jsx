@@ -6,6 +6,7 @@ import Wrapper from './Wrapper';
 import NavigationButton from './NavigationButton';
 import DialogWindow from './DialogWindow';
 
+// Component that renders crop detail information.
 const CropDetails = () => {
   const [cropInfo, setCropInfo] = useState();
   const { isAuthenticated } = useAuth0();
@@ -44,6 +45,7 @@ const CropDetails = () => {
   const { name, soil, temperature, plantingSeason, daysToHarvest, url } =
     cropInfo || {};
 
+  // Removes the spaces in the name of the crop
   const nameWithNoSpaces = name ? name.split(' ').join('') : '';
 
   // Reconstructing the filepath using imageBasePath(/images/)nameWithNoSpaces.jpeg
@@ -54,7 +56,6 @@ const CropDetails = () => {
       <NavigationButtonWrapper>
         <NavigationButton buttonText="Back" destination="/" />
       </NavigationButtonWrapper>
-      {/* If cropInfo is falsy, display Loading... */}
       {!cropInfo ? (
         <div>Loading...</div>
       ) : (

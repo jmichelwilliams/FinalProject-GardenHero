@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
+// Styling component used in every page.
 const Wrapper = ({ className, children }) => (
   <StyledWrapper className={className}>{children}</StyledWrapper>
 );
@@ -14,6 +15,7 @@ Wrapper.propTypes = {
 Wrapper.defaultProps = {
   className: '', // set default value to empty string
 };
+
 const StyledWrapper = styled.div`
   display: flex;
   flex-direction: column;
