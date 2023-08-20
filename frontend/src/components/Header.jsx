@@ -7,6 +7,7 @@ import LogoutButton from './LogoutButton';
 import NavigationButton from './NavigationButton';
 import Profile from './Profile';
 
+// Component that renders the header with user's name and login/planner buttons
 const Header = ({ isOnPlannerPage }) => {
   const { isAuthenticated } = useAuth0();
 
@@ -38,6 +39,7 @@ const Wrapper = styled.div`
   flex-direction: row;
   justify-content: flex-end;
   background-color: #fefae0;
-  margin-bottom: 24px;
+  margin: 8px;
 `;
+
 export default Header;
