@@ -2,11 +2,12 @@ import React, { useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import styled from 'styled-components';
 
+// Component to render the profile information
 const Profile = () => {
   const { user, isAuthenticated, isLoading, getAccessTokenSilently } =
     useAuth0();
-  console.log('user: ', user);
 
+  // Fetch the user's login info
   useEffect(() => {
     const handleAuthenticationAndLogin = async () => {
       if (isAuthenticated) {
@@ -34,15 +35,19 @@ const Profile = () => {
   return (
     isAuthenticated && (
       <div>
-        {/* <img src={user.picture} alt={user.name} /> */}
-        <ProfileName>{user.nickname}</ProfileName>
-        {/* <p>Hello&nbsp;{user.nickname}!</p> */}
+        <ProfileName>
+          Hello! <StyledProfileName>{user.nickname}</StyledProfileName>
+        </ProfileName>
       </div>
     )
   );
 };
 
 const ProfileName = styled.h2`
-  margin-right: 8px;
+  margin-right: 16px;
+`;
+
+const StyledProfileName = styled.span`
+  color: #bc6c25;
 `;
 export default Profile;
