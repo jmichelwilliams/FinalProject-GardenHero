@@ -11,11 +11,13 @@ import styled from 'styled-components';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Button, Snackbar } from '@mui/material';
 
+// Component that renders a table with the data supplied
 const GardenTable = ({ data, onRemoveFromGarden }) => {
   const { user } = useAuth0();
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
 
+  // Function to handle the removal of a crop from the user's garden
   const handleRemoveFromGarden = async (crop) => {
     try {
       const response = await fetch(`/plantbox/${user.sub}`, {
@@ -28,7 +30,7 @@ const GardenTable = ({ data, onRemoveFromGarden }) => {
       });
       if (response.ok) {
         setSnackbarMessage('Crop successfully removed from garden.');
-        setOpenSnackbar(true); // Open the Snackbar
+        setOpenSnackbar(true);
         onRemoveFromGarden();
       } else {
         throw new Error();
@@ -114,6 +116,7 @@ GardenTable.propTypes = {
 const StyledTableContainer = styled(TableContainer)`
   width: 100%;
   height: 40%;
+  margin: 16px;
 `;
 
 const StyledTable = styled(Table)`
