@@ -111,7 +111,6 @@ const StyledWrapper = styled(Wrapper)`
     align-items: center;
     text-align: center;
     margin: 0;
-    height: 100vh;
   }
 `;
 
@@ -142,7 +141,7 @@ const Box = styled.div`
 const ImageContainer = styled.div`
   display: flex;
   width: 100%;
-  height: 500px;
+  height: 700px;
   background-image: ${({ src }) => `url(${src})`};
   background-size: cover;
   background-position: center;
@@ -165,7 +164,7 @@ const InfoContainer = styled.div`
 const Title = styled.h2`
   font-size: 36px;
   color: #283618;
-  margin-top: 32px;
+  /* margin-top: 32px; */
   margin-bottom: 24px;
 `;
 
@@ -179,7 +178,7 @@ const BoldSpan = styled.span`
 `;
 
 const ListItems = styled.li`
-  margin: 48px 0px;
+  margin: 24px 0px;
 `;
 
 const StyledLink = styled(Link)`

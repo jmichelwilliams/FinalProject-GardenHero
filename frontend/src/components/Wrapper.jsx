@@ -26,7 +26,7 @@ const StyledWrapper = styled.div`
     align-items: center;
     text-align: center;
     margin: 0;
-    height: 100%;
+    height: 100vh;
   }
 `;
 export default Wrapper;
