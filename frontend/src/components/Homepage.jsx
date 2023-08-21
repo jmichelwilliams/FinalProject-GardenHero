@@ -17,7 +17,9 @@ const Homepage = () => (
         the day!
       </SubTitle>
     </TitleBox>
-    <StyledParagraph>Search our available crops!</StyledParagraph>
+    <StyledParagraph>
+      Starting planning by searching our available crops!
+    </StyledParagraph>
     <CropLookup />
   </StyledWrapper>
 );
@@ -48,8 +50,9 @@ const SubTitle = styled.h2`
 `;
 
 const StyledParagraph = styled.p`
-  font-size: 36px;
-  color: #283618;
+  font-size: 26px;
+  color: #606c38;
   text-align: center;
+  margin-top: 0;
 `;
 export default Homepage;
