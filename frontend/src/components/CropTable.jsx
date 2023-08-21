@@ -50,7 +50,7 @@ const CropTable = ({ data, onAddToGarden }) => {
         body: JSON.stringify({ crop: modifiedCrop }),
       });
       if (response.ok) {
-        setSnackbarMessage('Crop added to the garden successfully.');
+        setSnackbarMessage('Crop added to the garden!');
         setOpenSnackbar(true);
         onAddToGarden();
       } else {

@@ -29,7 +29,7 @@ const GardenTable = ({ data, onRemoveFromGarden }) => {
         body: JSON.stringify({ crop }),
       });
       if (response.ok) {
-        setSnackbarMessage('Crop successfully removed from garden.');
+        setSnackbarMessage('Crop removed from garden!');
         setOpenSnackbar(true);
         onRemoveFromGarden();
       } else {
