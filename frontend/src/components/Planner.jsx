@@ -103,6 +103,7 @@ const PlannerWrapper = styled(Wrapper)`
   display: flex;
   align-items: flex-end;
   margin-left: 70px;
+  margin-right: 16px;
 `;
 
 const SubTitle = styled.h3`
