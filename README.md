@@ -43,7 +43,7 @@ CropDetails shows a more detail view of the selected crop.
 
 The login page. Handled by Auth0.
 
-<img src='frontend/src/images/login.png' style='width:100%' alt="Login page">
+<img src='frontend/src/images/Login.png' style='width:100%' alt="Login page">
 
 ### Planner:
 
