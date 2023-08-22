@@ -29,7 +29,7 @@ const getUserPlantbox = async (req, res) => {
       res.status(400).json({ status: 400, message: 'Plantbox not found!' });
       return;
     }
-    console.log('result: ', result);
+
     res.status(200).json({ status: 200, data: result });
   } catch (error) {
     console.error('MongoDB Error:', error); // Log the error for debugging

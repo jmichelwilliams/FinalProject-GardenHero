@@ -27,7 +27,6 @@ const logInUser = async (req, res) => {
     const newPlantbox = await createPlantbox(sub, email);
     res.status(200).json({ status: 200, data: newUser });
   } catch (error) {
-    console.log(error);
     res
       .status(500)
       .json({ status: 500, error: error.message || 'Internal Server Error' });

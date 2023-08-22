@@ -18,7 +18,6 @@ const getAllCrops = async (req, res) => {
 
   try {
     await client.connect();
-    console.log('Connected!');
 
     const collection = db.collection(cropCollection);
     const result = await collection.find().sort({ name: 1 }).toArray();
@@ -28,7 +27,6 @@ const getAllCrops = async (req, res) => {
     res.status(500).json({ status: 500, error: 'Server Error' });
   } finally {
     client.close();
-    console.log('Disconnected');
   }
 };
 
@@ -42,7 +40,6 @@ const getCrop = async (req, res) => {
 
   try {
     await client.connect();
-    console.log('Connected!');
 
     const collection = db.collection(cropCollection);
     const result = await collection.findOne({ name: capitalizeFirstLetter });
@@ -56,7 +53,6 @@ const getCrop = async (req, res) => {
     res.status(500).json({ status: 500, error: error });
   } finally {
     client.close();
-    console.log('Disconnected!');
   }
 };
 module.exports = {

@@ -1,6 +1,7 @@
 const axios = require('axios');
 const APIKEY = process.env.WEATHER_API_KEY;
 
+// Function to fetch the weather information from the API
 const getWeather = async (req, res) => {
   const options = {
     method: 'GET',
