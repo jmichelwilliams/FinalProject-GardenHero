@@ -20,7 +20,6 @@ const logInUser = async (req, res) => {
 
   try {
     const accessToken = req.headers.authorization.split(' ')[1];
-    console.log('accessToken: ', accessToken);
 
     const decodedToken = jwt.decode(accessToken, { complete: true });
     const publicKey = await getAuth0PublicKey(decodedToken.header.kid);
