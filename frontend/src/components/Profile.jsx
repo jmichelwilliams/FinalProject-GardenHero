@@ -12,10 +12,13 @@ const Profile = () => {
     const handleAuthenticationAndLogin = async () => {
       if (isAuthenticated) {
         try {
+          const accessToken = await getAccessTokenSilently();
+
           await fetch('/login', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
+              Authorization: `Bearer ${accessToken}`,
             },
             body: JSON.stringify({ user }),
           });
@@ -26,7 +29,7 @@ const Profile = () => {
     };
 
     handleAuthenticationAndLogin();
-  }, [isAuthenticated, getAccessTokenSilently]); // Run the effect whenever isAuthenticated, getAccessTokenSilently, or userCreated change
+  }, [isAuthenticated, getAccessTokenSilently]); // Run the effect whenever isAuthenticated, getIdTokenClaims, or userCreated change
 
   if (isLoading) {
     return <div>Loading ...</div>;

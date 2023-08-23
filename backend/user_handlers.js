@@ -1,6 +1,9 @@
 const { MongoClient } = require('mongodb');
 const { createPlantbox } = require('./plantbox_handlers');
+const { getAuth0PublicKey } = require('./auth0_handlers');
+
 require('dotenv').config({ path: '../.env' });
+const jwt = require('jsonwebtoken');
 
 const { MONGO_URI } = process.env;
 const dbName = process.env.DB_NAME;
@@ -16,17 +19,35 @@ const logInUser = async (req, res) => {
   const { email, nickname, picture, sub } = req.body.user;
 
   try {
-    const existingUser = await checkIfUserExist(sub);
+    const accessToken = req.headers.authorization.split(' ')[1];
+    console.log('accessToken: ', accessToken);
 
-    if (existingUser) {
-      res.status(200).json({ status: 200, data: existingUser });
-      return;
+    const decodedToken = jwt.decode(accessToken, { complete: true });
+    const publicKey = await getAuth0PublicKey(decodedToken.header.kid);
+    const x509Certificate = publicKey.x5c[0];
+    const certificatePem = `-----BEGIN CERTIFICATE-----\n${x509Certificate}\n-----END CERTIFICATE-----`;
+
+    const verifiedToken = jwt.verify(accessToken, certificatePem, {
+      algorithms: ['RS256'],
+    });
+
+    if (verifiedToken && verifiedToken.sub) {
+      const existingUser = await checkIfUserExist(sub);
+
+      if (existingUser) {
+        res.status(200).json({ status: 200, data: existingUser });
+        return;
+      }
+
+      const newUser = await createUser(sub, email, nickname, picture);
+      const newPlantbox = await createPlantbox(sub, email);
+      res.status(200).json({ status: 200, data: newUser });
+    } else {
+      // The token is missing expected data, handle the error
+      res.status(401).json({ status: 401, error: 'Invalid token format' });
     }
-
-    const newUser = await createUser(sub, email, nickname, picture);
-    const newPlantbox = await createPlantbox(sub, email);
-    res.status(200).json({ status: 200, data: newUser });
   } catch (error) {
+    console.log('error: ', error);
     res
       .status(500)
       .json({ status: 500, error: error.message || 'Internal Server Error' });
