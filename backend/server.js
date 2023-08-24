@@ -20,9 +20,9 @@ app.get('/crops', getAllCrops);
 app.get('/crop/:cropname', getCrop);
 app.post('/login', validateAccessToken, logInUser);
 app.get('/weather', getWeather);
-app.get('/plantbox/:userid', getUserPlantbox);
-app.patch('/plantbox/:userid', addToGarden);
-app.delete('/plantbox/:userid', removeFromGarden);
+app.get('/plantbox/:userid', validateAccessToken, getUserPlantbox);
+app.patch('/plantbox/:userid', validateAccessToken, addToGarden);
+app.delete('/plantbox/:userid', validateAccessToken, removeFromGarden);
 // catch all endpoint
 app.get('*', (req, res) => {
   res.status(404).json({

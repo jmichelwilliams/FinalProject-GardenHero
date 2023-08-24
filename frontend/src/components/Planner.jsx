@@ -10,7 +10,7 @@ import Wrapper from './Wrapper';
 
 // Component that renders the planner page
 const Planner = () => {
-  const { user, isLoading } = useAuth0();
+  const { user, isLoading, getAccessTokenSilently } = useAuth0();
   const [date, setDate] = useState(new Date());
   const [tableData, setTableData] = useState([]);
   const [garden, setGarden] = useState([]);
@@ -20,12 +20,14 @@ const Planner = () => {
     setDate(nextDate);
   };
 
-  // Used to disable the past dates on the calendar
-  const tileDisabled = ({ date: calendarDate }) => calendarDate < new Date();
-
   const fetchGardenData = async () => {
     try {
-      const res = await fetch(`/plantbox/${user.sub}`);
+      const accessToken = await getAccessTokenSilently();
+      const res = await fetch(`/plantbox/${user.sub}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
       if (!res.ok) {
         throw new Error('Failed to fetch garden');
       }
@@ -79,18 +81,18 @@ const Planner = () => {
     <TableWrapper>
       <div>
         <SubTitle>Available Crops</SubTitle>
-        <CropTable data={tableData} onAddToGarden={handleChangeToGarden} />
+        <CropTable
+          data={tableData}
+          onAddToGarden={handleChangeToGarden}
+          selectedDate={date}
+        />
         <SubTitle>Your Garden</SubTitle>
         <GardenTable data={garden} onRemoveFromGarden={handleChangeToGarden} />
       </div>
       <PlannerWrapper>
         <Header isOnPlannerPage />
         <Weather />
-        <StyledCalendar
-          onChange={handleChange}
-          value={date}
-          tileDisabled={tileDisabled}
-        />
+        <StyledCalendar onChange={handleChange} value={date} />
       </PlannerWrapper>
     </TableWrapper>
   );
