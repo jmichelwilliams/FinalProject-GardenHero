@@ -13,18 +13,20 @@ import { Button, Snackbar } from '@mui/material';
 
 // Component that renders a table with the data supplied
 const GardenTable = ({ data, onRemoveFromGarden }) => {
-  const { user } = useAuth0();
+  const { user, getAccessTokenSilently } = useAuth0();
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
 
   // Function to handle the removal of a crop from the user's garden
   const handleRemoveFromGarden = async (crop) => {
     try {
+      const accessToken = await getAccessTokenSilently();
       const response = await fetch(`/plantbox/${user.sub}`, {
         method: 'DELETE',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify({ crop }),
       });

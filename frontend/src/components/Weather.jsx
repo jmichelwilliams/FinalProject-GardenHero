@@ -29,7 +29,6 @@ const Weather = () => {
     return date.toLocaleDateString('en-US', options);
   };
 
-  console.log(weather);
   return !weather ? (
     <div>Loading</div>
   ) : (
