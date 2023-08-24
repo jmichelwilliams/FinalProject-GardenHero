@@ -12,19 +12,19 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Button, Snackbar } from '@mui/material';
 
 // Component that renders the available crops in a table
-const CropTable = ({ data, onAddToGarden }) => {
-  const { user } = useAuth0();
+const CropTable = ({ data, onAddToGarden, selectedDate }) => {
+  const { user, getAccessTokenSilently } = useAuth0();
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
 
   // Function to add to garden in the user's plantbox
+  // Function to add to garden in the user's plantbox
   const handleAddToGarden = async (crop) => {
     const options = { weekday: 'long', month: 'long', day: 'numeric' };
-    const currentDate = new Date();
-    const formattedDate = currentDate.toLocaleDateString('en-US', options);
+    const formattedDate = selectedDate.toLocaleDateString('en-US', options);
 
-    // Get the harvest date (today + daysToHarvest)
-    const harvestDate = new Date(currentDate);
+    // Get the harvest date (selected date + daysToHarvest)
+    const harvestDate = new Date(selectedDate);
     harvestDate.setDate(harvestDate.getDate() + crop.daysToHarvest);
     const formattedHarvestDate = harvestDate.toLocaleDateString(
       'en-US',
@@ -41,11 +41,13 @@ const CropTable = ({ data, onAddToGarden }) => {
     };
 
     try {
+      const accessToken = await getAccessTokenSilently();
       const response = await fetch(`/plantbox/${user.sub}`, {
         method: 'PATCH',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify({ crop: modifiedCrop }),
       });
@@ -137,8 +139,12 @@ CropTable.propTypes = {
     }),
   ).isRequired,
   onAddToGarden: PropTypes.func.isRequired,
+  selectedDate: PropTypes.instanceOf(Date),
 };
 
+CropTable.defaultProps = {
+  selectedDate: '',
+};
 const StyledTableContainer = styled(TableContainer)`
   width: 100%;
   height: 40%;
