@@ -14,16 +14,24 @@ const options = {
   useUnifiedTopology: true,
 };
 
-// Function to handle login. If user exists return user if not create user
+// Handles user login by verifying the access token, checking user existence,
+// and creating a new user if necessary
 const logInUser = async (req, res) => {
   const { email, nickname, picture, sub } = req.body.user;
 
   try {
-    const accessToken = req.headers.authorization.split(' ')[1];
+    const accessToken = req.headers?.authorization?.split(' ')[1];
 
+    if (!accessToken) {
+      throw new Error('Access Token not defined');
+    }
     const decodedToken = jwt.decode(accessToken, { complete: true });
+    if (!decodedToken) {
+      throw new Error('Access token is invalid');
+    }
     const publicKey = await getAuth0PublicKey(decodedToken.header.kid);
     const x509Certificate = publicKey.x5c[0];
+
     const certificatePem = `-----BEGIN CERTIFICATE-----\n${x509Certificate}\n-----END CERTIFICATE-----`;
 
     const verifiedToken = jwt.verify(accessToken, certificatePem, {
@@ -42,7 +50,6 @@ const logInUser = async (req, res) => {
       const newPlantbox = await createPlantbox(sub, email);
       res.status(200).json({ status: 200, data: newUser });
     } else {
-      // The token is missing expected data, handle the error
       res.status(401).json({ status: 401, error: 'Invalid token format' });
     }
   } catch (error) {

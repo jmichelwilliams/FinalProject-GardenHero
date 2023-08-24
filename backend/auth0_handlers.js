@@ -1,11 +1,10 @@
 const fetch = require('node-fetch');
 require('dotenv').config({ path: '../.env' });
-const jwksUrl =
-  'https://dev-simrw8xejcxeakm8.us.auth0.com/.well-known/jwks.json';
+const jwt = require('jsonwebtoken');
+const jwksUrl = process.env.JWKS_URL;
 
 const getAuth0PublicKey = async (kid) => {
   try {
-    console.log('kidPublic: ', kid);
     const response = await fetch(jwksUrl);
 
     const jwks = await response.json();
@@ -23,6 +22,42 @@ const getAuth0PublicKey = async (kid) => {
   }
 };
 
+const validateAccessToken = async (req, res, next) => {
+  try {
+    const accessToken = req.headers?.authorization?.split(' ')[1];
+
+    if (!accessToken) {
+      throw new Error('Access Token not defined');
+    }
+
+    const decodedToken = jwt.decode(accessToken, { complete: true });
+    if (!decodedToken) {
+      throw new Error('Access token is invalid');
+    }
+
+    const publicKey = await getAuth0PublicKey(decodedToken.header.kid);
+    const x509Certificate = publicKey.x5c[0];
+    const certificatePem = `-----BEGIN CERTIFICATE-----\n${x509Certificate}\n-----END CERTIFICATE-----`;
+
+    const verifiedToken = jwt.verify(accessToken, certificatePem, {
+      algorithms: ['RS256'],
+    });
+
+    if (verifiedToken && verifiedToken.sub) {
+      req.verifiedToken = verifiedToken;
+      next();
+    } else {
+      res.status(401).json({ status: 401, error: 'Invalid token format' });
+    }
+  } catch (error) {
+    console.log('error: ', error);
+    res
+      .status(500)
+      .json({ status: 500, error: error.message || 'Internal Server Error' });
+  }
+};
+
 module.exports = {
   getAuth0PublicKey,
+  validateAccessToken,
 };
