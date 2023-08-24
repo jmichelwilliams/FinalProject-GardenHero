@@ -32,7 +32,7 @@ const getUserPlantbox = async (req, res) => {
 
     res.status(200).json({ status: 200, data: result });
   } catch (error) {
-    console.error('MongoDB Error:', error); // Log the error for debugging
+    console.error('MongoDB Error:', error);
     res.status(500).json({ status: 500, error });
   } finally {
     client.close();
