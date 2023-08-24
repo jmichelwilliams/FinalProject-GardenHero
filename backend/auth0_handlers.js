@@ -3,6 +3,7 @@ require('dotenv').config({ path: '../.env' });
 const jwt = require('jsonwebtoken');
 const jwksUrl = process.env.JWKS_URL;
 
+// Function to get Auth0 Public key, used to validate access token
 const getAuth0PublicKey = async (kid) => {
   try {
     const response = await fetch(jwksUrl);
@@ -22,6 +23,7 @@ const getAuth0PublicKey = async (kid) => {
   }
 };
 
+// Function to validate access token
 const validateAccessToken = async (req, res, next) => {
   try {
     const accessToken = req.headers?.authorization?.split(' ')[1];
