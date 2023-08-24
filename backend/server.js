@@ -9,6 +9,7 @@ const {
   addToGarden,
   removeFromGarden,
 } = require('./plantbox_handlers');
+const { validateAccessToken } = require('./auth0_handlers');
 const app = express();
 
 app.use(morgan('tiny'));
@@ -17,7 +18,7 @@ app.use(express.static('public'));
 
 app.get('/crops', getAllCrops);
 app.get('/crop/:cropname', getCrop);
-app.post('/login', logInUser);
+app.post('/login', validateAccessToken, logInUser);
 app.get('/weather', getWeather);
 app.get('/plantbox/:userid', getUserPlantbox);
 app.patch('/plantbox/:userid', addToGarden);
