@@ -51,9 +51,11 @@ const DatePickerModal = ({
 DatePickerModal.propTypes = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  selectedCrop: PropTypes.instanceOf(Object).isRequired,
+  selectedCrop: PropTypes.instanceOf(Object),
   handleAddToGarden: PropTypes.func.isRequired,
   setSelectedDate: PropTypes.func.isRequired,
 };
-
+DatePickerModal.defaultProps = {
+  selectedCrop: {},
+};
 export default DatePickerModal;
