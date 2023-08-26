@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -10,21 +12,27 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Button, Snackbar } from '@mui/material';
+import DatePickerModal from './DatePickerModal';
 
 // Component that renders the available crops in a table
-const CropTable = ({ data, onAddToGarden, selectedDate }) => {
+const CropTable = ({ data, onAddToGarden }) => {
   const { user, getAccessTokenSilently } = useAuth0();
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
+  const [selectedCrop, setSelectedCrop] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
-  // Function to add to garden in the user's plantbox
   // Function to add to garden in the user's plantbox
   const handleAddToGarden = async (crop) => {
     const options = { weekday: 'long', month: 'long', day: 'numeric' };
-    const formattedDate = selectedDate.toLocaleDateString('en-US', options);
+    const currentDate = new Date();
+
+    const effectiveDate = selectedDate ? selectedDate.$d : currentDate;
+    const formattedDate = effectiveDate.toLocaleDateString('en-US', options);
 
     // Get the harvest date (selected date + daysToHarvest)
-    const harvestDate = new Date(selectedDate);
+    const harvestDate = new Date(effectiveDate);
     harvestDate.setDate(harvestDate.getDate() + crop.daysToHarvest);
     const formattedHarvestDate = harvestDate.toLocaleDateString(
       'en-US',
@@ -55,6 +63,7 @@ const CropTable = ({ data, onAddToGarden, selectedDate }) => {
         setSnackbarMessage('Crop added to the garden!');
         setOpenSnackbar(true);
         onAddToGarden();
+        setSelectedDate(null);
       } else {
         throw new Error();
       }
@@ -64,6 +73,17 @@ const CropTable = ({ data, onAddToGarden, selectedDate }) => {
       );
       setOpenSnackbar(true);
     }
+  };
+
+  // Function to Open Date Picker
+  const openDatePicker = (crop) => {
+    setSelectedCrop(crop);
+    setIsDatePickerOpen(true);
+  };
+
+  // Function to Close Date Picker
+  const closeDatePicker = () => {
+    setIsDatePickerOpen(false);
   };
 
   return (
@@ -82,7 +102,7 @@ const CropTable = ({ data, onAddToGarden, selectedDate }) => {
             <StyledTableHeadCell align="left">
               Days To Harvest
             </StyledTableHeadCell>
-            <StyledTableHeadCell align="left">
+            <StyledTableHeadCell align="center">
               Add to Garden
             </StyledTableHeadCell>
           </StyledTableHeadRow>
@@ -109,13 +129,30 @@ const CropTable = ({ data, onAddToGarden, selectedDate }) => {
                   color="primary"
                   onClick={() => handleAddToGarden(crop)}
                 >
-                  Add
+                  Quick Add
+                </Button>
+                <Button
+                  variant="contained"
+                  size="small"
+                  color="primary"
+                  sx={{ marginLeft: '8px' }}
+                  onClick={() => openDatePicker(crop)}
+                >
+                  Specific Date
                 </Button>
               </TableCell>
             </TableRow>
           ))}
         </StyledTableBody>
       </StyledTable>
+      <DatePickerModal
+        open={isDatePickerOpen}
+        onClose={closeDatePicker}
+        handleAddToGarden={handleAddToGarden}
+        selectedCrop={selectedCrop}
+        selectedDate={selectedDate}
+        setSelectedDate={setSelectedDate}
+      />
       <Snackbar
         open={openSnackbar}
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
@@ -139,12 +176,8 @@ CropTable.propTypes = {
     }),
   ).isRequired,
   onAddToGarden: PropTypes.func.isRequired,
-  selectedDate: PropTypes.instanceOf(Date),
 };
 
-CropTable.defaultProps = {
-  selectedDate: '',
-};
 const StyledTableContainer = styled(TableContainer)`
   width: 100%;
   height: 40%;

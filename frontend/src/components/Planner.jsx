@@ -19,7 +19,11 @@ const Planner = () => {
   const handleChange = (nextDate) => {
     setDate(nextDate);
   };
+  // Used to disable the past dates on the calendar
+  const tileDisabled = ({ date: calendarDate }) =>
+    calendarDate < new Date().setHours(0, 0, 0, 0);
 
+  // Function to fetch the user's garden
   const fetchGardenData = async () => {
     try {
       const accessToken = await getAccessTokenSilently();
@@ -81,18 +85,18 @@ const Planner = () => {
     <TableWrapper>
       <div>
         <SubTitle>Available Crops</SubTitle>
-        <CropTable
-          data={tableData}
-          onAddToGarden={handleChangeToGarden}
-          selectedDate={date}
-        />
+        <CropTable data={tableData} onAddToGarden={handleChangeToGarden} />
         <SubTitle>Your Garden</SubTitle>
         <GardenTable data={garden} onRemoveFromGarden={handleChangeToGarden} />
       </div>
       <PlannerWrapper>
         <Header isOnPlannerPage />
         <Weather />
-        <StyledCalendar onChange={handleChange} value={date} />
+        <StyledCalendar
+          onChange={handleChange}
+          value={date}
+          tileDisabled={tileDisabled}
+        />
       </PlannerWrapper>
     </TableWrapper>
   );
