@@ -114,6 +114,7 @@ const PlannerWrapper = styled(Wrapper)`
 
 const SubTitle = styled.h3`
   text-align: center;
+  font-size: 28px;
   color: #606c38;
 `;
 export default Planner;
