@@ -9,7 +9,7 @@ import TableRow from '@mui/material/TableRow';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { useAuth0 } from '@auth0/auth0-react';
-import { Button, Snackbar, CircularProgress } from '@mui/material';
+import { Button, Snackbar } from '@mui/material';
 import DatePickerModal from './DatePickerModal';
 
 // Component that renders the available crops in a table
@@ -20,11 +20,9 @@ const CropTable = ({ data, onAddToGarden }) => {
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [selectedCrop, setSelectedCrop] = useState(null);
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [isLoading, setIsLoading] = useState(false);
 
   // Function to add to garden in the user's plantbox
   const handleAddToGarden = async (crop) => {
-    setIsLoading(true);
     const options = { weekday: 'long', month: 'long', day: 'numeric' };
     const currentDate = new Date();
 
@@ -72,8 +70,6 @@ const CropTable = ({ data, onAddToGarden }) => {
         'Failed to add crop to the garden, please try again later',
       );
       setOpenSnackbar(true);
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -109,47 +105,36 @@ const CropTable = ({ data, onAddToGarden }) => {
             </StyledTableHeadCell>
           </StyledTableHeadRow>
         </TableHead>
-        {isLoading ? (
-          <CircularProgress size={20} />
-        ) : (
-          <StyledTableBody>
-            {data.map((crop) => (
-              <TableRow
-                key={crop._id}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {crop.name}
-                </TableCell>
-                <TableCell align="left">{crop.soil}</TableCell>
-                <TableCell align="left">
-                  {Math.round(((crop.temperature - 32) * 5) / 9)}
-                </TableCell>
-                <TableCell align="left">{crop.plantingSeason}</TableCell>
-                <TableCell align="left">{crop.daysToHarvest}</TableCell>
-                <TableCell align="left">
-                  <Button
-                    variant="contained"
-                    size="small"
-                    color="primary"
-                    onClick={() => handleAddToGarden(crop)}
-                  >
-                    Quick Add
-                  </Button>
-                  <Button
-                    variant="contained"
-                    size="small"
-                    color="primary"
-                    sx={{ marginLeft: '8px' }}
-                    onClick={() => openDatePicker(crop)}
-                  >
-                    Specific Date
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </StyledTableBody>
-        )}
+
+        <StyledTableBody>
+          {data.map((crop) => (
+            <TableRow
+              key={crop._id}
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            >
+              <TableCell component="th" scope="row">
+                {crop.name}
+              </TableCell>
+              <TableCell align="left">{crop.soil}</TableCell>
+              <TableCell align="left">
+                {Math.round(((crop.temperature - 32) * 5) / 9)}
+              </TableCell>
+              <TableCell align="left">{crop.plantingSeason}</TableCell>
+              <TableCell align="left">{crop.daysToHarvest}</TableCell>
+              <TableCell align="center">
+                <Button
+                  variant="contained"
+                  size="small"
+                  color="primary"
+                  sx={{ marginLeft: '8px' }}
+                  onClick={() => openDatePicker(crop)}
+                >
+                  Add
+                </Button>
+              </TableCell>
+            </TableRow>
+          ))}
+        </StyledTableBody>
       </StyledTable>
       <DatePickerModal
         open={isDatePickerOpen}
