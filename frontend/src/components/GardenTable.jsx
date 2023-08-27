@@ -9,7 +9,7 @@ import TableRow from '@mui/material/TableRow';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { useAuth0 } from '@auth0/auth0-react';
-import { Button, Snackbar, CircularProgress } from '@mui/material';
+import { Button, Snackbar } from '@mui/material';
 
 // Component that renders a table with the data supplied
 const GardenTable = ({ data, onRemoveFromGarden }) => {
@@ -60,43 +60,39 @@ const GardenTable = ({ data, onRemoveFromGarden }) => {
             </StyledTableHeadCell>
             <StyledTableHeadCell align="left">Planted on</StyledTableHeadCell>
             <StyledTableHeadCell align="left">Harvest Date</StyledTableHeadCell>
-            <StyledTableHeadCell align="left">
+            <StyledTableHeadCell align="center">
               Remove from garden
             </StyledTableHeadCell>
           </StyledTableHeadRow>
         </TableHead>
-        {isLoading ? (
-          <CircularProgress size={20} />
-        ) : (
-          <StyledTableBody>
-            {data.map((crop) => (
-              <TableRow
-                key={crop._id}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {crop.name}
-                </TableCell>
-                <TableCell align="left">{crop.soil}</TableCell>
-                <TableCell align="left">
-                  {Math.round(((crop.temperature - 32) * 5) / 9)}
-                </TableCell>
-                <TableCell align="left">{crop.plantedOn}</TableCell>
-                <TableCell align="left">{crop.harvestDate}</TableCell>
-                <TableCell align="left">
-                  <Button
-                    variant="contained"
-                    size="small"
-                    color="secondary"
-                    onClick={() => handleRemoveFromGarden(crop)}
-                  >
-                    Remove
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </StyledTableBody>
-        )}
+        <StyledTableBody>
+          {data.map((crop) => (
+            <TableRow
+              key={crop._id}
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            >
+              <TableCell component="th" scope="row">
+                {crop.name}
+              </TableCell>
+              <TableCell align="left">{crop.soil}</TableCell>
+              <TableCell align="left">
+                {Math.round(((crop.temperature - 32) * 5) / 9)}
+              </TableCell>
+              <TableCell align="left">{crop.plantedOn}</TableCell>
+              <TableCell align="left">{crop.harvestDate}</TableCell>
+              <TableCell align="center">
+                <Button
+                  variant="contained"
+                  size="small"
+                  color="secondary"
+                  onClick={() => handleRemoveFromGarden(crop)}
+                >
+                  Remove
+                </Button>
+              </TableCell>
+            </TableRow>
+          ))}
+        </StyledTableBody>
       </StyledTable>
       <Snackbar
         open={openSnackbar}
@@ -131,7 +127,6 @@ const StyledTableContainer = styled(TableContainer)`
 
 const StyledTable = styled(Table)`
   min-width: 650px;
-  table-layout: fixed;
 `;
 
 const StyledTableHeadRow = styled(TableRow)`
