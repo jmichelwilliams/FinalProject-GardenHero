@@ -16,11 +16,9 @@ const GardenTable = ({ data, onRemoveFromGarden }) => {
   const { user, getAccessTokenSilently } = useAuth0();
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
 
   // Function to handle the removal of a crop from the user's garden
   const handleRemoveFromGarden = async (crop) => {
-    setIsLoading(true);
     try {
       const accessToken = await getAccessTokenSilently();
       const response = await fetch(`/plantbox/${user.sub}`, {
@@ -44,8 +42,6 @@ const GardenTable = ({ data, onRemoveFromGarden }) => {
         'Failed to remove crop from the garden, please try again later',
       );
       setOpenSnackbar(true);
-    } finally {
-      setIsLoading(false);
     }
   };
   return (
