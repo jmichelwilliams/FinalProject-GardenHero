@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import PropTypes from 'prop-types';
 
 // Component that renders a login button
-const LoginButton = ({ buttonText }) => {
+const LoginButton = ({ buttonText, isSmall }) => {
   const { loginWithRedirect, isLoading } = useAuth0();
   const handleLogin = async () => {
     if (isLoading) {
@@ -22,7 +22,7 @@ const LoginButton = ({ buttonText }) => {
       color="primary"
       onClick={handleLogin}
       sx={{
-        height: '60px',
+        height: isSmall ? '36px' : '60px',
         width: '150px',
         marginRight: '8px',
       }}
@@ -34,10 +34,12 @@ const LoginButton = ({ buttonText }) => {
 
 LoginButton.propTypes = {
   buttonText: PropTypes.string,
+  isSmall: PropTypes.bool,
 };
 
 LoginButton.defaultProps = {
   buttonText: 'Login / Register',
+  isSmall: false,
 };
 
 export default LoginButton;

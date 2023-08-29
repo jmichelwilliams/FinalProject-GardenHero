@@ -2,13 +2,14 @@ import React from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+
 import LoginButton from './LoginButton';
 import LogoutButton from './LogoutButton';
 import NavigationButton from './NavigationButton';
 import Profile from './Profile';
 
 // Component that renders the header with user's name and login/planner buttons
-const Header = ({ isOnPlannerPage }) => {
+const Header = ({ isPlannerPage }) => {
   const { isAuthenticated } = useAuth0();
 
   return (
@@ -17,7 +18,7 @@ const Header = ({ isOnPlannerPage }) => {
       <Profile />
       {isAuthenticated && (
         <>
-          {!isOnPlannerPage && (
+          {!isPlannerPage && (
             <NavigationButton buttonText="Planner" destination="/planner" />
           )}
           <LogoutButton />
@@ -28,10 +29,10 @@ const Header = ({ isOnPlannerPage }) => {
 };
 
 Header.propTypes = {
-  isOnPlannerPage: PropTypes.bool,
+  isPlannerPage: PropTypes.bool,
 };
 Header.defaultProps = {
-  isOnPlannerPage: false,
+  isPlannerPage: false,
 };
 
 const Wrapper = styled.div`

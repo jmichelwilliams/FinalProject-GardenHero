@@ -11,14 +11,11 @@ import Wrapper from './Wrapper';
 // Component that renders the planner page
 const Planner = () => {
   const { user, isLoading, getAccessTokenSilently } = useAuth0();
-  const [date, setDate] = useState(new Date());
   const [tableData, setTableData] = useState([]);
   const [garden, setGarden] = useState([]);
-
+  const date = new Date();
   // Function to change the date on click of the calendar
-  const handleChange = (nextDate) => {
-    setDate(nextDate);
-  };
+
   // Used to disable the past dates on the calendar
   const tileDisabled = ({ date: calendarDate }) =>
     calendarDate < new Date().setHours(0, 0, 0, 0);
@@ -35,8 +32,8 @@ const Planner = () => {
       if (!res.ok) {
         throw new Error('Failed to fetch garden');
       }
-      const data = await res.json();
-      setGarden(data.data.garden);
+      const { data } = await res.json();
+      setGarden(data.garden);
     } catch (error) {
       console.log('An error occurred:', error);
     }
@@ -46,22 +43,22 @@ const Planner = () => {
   useEffect(() => {
     let ignore = false;
 
-    const fetchData = async () => {
+    const fetchCrops = async () => {
       try {
         const res = await fetch('/crops');
         if (!res.ok) {
           throw new Error('Failed to fetch crops');
         }
-        const data = await res.json();
+        const { data } = await res.json();
         if (!ignore) {
-          setTableData(data.data);
+          setTableData(data);
         }
       } catch (error) {
         console.log('An error occurred:', error);
       }
     };
 
-    fetchData();
+    fetchCrops();
 
     // Cleanup function
     return () => {
@@ -92,11 +89,7 @@ const Planner = () => {
       <PlannerWrapper>
         <Header isOnPlannerPage />
         <Weather />
-        <StyledCalendar
-          onChange={handleChange}
-          value={date}
-          tileDisabled={tileDisabled}
-        />
+        <StyledCalendar value={date} tileDisabled={tileDisabled} />
       </PlannerWrapper>
     </TableWrapper>
   );

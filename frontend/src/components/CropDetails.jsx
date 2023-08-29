@@ -2,23 +2,27 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { useAuth0 } from '@auth0/auth0-react';
+import getTemperatureInCelsius from '../util_functions';
+
 import Wrapper from './Wrapper';
 import NavigationButton from './NavigationButton';
-import DialogWindow from './DialogWindow';
+import LoginRequiredDialog from './LoginRequiredDialog';
+
+const PLANNER_ROUTE = '/planner';
 
 // Component that renders crop detail information.
 const CropDetails = () => {
   const [cropInfo, setCropInfo] = useState();
   const { isAuthenticated } = useAuth0();
   const { cropName } = useParams();
-  const imageBasePath = '/images/';
+  const IMAGE_BASE_PATH = '/images/';
   let imageSrc = null;
 
   // Fetch crop data based on cropName
   useEffect(() => {
     let ignore = false;
 
-    const fetchData = async () => {
+    const fetchCropByName = async () => {
       try {
         const res = await fetch(`/crop/${cropName}`);
         if (!res.ok) {
@@ -29,11 +33,11 @@ const CropDetails = () => {
           setCropInfo(data.data);
         }
       } catch (error) {
-        console.log('An error occured:', error);
+        console.log('An error occurred:', error);
       }
     };
 
-    fetchData();
+    fetchCropByName();
 
     // Cleanup function to prevent setting state on an unmounted component
     return () => {
@@ -48,8 +52,8 @@ const CropDetails = () => {
   // Removes the spaces in the name of the crop
   const nameWithNoSpaces = name ? name.split(' ').join('') : '';
 
-  // Reconstructing the filepath using imageBasePath(/images/)nameWithNoSpaces.jpeg
-  imageSrc = `${imageBasePath}${nameWithNoSpaces}.jpeg`;
+  // Reconstructing the filepath using IMAGE_BASE_PATH(/images/)nameWithNoSpaces.jpeg
+  imageSrc = `${IMAGE_BASE_PATH}${nameWithNoSpaces}.jpeg`;
 
   return (
     <StyledWrapper>
@@ -70,7 +74,7 @@ const CropDetails = () => {
               </ListItems>
               <ListItems>
                 <BoldSpan>Ideal Temperature:&nbsp;</BoldSpan>
-                {Math.round(((temperature - 32) * 5) / 9)}ºC
+                {getTemperatureInCelsius(temperature)}ºC
               </ListItems>
               <ListItems>
                 <BoldSpan>Planting Season:&nbsp;</BoldSpan>
@@ -87,11 +91,11 @@ const CropDetails = () => {
           </InfoContainer>
           <LoginButtonWrapper>
             {!isAuthenticated ? (
-              <DialogWindow />
+              <LoginRequiredDialog />
             ) : (
               <NavigationButton
                 buttonText="Go to Planner"
-                destination="/planner"
+                destination={PLANNER_ROUTE}
               />
             )}
           </LoginButtonWrapper>
@@ -164,7 +168,6 @@ const InfoContainer = styled.div`
 const Title = styled.h2`
   font-size: 36px;
   color: #283618;
-  /* margin-top: 32px; */
   margin-bottom: 24px;
 `;
 

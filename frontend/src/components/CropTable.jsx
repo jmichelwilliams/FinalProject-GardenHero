@@ -10,7 +10,9 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Button, Snackbar } from '@mui/material';
-import DatePickerModal from './DatePickerModal';
+import getTemperatureInCelsius from '../util_functions';
+
+import DatePickerDialog from './DatePickerDialog';
 
 // Component that renders the available crops in a table
 const CropTable = ({ data, onAddToGarden }) => {
@@ -19,7 +21,7 @@ const CropTable = ({ data, onAddToGarden }) => {
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [selectedCrop, setSelectedCrop] = useState(null);
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState();
 
   // Function to add to garden in the user's plantbox
   const handleAddToGarden = async (crop) => {
@@ -27,6 +29,7 @@ const CropTable = ({ data, onAddToGarden }) => {
     const currentDate = new Date();
 
     const effectiveDate = selectedDate ? selectedDate.$d : currentDate;
+
     const formattedDate = effectiveDate.toLocaleDateString('en-US', options);
 
     // Get the harvest date (selected date + daysToHarvest)
@@ -36,6 +39,7 @@ const CropTable = ({ data, onAddToGarden }) => {
       'en-US',
       options,
     );
+
     const uniqueKey = `${crop._id}_${Date.now()}`;
 
     // added the 2 key/value plantedOn and harvestDate
@@ -91,13 +95,13 @@ const CropTable = ({ data, onAddToGarden }) => {
           <StyledTableHeadRow>
             <StyledTableHeadCell align="left">Name</StyledTableHeadCell>
             <StyledTableHeadCell align="left">Soil</StyledTableHeadCell>
-            <StyledTableHeadCell align="left">
+            <StyledTableHeadCell align="center">
               Temperature&nbsp;ºC
             </StyledTableHeadCell>
-            <StyledTableHeadCell align="left">
+            <StyledTableHeadCell align="center">
               Planting Season
             </StyledTableHeadCell>
-            <StyledTableHeadCell align="left">
+            <StyledTableHeadCell align="center">
               Days To Harvest
             </StyledTableHeadCell>
             <StyledTableHeadCell align="center">
@@ -116,11 +120,11 @@ const CropTable = ({ data, onAddToGarden }) => {
                 {crop.name}
               </TableCell>
               <TableCell align="left">{crop.soil}</TableCell>
-              <TableCell align="left">
-                {Math.round(((crop.temperature - 32) * 5) / 9)}
+              <TableCell align="center">
+                {getTemperatureInCelsius(crop.temperature)}
               </TableCell>
-              <TableCell align="left">{crop.plantingSeason}</TableCell>
-              <TableCell align="left">{crop.daysToHarvest}</TableCell>
+              <TableCell align="center">{crop.plantingSeason}</TableCell>
+              <TableCell align="center">{crop.daysToHarvest}</TableCell>
               <TableCell align="center">
                 <Button
                   variant="contained"
@@ -136,7 +140,7 @@ const CropTable = ({ data, onAddToGarden }) => {
           ))}
         </StyledTableBody>
       </StyledTable>
-      <DatePickerModal
+      <DatePickerDialog
         open={isDatePickerOpen}
         onClose={closeDatePicker}
         handleAddToGarden={handleAddToGarden}
