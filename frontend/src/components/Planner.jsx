@@ -96,17 +96,20 @@ const Planner = () => {
 
 const TableWrapper = styled(Wrapper)`
   flex-direction: row;
+  height: 100vh;
 `;
 const PlannerWrapper = styled(Wrapper)`
   display: flex;
   align-items: flex-end;
   margin-left: 70px;
   margin-right: 16px;
+  height: 100vh;
 `;
 
 const SubTitle = styled.h3`
   text-align: center;
   font-size: 28px;
   color: #606c38;
+  margin-bottom: 0;
 `;
 export default Planner;
