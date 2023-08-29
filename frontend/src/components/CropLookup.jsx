@@ -11,12 +11,12 @@ const CropLookup = () => {
   const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(0);
   const [showSuggestions, setShowSuggestions] = useState(true);
   const navigate = useNavigate();
-
   // Fetch all crops
   useEffect(() => {
     let ignore = false;
 
-    const fetchData = async () => {
+    // fetchCrops
+    const fetchCrops = async () => {
       try {
         const res = await fetch('/crops');
         if (!res.ok) {
@@ -31,7 +31,7 @@ const CropLookup = () => {
       }
     };
 
-    fetchData();
+    fetchCrops();
 
     // Cleanup function
     return () => {
@@ -39,12 +39,16 @@ const CropLookup = () => {
     };
   }, []);
 
-  // Filtering through crops to see if contains the value and only if value has the length >= 2
+  // Filtering through crops to see if it contains the value and only if value has the length >= 2
   const matchedSuggestions = crops.filter(
     (crop) =>
       crop.name.toLowerCase().includes(value.toLowerCase()) &&
       value.length >= 2,
   );
+
+  // Constant for matchedSuggestions.length >= 2
+  const isMatchedSuggestionsMoreThanTwoCharacters =
+    matchedSuggestions.length >= 2;
 
   // useEffect to reset showSuggestions when selectedIndex or value changes.
   useEffect(() => {
@@ -74,9 +78,9 @@ const CropLookup = () => {
   };
 
   // Function to make sure that the suggestions box appears if the user erases part of what they typed.
-  const handleChange = (ev) => {
-    setValue(ev.target.value);
-    setShowSuggestions(ev.target.value.length > 0);
+  const handleChange = (event) => {
+    setValue(event.target.value);
+    setShowSuggestions(event.target.value.length > 0);
   };
 
   return (
@@ -87,10 +91,10 @@ const CropLookup = () => {
           placeholder="Search Crop"
           value={value}
           onChange={handleChange}
-          onKeyDown={(ev) => {
-            switch (ev.key) {
+          onKeyDown={(event) => {
+            switch (event.key) {
               case 'Enter': {
-                if (matchedSuggestions.length >= 2) {
+                if (isMatchedSuggestionsMoreThanTwoCharacters) {
                   handleSelect(
                     matchedSuggestions[selectedSuggestionIndex].name,
                   );
@@ -98,13 +102,13 @@ const CropLookup = () => {
                 break;
               }
               case 'ArrowUp': {
-                if (matchedSuggestions.length >= 2) {
+                if (isMatchedSuggestionsMoreThanTwoCharacters) {
                   setSelectedSuggestionIndex(selectedSuggestionIndex - 1);
                 }
                 break;
               }
               case 'ArrowDown': {
-                if (matchedSuggestions.length >= 2) {
+                if (isMatchedSuggestionsMoreThanTwoCharacters) {
                   setSelectedSuggestionIndex(selectedSuggestionIndex + 1);
                 }
                 break;

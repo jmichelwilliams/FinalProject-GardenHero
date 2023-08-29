@@ -35,14 +35,16 @@ const Profile = () => {
     return <div>Loading ...</div>;
   }
 
+  if (!isAuthenticated) {
+    return null;
+  }
+
   return (
-    isAuthenticated && (
-      <div>
-        <ProfileName>
-          Hello! <StyledProfileName>{user.nickname}</StyledProfileName>
-        </ProfileName>
-      </div>
-    )
+    <div>
+      <ProfileName>
+        Hello! <StyledProfileName>{user.nickname}</StyledProfileName>
+      </ProfileName>
+    </div>
   );
 };
 

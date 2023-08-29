@@ -39,24 +39,6 @@ const getUserPlantbox = async (req, res) => {
   }
 };
 
-// Function to check if user has an existing plantbox
-const checkIfUserHasPlantbox = async (userid) => {
-  const client = new MongoClient(MONGO_URI, options);
-  const db = client.db(dbName);
-
-  try {
-    await client.connect();
-    const collection = db.collection(plantBoxCollection);
-
-    const existingPlantBox = await collection.findOne({ _id: userid });
-    return existingPlantBox;
-  } catch (error) {
-    throw error;
-  } finally {
-    client.close();
-  }
-};
-
 // Function to create a plantbox
 const createPlantbox = async (userid, email) => {
   const client = new MongoClient(MONGO_URI, options);
@@ -129,7 +111,7 @@ const removeFromGarden = async (req, res) => {
         .status(200)
         .json({ status: 200, message: 'Crop removed successfully' });
     } else {
-      res.status(404).json({ status: 404, message: 'Plant box not found' });
+      res.status(404).json({ status: 404, message: 'Plantbox/Crop not found' });
     }
   } catch (error) {
     res.status(500).json({ status: 500, error });
@@ -139,7 +121,6 @@ const removeFromGarden = async (req, res) => {
 };
 
 module.exports = {
-  checkIfUserHasPlantbox,
   getUserPlantbox,
   createPlantbox,
   addToGarden,

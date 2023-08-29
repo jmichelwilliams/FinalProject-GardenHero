@@ -12,7 +12,7 @@ import { CircularProgress } from '@mui/material';
 import PropTypes from 'prop-types';
 
 // Component that renders a modal to allow user to pick a date
-const DatePickerModal = ({
+const DatePickerDialog = ({
   open,
   onClose,
   selectedCrop,
@@ -62,14 +62,14 @@ const DatePickerModal = ({
   );
 };
 
-DatePickerModal.propTypes = {
+DatePickerDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   selectedCrop: PropTypes.instanceOf(Object),
   handleAddToGarden: PropTypes.func.isRequired,
   setSelectedDate: PropTypes.func.isRequired,
 };
-DatePickerModal.defaultProps = {
+DatePickerDialog.defaultProps = {
   selectedCrop: {},
 };
-export default DatePickerModal;
+export default DatePickerDialog;

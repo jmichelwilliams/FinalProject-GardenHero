@@ -5,15 +5,18 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import SmallLoginButton from './SmallLoginButton';
+import LoginButton from './LoginButton';
 
-const DialogWindow = () => {
+// Component to render the login dialog used in the cropDetails page
+const LoginRequiredDialog = () => {
   const [open, setOpen] = React.useState(false);
 
+  // Function to open dialog
   const handleClickOpen = () => {
     setOpen(true);
   };
 
+  // Function to close dialog
   const handleClose = () => {
     setOpen(false);
   };
@@ -46,11 +49,11 @@ const DialogWindow = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <SmallLoginButton buttonText="Log in" />
+          <LoginButton isSmall buttonText="Log in" />
         </DialogActions>
       </Dialog>
     </div>
   );
 };
 
-export default DialogWindow;
+export default LoginRequiredDialog;

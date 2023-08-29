@@ -12,13 +12,14 @@ const options = {
   useUnifiedTopology: true,
 };
 
-// Handles user login by verifying the access token(middleware), checking user existence,
+// Handles user login by verifying the access token (using middleware),
+// checking user existence,
 // and creating a new user if necessary
 const logInUser = async (req, res) => {
   const { email, nickname, picture, sub } = req.body.user;
 
   try {
-    const existingUser = await checkIfUserExist(sub);
+    const existingUser = await checkIfUserExists(sub);
 
     if (existingUser) {
       res.status(200).json({ status: 200, data: existingUser });
@@ -26,7 +27,8 @@ const logInUser = async (req, res) => {
     }
 
     const newUser = await createUser(sub, email, nickname, picture);
-    const newPlantbox = await createPlantbox(sub, email);
+    // Creating the user's plantbox after creating the user
+    await createPlantbox(sub, email);
     res.status(200).json({ status: 200, data: newUser });
   } catch (error) {
     console.log('error: ', error);
@@ -37,7 +39,7 @@ const logInUser = async (req, res) => {
 };
 
 // Function to check if user exists
-const checkIfUserExist = async (sub) => {
+const checkIfUserExists = async (sub) => {
   const client = new MongoClient(MONGO_URI, options);
   const db = client.db(dbName);
 

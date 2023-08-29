@@ -10,6 +10,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Button, Snackbar } from '@mui/material';
+import getTemperatureInCelsius from '../util_functions';
 
 // Component that renders a table with the data supplied
 const GardenTable = ({ data, onRemoveFromGarden }) => {
@@ -49,13 +50,15 @@ const GardenTable = ({ data, onRemoveFromGarden }) => {
       <StyledTable size="small" aria-label="Crop Table">
         <TableHead>
           <StyledTableHeadRow>
-            <StyledTableHeadCell align="left">Name</StyledTableHeadCell>
-            <StyledTableHeadCell align="left">Soil</StyledTableHeadCell>
-            <StyledTableHeadCell align="left">
+            <StyledTableHeadCell align="center">Name</StyledTableHeadCell>
+            <StyledTableHeadCell align="center">Soil</StyledTableHeadCell>
+            <StyledTableHeadCell align="center">
               Temperature&nbsp;ºC
             </StyledTableHeadCell>
-            <StyledTableHeadCell align="left">Planted on</StyledTableHeadCell>
-            <StyledTableHeadCell align="left">Harvest Date</StyledTableHeadCell>
+            <StyledTableHeadCell align="center">Planted on</StyledTableHeadCell>
+            <StyledTableHeadCell align="center">
+              Harvest Date
+            </StyledTableHeadCell>
             <StyledTableHeadCell align="center">
               Remove from garden
             </StyledTableHeadCell>
@@ -67,15 +70,15 @@ const GardenTable = ({ data, onRemoveFromGarden }) => {
               key={crop._id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell component="th" scope="row">
+              <TableCell component="th" scope="row" align="center">
                 {crop.name}
               </TableCell>
-              <TableCell align="left">{crop.soil}</TableCell>
-              <TableCell align="left">
-                {Math.round(((crop.temperature - 32) * 5) / 9)}
+              <TableCell align="center">{crop.soil}</TableCell>
+              <TableCell align="center">
+                {getTemperatureInCelsius(crop.temperature)}
               </TableCell>
-              <TableCell align="left">{crop.plantedOn}</TableCell>
-              <TableCell align="left">{crop.harvestDate}</TableCell>
+              <TableCell align="center">{crop.plantedOn}</TableCell>
+              <TableCell align="center">{crop.harvestDate}</TableCell>
               <TableCell align="center">
                 <Button
                   variant="contained"

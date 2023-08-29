@@ -12,10 +12,10 @@ const Weather = () => {
         if (!res.ok) {
           throw new Error('Failed to fetch weather');
         }
-        const data = await res.json();
-        setWeather(data.data);
+        const { data } = await res.json();
+        setWeather(data);
       } catch (error) {
-        console.log('An error occured:', error);
+        console.log('An error occurred:', error);
       }
     };
 
@@ -40,13 +40,16 @@ const Weather = () => {
       </TitleContainer>
       <div>
         <ForecastBox>
-          {weather.forecast.forecastday.map((day, index) => (
-            <Forecast key={day.date_epoch}>
-              <DateContainer>{formatDate(day.date)}</DateContainer>
-              <img src={day.day.condition.icon} alt={index} />
-              <Temperature>{Math.round(day.day.avgtemp_c)}ºC</Temperature>
-            </Forecast>
-          ))}
+          {weather.forecast.forecastday.map((day, index) => {
+            const { date_epoch: dateEpoch, date, day: actualDay } = day;
+            return (
+              <Forecast key={dateEpoch}>
+                <DateContainer>{formatDate(date)}</DateContainer>
+                <img src={actualDay.condition.icon} alt={index} />
+                <Temperature>{Math.round(actualDay.avgtemp_c)}ºC</Temperature>
+              </Forecast>
+            );
+          })}
         </ForecastBox>
       </div>
     </WeatherWrapper>

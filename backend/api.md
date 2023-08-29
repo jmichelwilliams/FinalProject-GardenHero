@@ -7,12 +7,12 @@
 | endpoint            | method   | Description                        |
 | ------------------- | -------- | ---------------------------------- |
 | `/crops`            | `GET`    | Get all crops                      |
-| `/crop/:cropname`   | `GET`    | Get specific crop                  |
+| `/crop/:cropname`   | `GET`    | Get crop by cropname               |
 | `/login`            | `POST`   | Login user                         |
 | `/weather`          | `GET`    | Get the latest weather information |
 | `/plantbox/:userid` | `GET`    | Get user's plantbox                |
-| `/plantbox/:userid` | `PATCH`  | Add crop to garden                 |
-| `/plantbox/:userid` | `DELETE` | Delete crop from garden            |
+| `/plantbox/:userid` | `PATCH`  | Add crop to plantbox               |
+| `/plantbox/:userid` | `DELETE` | Delete crop from plantbox          |
 
 ### GET /crops
 
@@ -72,6 +72,23 @@ This is endpoint is used to get a specific crop when you supply a crop in the pa
 ### POST /login
 
 This endpoint is used to handle login. It will verify if the user exists. If it doesn't it creates it in the database.
+
+#### PAYLOAD:
+
+The user supplied from the auth0 provider in the front end is what we send to the endpoint.
+
+```JSON
+{
+    "nickname": "UserName",
+    "name": "user@gmail.com",
+    "picture": "https://s.gravatar.com/avatar/7af72f0b4b865164dc7cf57f7b628387?s=480&r=pg&d=https%3A%2F%2Fcdn.auth0.com%2Favatars%2Fpy.png",
+    "updated_at": "2023-08-29T03:14:38.726Z",
+    "email": "user@gmail.com",
+    "email_verified": false,
+    "sub": "auth0|ID"
+}
+
+```
 
 #### RESPONSE:
 
@@ -163,7 +180,6 @@ This endpoint is used to get the weather in Montreal, as well as a 3 day forecas
               "text": "Patchy rain possible",
               "icon": "//cdn.weatherapi.com/weather/64x64/day/176.png",
               "code": 1063
-            },}
             //more info
 }
 ```
@@ -232,7 +248,26 @@ This is used to get the user's plantbox base on the user's id (sub)
 
 ### PATCH /plantbox/:userid
 
-Endpoint used to update the garden in a user's plantbox
+Endpoint used to add a crop to the user's plantbox
+
+#### PAYLOAD:
+
+```JSON
+{
+  "crop": {
+    "_id": "10_1693280861719",
+    "name": "Corn",
+    "soil": "Loose, well-drained, add nutrients",
+    "temperature": 60,
+    "plantingSeason": "Spring",
+    "daysToHarvest": 60,
+    "url": "https://en.wikipedia.org/wiki/Maize",
+    "plantedOn": "Monday, August 28",
+    "harvestDate": "Friday, October 27"
+  }
+}
+
+```
 
 #### RESPONSE:
 
@@ -245,9 +280,27 @@ Endpoint used to update the garden in a user's plantbox
 
 ### DELETE /plantbox/:userid
 
-Endpoint used to delete a crop in a user's garden
+Endpoint used to delete a crop in a user's plantbox
 
-#### RESPONSE
+#### PAYLOAD:
+
+```JSON
+{
+  "crop": {
+    "_id": "1_1693073390200",
+    "name": "Arugula",
+    "soil": "Well-drained",
+    "temperature": 45,
+    "plantingSeason": "Spring",
+    "daysToHarvest": 50,
+    "url": "https://en.wikipedia.org/wiki/Eruca_vesicaria",
+    "plantedOn": "Saturday, August 26",
+    "harvestDate": "Sunday, October 15"
+  }
+}
+```
+
+#### RESPONSE:
 
 ```JSON
 {

@@ -30,19 +30,21 @@ const getAllCrops = async (req, res) => {
   }
 };
 
-// Function for finding a specific crop
+// Function for finding a specific crop by crop name
 const getCrop = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   const db = client.db(dbName);
   const { cropname } = req.params;
-  const capitalizeFirstLetter =
+  const capitalizedFirstLetterOfCropName =
     cropname.charAt(0).toUpperCase() + cropname.slice(1);
 
   try {
     await client.connect();
 
     const collection = db.collection(cropCollection);
-    const result = await collection.findOne({ name: capitalizeFirstLetter });
+    const result = await collection.findOne({
+      name: capitalizedFirstLetterOfCropName,
+    });
 
     if (result) {
       res.status(200).json({ status: 200, data: result });
