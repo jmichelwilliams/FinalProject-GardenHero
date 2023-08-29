@@ -14,7 +14,6 @@ const Planner = () => {
   const [tableData, setTableData] = useState([]);
   const [garden, setGarden] = useState([]);
   const date = new Date();
-  // Function to change the date on click of the calendar
 
   // Used to disable the past dates on the calendar
   const tileDisabled = ({ date: calendarDate }) =>
@@ -87,7 +86,7 @@ const Planner = () => {
         <GardenTable data={garden} onRemoveFromGarden={handleChangeToGarden} />
       </div>
       <PlannerWrapper>
-        <Header isOnPlannerPage />
+        <Header isPlannerPage />
         <Weather />
         <StyledCalendar value={date} tileDisabled={tileDisabled} />
       </PlannerWrapper>
