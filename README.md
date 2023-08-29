@@ -5,6 +5,20 @@
 </div>
 <br/>
 
+# Tech Stack
+
+This CRUD app uses React, NodeJS, Express and MongoDB
+
+# Features
+
+- Predictive Search Bar
+- Auth0 middleware
+- RESTful Api
+
+# Future improvements and optimizations
+
+- Create swagger api documentation
+
 # Setup
 
 ### The Frontend
