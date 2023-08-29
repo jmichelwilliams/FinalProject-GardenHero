@@ -10,19 +10,28 @@ const {
   removeFromGarden,
 } = require('./plantbox_handlers');
 const { validateAccessToken } = require('./auth0_handlers');
+
 const app = express();
 
 app.use(morgan('tiny'));
 app.use(express.json());
 app.use(express.static('public'));
 
+// crops
 app.get('/crops', getAllCrops);
 app.get('/crop/:cropname', getCrop);
+
+//login
 app.post('/login', validateAccessToken, logInUser);
+
+// weather
 app.get('/weather', getWeather);
+
+// plantbox
 app.get('/plantbox/:userid', validateAccessToken, getUserPlantbox);
 app.patch('/plantbox/:userid', validateAccessToken, addToGarden);
 app.delete('/plantbox/:userid', validateAccessToken, removeFromGarden);
+
 // catch all endpoint
 app.get('*', (req, res) => {
   res.status(404).json({

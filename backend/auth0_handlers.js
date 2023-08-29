@@ -1,19 +1,19 @@
 const fetch = require('node-fetch');
 require('dotenv').config({ path: '../.env' });
-const jwt = require('jsonwebtoken');
-const jwksUrl = process.env.JWKS_URL;
+const jsonWebToken = require('jsonwebtoken');
+const jsonWebKeySetUrl = process.env.JWKS_URL;
 
 // Function to get Auth0 Public key, used to validate access token
-const getAuth0PublicKey = async (kid) => {
+const getAuth0PublicKey = async (keyId) => {
   try {
-    const response = await fetch(jwksUrl);
+    const response = await fetch(jsonWebKeySetUrl);
 
     const jwks = await response.json();
 
-    const publicKey = jwks.keys.find((key) => key.kid === kid);
+    const publicKey = jwks.keys.find((key) => key.kid === keyId);
 
     if (!publicKey) {
-      throw new Error('Public key not found for kid');
+      throw new Error('Public key not found for kid'); // TODO: explicit with kid!
     }
 
     return publicKey;
@@ -26,13 +26,14 @@ const getAuth0PublicKey = async (kid) => {
 // Function to validate access token
 const validateAccessToken = async (req, res, next) => {
   try {
+    // Taking the token after Bearer in the authorization header
     const accessToken = req.headers?.authorization?.split(' ')[1];
 
     if (!accessToken) {
       throw new Error('Access Token not defined');
     }
 
-    const decodedToken = jwt.decode(accessToken, { complete: true });
+    const decodedToken = jsonWebToken.decode(accessToken, { complete: true });
     if (!decodedToken) {
       throw new Error('Access token is invalid');
     }
@@ -41,12 +42,12 @@ const validateAccessToken = async (req, res, next) => {
     const x509Certificate = publicKey.x5c[0];
     const certificatePem = `-----BEGIN CERTIFICATE-----\n${x509Certificate}\n-----END CERTIFICATE-----`;
 
-    const verifiedToken = jwt.verify(accessToken, certificatePem, {
+    const verifiedToken = jsonWebToken.verify(accessToken, certificatePem, {
       algorithms: ['RS256'],
     });
 
     if (verifiedToken && verifiedToken.sub) {
-      req.verifiedToken = verifiedToken;
+      // if token is verified , the next() calls the next endpoint handler
       next();
     } else {
       res.status(401).json({ status: 401, error: 'Invalid token format' });

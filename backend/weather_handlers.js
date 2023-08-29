@@ -1,5 +1,5 @@
 const axios = require('axios');
-const APIKEY = process.env.WEATHER_API_KEY;
+const API_KEY = process.env.WEATHER_API_KEY;
 
 // Function to fetch the weather information from the API
 const getWeather = async (req, res) => {
@@ -11,7 +11,7 @@ const getWeather = async (req, res) => {
       days: '3',
     },
     headers: {
-      'X-RapidAPI-Key': APIKEY,
+      'X-RapidAPI-Key': API_KEY,
       'X-RapidAPI-Host': 'weatherapi-com.p.rapidapi.com',
     },
   };
