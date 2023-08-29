@@ -7,17 +7,31 @@
 
 # Tech Stack
 
-This CRUD app uses React, NodeJS, Express and MongoDB
+This CRUD app uses:
+
+- React
+- NodeJS
+- Express
+- MongoDB
+- ESLint
+- Auth0
+- Axios
+- MUI
 
 # Features
 
 - Predictive Search Bar
-- Auth0 middleware
+- Auth0 Authentication (middleware)
 - RESTful Api
+- Personal Garden Planner
+- Weather & Calendar widgets
 
 # Future improvements and optimizations
 
 - Create swagger api documentation
+- Email Notifications
+- Filter garden by date
+- ... more to come!
 
 # Setup
 
