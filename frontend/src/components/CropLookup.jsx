@@ -123,7 +123,7 @@ const CropLookup = () => {
           color="primary"
           onClick={handleSubmit}
           sx={{
-            height: '60px',
+            height: '55px',
             width: '150px',
             '@media (max-width: 1180px)': {
               width: '300px',
