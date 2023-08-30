@@ -13,11 +13,16 @@ const Planner = () => {
   const { user, isLoading, getAccessTokenSilently } = useAuth0();
   const [tableData, setTableData] = useState([]);
   const [garden, setGarden] = useState([]);
-  const date = new Date();
+  const [date, setDate] = useState(new Date());
 
   // Used to disable the past dates on the calendar
   const tileDisabled = ({ date: calendarDate }) =>
     calendarDate < new Date().setHours(0, 0, 0, 0);
+
+  // Function to change the date on the calendar
+  const handleChange = (nextDate) => {
+    setDate(nextDate);
+  };
 
   // Function to fetch the user's garden
   const fetchGardenData = async () => {
@@ -88,7 +93,11 @@ const Planner = () => {
       <PlannerWrapper>
         <Header isPlannerPage />
         <Weather />
-        <StyledCalendar value={date} tileDisabled={tileDisabled} />
+        <StyledCalendar
+          value={date}
+          onChange={handleChange}
+          tileDisabled={tileDisabled}
+        />
       </PlannerWrapper>
     </TableWrapper>
   );
