@@ -45,7 +45,7 @@ const Weather = () => {
             return (
               <Forecast key={dateEpoch}>
                 <DateContainer>{formatDate(date)}</DateContainer>
-                <img src={actualDay.condition.icon} alt={index} />
+                <ImageContainer src={actualDay.condition.icon} alt={index} />
                 <Temperature>{Math.round(actualDay.avgtemp_c)}ºC</Temperature>
               </Forecast>
             );
@@ -84,6 +84,12 @@ const DateContainer = styled.div`
   margin: 0px 8px;
   color: #606c38;
   font-weight: bold;
+  text-align: center;
+`;
+
+const ImageContainer = styled.img`
+  width: 75px;
+  height: 75px;
 `;
 const Temperature = styled.p`
   text-align: center;
@@ -95,6 +101,7 @@ const Temperature = styled.p`
 const Forecast = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
 `;
 
 export default Weather;
