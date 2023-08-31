@@ -39,6 +39,8 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
+  text-align: center;
+  align-items: center;
   background-color: #fefae0;
   margin: 8px;
 `;
