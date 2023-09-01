@@ -5,6 +5,8 @@
 </div>
 <br/>
 
+### Link to the app : https://garden-hero.vercel.app/
+
 # Tech Stack
 
 This CRUD app uses:
