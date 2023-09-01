@@ -25,7 +25,7 @@ const CropDetails = () => {
 
     const fetchCropByName = async () => {
       try {
-        const res = await fetch(`/${BACKEND_URL}/${cropName}`);
+        const res = await fetch(`${BACKEND_URL}/crop/${cropName}`);
         if (!res.ok) {
           throw new Error('Failed to fetch crop');
         }

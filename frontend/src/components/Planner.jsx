@@ -50,7 +50,7 @@ const Planner = () => {
 
     const fetchCrops = async () => {
       try {
-        const res = await fetch('/crops');
+        const res = await fetch(`${BACKEND_URL}/crops`);
         if (!res.ok) {
           throw new Error('Failed to fetch crops');
         }
