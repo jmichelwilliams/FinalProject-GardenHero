@@ -40,4 +40,8 @@ app.get('*', (req, res) => {
   });
 });
 
-app.listen(8000, () => console.log('Listening on port 8000'));
+let port = process.env.PORT;
+if (port == null || port == '') {
+  port = 8000;
+}
+app.listen(port);
