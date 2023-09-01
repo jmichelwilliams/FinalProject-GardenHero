@@ -1,6 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
-// const cors = require('cors');
+const cors = require('cors');
 
 const { getAllCrops, getCrop } = require('./crop_handlers');
 const { logInUser } = require('./user_handlers');
@@ -17,12 +17,20 @@ const app = express();
 app.use(morgan('tiny'));
 app.use(express.json());
 app.use(express.static('public'));
-// app.use(cors());
+
+const allowedOrigin = 'https://garden-hero.vercel.app';
+
+const corsOptions = {
+  origin: allowedOrigin,
+};
+
+app.use(cors(corsOptions));
+
 // crops
 app.get('/crops', getAllCrops);
 app.get('/crop/:cropname', getCrop);
 
-//login
+// login
 app.post('/login', validateAccessToken, logInUser);
 
 // weather
@@ -33,7 +41,7 @@ app.get('/plantbox/:userid', validateAccessToken, getUserPlantbox);
 app.patch('/plantbox/:userid', validateAccessToken, addToGarden);
 app.delete('/plantbox/:userid', validateAccessToken, removeFromGarden);
 
-// catch all endpoint
+// catch-all endpoint
 app.get('*', (req, res) => {
   res.status(404).json({
     status: 404,
@@ -41,8 +49,7 @@ app.get('*', (req, res) => {
   });
 });
 
-let port = process.env.PORT;
-if (port == null || port == '') {
-  port = 8000;
-}
-app.listen(port);
+let port = process.env.PORT || 8000;
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
