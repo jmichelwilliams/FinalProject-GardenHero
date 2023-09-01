@@ -4,11 +4,12 @@ import styled from 'styled-components';
 // Component that fetches the weather and renders it. Used in the planner page.
 const Weather = () => {
   const [weather, setWeather] = useState(null);
+  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
   useEffect(() => {
     const fetchWeather = async () => {
       try {
-        const res = await fetch('/weather');
+        const res = await fetch(`${BACKEND_URL}/weather`);
         if (!res.ok) {
           throw new Error('Failed to fetch weather');
         }

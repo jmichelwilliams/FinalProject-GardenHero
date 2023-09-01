@@ -14,6 +14,7 @@ const Planner = () => {
   const [tableData, setTableData] = useState([]);
   const [garden, setGarden] = useState([]);
   const [date, setDate] = useState(new Date());
+  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
   // Used to disable the past dates on the calendar
   const tileDisabled = ({ date: calendarDate }) =>
@@ -28,7 +29,7 @@ const Planner = () => {
   const fetchGardenData = async () => {
     try {
       const accessToken = await getAccessTokenSilently();
-      const res = await fetch(`/plantbox/${user.sub}`, {
+      const res = await fetch(`${BACKEND_URL}/plantbox/${user.sub}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

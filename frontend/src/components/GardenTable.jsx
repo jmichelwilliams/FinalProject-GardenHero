@@ -17,12 +17,13 @@ const GardenTable = ({ data, onRemoveFromGarden }) => {
   const { user, getAccessTokenSilently } = useAuth0();
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
+  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
   // Function to handle the removal of a crop from the user's garden
   const handleRemoveFromGarden = async (crop) => {
     try {
       const accessToken = await getAccessTokenSilently();
-      const response = await fetch(`/plantbox/${user.sub}`, {
+      const response = await fetch(`${BACKEND_URL}/plantbox/${user.sub}`, {
         method: 'DELETE',
         headers: {
           Accept: 'application/json',

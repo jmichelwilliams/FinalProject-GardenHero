@@ -26,6 +26,7 @@ const CropTable = ({ data, onAddToGarden }) => {
   // Function to add to garden in the user's plantbox
   const handleAddToGarden = async (crop) => {
     const options = { weekday: 'long', month: 'long', day: 'numeric' };
+    const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
     const currentDate = new Date();
 
     const effectiveDate = selectedDate ? selectedDate.$d : currentDate;
@@ -52,7 +53,7 @@ const CropTable = ({ data, onAddToGarden }) => {
 
     try {
       const accessToken = await getAccessTokenSilently();
-      const response = await fetch(`/plantbox/${user.sub}`, {
+      const response = await fetch(`${BACKEND_URL}/plantbox/${user.sub}`, {
         method: 'PATCH',
         headers: {
           Accept: 'application/json',

@@ -17,6 +17,7 @@ const CropDetails = () => {
   const { cropName } = useParams();
   const IMAGE_BASE_PATH = '/images/';
   let imageSrc = null;
+  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
   // Fetch crop data based on cropName
   useEffect(() => {
@@ -24,7 +25,7 @@ const CropDetails = () => {
 
     const fetchCropByName = async () => {
       try {
-        const res = await fetch(`/crop/${cropName}`);
+        const res = await fetch(`/${BACKEND_URL}/${cropName}`);
         if (!res.ok) {
           throw new Error('Failed to fetch crop');
         }

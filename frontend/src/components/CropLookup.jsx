@@ -11,7 +11,8 @@ const CropLookup = () => {
   const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(0);
   const [showSuggestions, setShowSuggestions] = useState(true);
   const navigate = useNavigate();
-  const backend = process.env.REACT_APP_BACKEND_URL;
+  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
   // Fetch all crops
   useEffect(() => {
     let ignore = false;
@@ -19,7 +20,7 @@ const CropLookup = () => {
     // fetchCrops
     const fetchCrops = async () => {
       try {
-        const res = await fetch(`${backend}/crops`);
+        const res = await fetch(`${BACKEND_URL}/crops`);
         if (!res.ok) {
           throw new Error('Failed to fetch crops');
         }

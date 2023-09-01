@@ -6,6 +6,7 @@ import styled from 'styled-components';
 const Profile = () => {
   const { user, isAuthenticated, isLoading, getAccessTokenSilently } =
     useAuth0();
+  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
   // Fetch the user's login info
   useEffect(() => {
@@ -14,7 +15,7 @@ const Profile = () => {
         try {
           const accessToken = await getAccessTokenSilently();
 
-          await fetch('/login', {
+          await fetch(`${BACKEND_URL}/login`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
