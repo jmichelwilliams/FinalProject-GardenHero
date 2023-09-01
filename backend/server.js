@@ -1,6 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
-const cors = require('cors');
+// const cors = require('cors');
 
 const { getAllCrops, getCrop } = require('./crop_handlers');
 const { logInUser } = require('./user_handlers');
@@ -17,7 +17,7 @@ const app = express();
 app.use(morgan('tiny'));
 app.use(express.json());
 app.use(express.static('public'));
-app.use(cors());
+// app.use(cors());
 // crops
 app.get('/crops', getAllCrops);
 app.get('/crop/:cropname', getCrop);
