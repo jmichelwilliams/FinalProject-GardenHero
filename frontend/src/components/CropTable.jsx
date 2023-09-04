@@ -11,7 +11,7 @@ import styled from 'styled-components';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Button, Snackbar } from '@mui/material';
 import getTemperatureInCelsius from '../util_functions';
-
+import BACKEND_URL from '../constants';
 import DatePickerDialog from './DatePickerDialog';
 
 // Component that renders the available crops in a table
@@ -26,7 +26,7 @@ const CropTable = ({ data, onAddToGarden }) => {
   // Function to add to garden in the user's plantbox
   const handleAddToGarden = async (crop) => {
     const options = { weekday: 'long', month: 'long', day: 'numeric' };
-    const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
     const currentDate = new Date();
 
     const effectiveDate = selectedDate ? selectedDate.$d : currentDate;
