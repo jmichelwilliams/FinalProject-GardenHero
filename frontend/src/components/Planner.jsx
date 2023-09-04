@@ -7,6 +7,7 @@ import StyledCalendar from './StyledCalendar';
 import Weather from './Weather';
 import Header from './Header';
 import Wrapper from './Wrapper';
+import BACKEND_URL from '../constants';
 
 // Component that renders the planner page
 const Planner = () => {
@@ -14,7 +15,6 @@ const Planner = () => {
   const [tableData, setTableData] = useState([]);
   const [garden, setGarden] = useState([]);
   const [date, setDate] = useState(new Date());
-  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
   // Used to disable the past dates on the calendar
   const tileDisabled = ({ date: calendarDate }) =>

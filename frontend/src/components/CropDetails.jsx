@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { useAuth0 } from '@auth0/auth0-react';
 import getTemperatureInCelsius from '../util_functions';
+import BACKEND_URL from '../constants';
 
 import Wrapper from './Wrapper';
 import NavigationButton from './NavigationButton';
@@ -17,7 +18,6 @@ const CropDetails = () => {
   const { cropName } = useParams();
   const IMAGE_BASE_PATH = '/images/';
   let imageSrc = null;
-  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
   // Fetch crop data based on cropName
   useEffect(() => {

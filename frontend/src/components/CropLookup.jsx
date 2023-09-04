@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '@mui/material/Button';
 import Wrapper from './Wrapper';
+import BACKEND_URL from '../constants';
 
 // This component is the crop lookup search bar.
 const CropLookup = () => {
@@ -11,7 +12,6 @@ const CropLookup = () => {
   const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(0);
   const [showSuggestions, setShowSuggestions] = useState(true);
   const navigate = useNavigate();
-  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
   // Fetch all crops
   useEffect(() => {

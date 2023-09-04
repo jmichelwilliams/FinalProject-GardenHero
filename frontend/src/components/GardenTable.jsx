@@ -11,13 +11,13 @@ import styled from 'styled-components';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Button, Snackbar } from '@mui/material';
 import getTemperatureInCelsius from '../util_functions';
+import BACKEND_URL from '../constants';
 
 // Component that renders a table with the data supplied
 const GardenTable = ({ data, onRemoveFromGarden }) => {
   const { user, getAccessTokenSilently } = useAuth0();
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
-  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
   // Function to handle the removal of a crop from the user's garden
   const handleRemoveFromGarden = async (crop) => {

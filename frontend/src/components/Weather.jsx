@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import BACKEND_URL from '../constants';
 
 // Component that fetches the weather and renders it. Used in the planner page.
 const Weather = () => {
   const [weather, setWeather] = useState(null);
-  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
   useEffect(() => {
     const fetchWeather = async () => {
