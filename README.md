@@ -19,6 +19,8 @@ This CRUD app uses:
 - Auth0
 - Axios
 - MUI
+- Styled-Components
+- JavaScript
 
 # Features
 
