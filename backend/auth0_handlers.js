@@ -13,7 +13,7 @@ const getAuth0PublicKey = async (keyId) => {
     const publicKey = jwks.keys.find((key) => key.kid === keyId);
 
     if (!publicKey) {
-      throw new Error('Public key not found for kid'); // TODO: explicit with kid!
+      throw new Error('Public key not found for kid');
     }
 
     return publicKey;
