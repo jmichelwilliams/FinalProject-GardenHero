@@ -18,10 +18,19 @@ app.use(morgan('tiny'));
 app.use(express.json());
 app.use(express.static('public'));
 
-const allowedOrigin = 'https://garden-hero.vercel.app';
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://garden-hero.vercel.app',
+];
 
 const corsOptions = {
-  origin: allowedOrigin,
+  origin: (origin, callback) => {
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
 };
 
 app.use(cors(corsOptions));
