@@ -5,25 +5,6 @@ import Header from './Header';
 import Wrapper from './Wrapper';
 import logo from '../images/GardenHeroLogo.png';
 
-// Component that renders the homepage
-const Homepage = () => (
-  <StyledWrapper>
-    <Header />
-    <TitleBox>
-      <Image src={logo} alt="GardenHero Logo" />
-      <Title>Garden Hero</Title>
-      <SubTitle>
-        Need to keep track of your crops? Look no further. Garden hero will save
-        the day!
-      </SubTitle>
-    </TitleBox>
-    <StyledParagraph>
-      Starting planning by searching our available crops!
-    </StyledParagraph>
-    <CropLookup />
-  </StyledWrapper>
-);
-
 const StyledWrapper = styled(Wrapper)`
   height: 100vh;
 `;
@@ -55,4 +36,23 @@ const StyledParagraph = styled.p`
   text-align: center;
   margin-top: 0;
 `;
+// Component that renders the homepage
+const Homepage: React.FC = () => (
+  <StyledWrapper>
+    <Header />
+    <TitleBox>
+      <Image src={logo} alt="GardenHero Logo" />
+      <Title>Garden Hero</Title>
+      <SubTitle>
+        Need to keep track of your crops? Look no further. Garden hero will save
+        the day!
+      </SubTitle>
+    </TitleBox>
+    <StyledParagraph>
+      Starting planning by searching our available crops!
+    </StyledParagraph>
+    <CropLookup />
+  </StyledWrapper>
+);
+
 export default Homepage;

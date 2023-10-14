@@ -11,102 +11,16 @@ import LoginRequiredDialog from './LoginRequiredDialog';
 
 const PLANNER_ROUTE = '/planner';
 
-// Component that renders crop detail information.
-const CropDetails = () => {
-  const [cropInfo, setCropInfo] = useState();
-  const { isAuthenticated } = useAuth0();
-  const { cropName } = useParams();
-  const IMAGE_BASE_PATH = '/images/';
-  let imageSrc = null;
+interface CropInfo {
+  name: string;
+  soil: string;
+  temperature: number;
+  plantingSeason: string;
+  daysToHarvest: number;
+  url: string;
+}
 
-  // Fetch crop data based on cropName
-  useEffect(() => {
-    let ignore = false;
-
-    const fetchCropByName = async () => {
-      try {
-        const res = await fetch(`${BACKEND_URL}/crop/${cropName}`);
-        if (!res.ok) {
-          throw new Error('Failed to fetch crop');
-        }
-        const data = await res.json();
-        if (!ignore) {
-          setCropInfo(data.data);
-        }
-      } catch (error) {
-        console.log('An error occurred:', error);
-      }
-    };
-
-    fetchCropByName();
-
-    // Cleanup function to prevent setting state on an unmounted component
-    return () => {
-      ignore = true;
-    };
-  }, [cropName]);
-
-  // Deconstructing CropInfo if available, if not an empty object is used as fallback
-  const { name, soil, temperature, plantingSeason, daysToHarvest, url } =
-    cropInfo || {};
-
-  // Removes the spaces in the name of the crop
-  const nameWithNoSpaces = name ? name.split(' ').join('') : '';
-
-  // Reconstructing the filepath using IMAGE_BASE_PATH(/images/)nameWithNoSpaces.jpeg
-  imageSrc = `${IMAGE_BASE_PATH}${nameWithNoSpaces}.jpeg`;
-
-  return (
-    <StyledWrapper>
-      <NavigationButtonWrapper>
-        <NavigationButton buttonText="Back" destination="/" />
-      </NavigationButtonWrapper>
-      {!cropInfo ? (
-        <div>Loading...</div>
-      ) : (
-        <Box>
-          <ImageContainer src={imageSrc} />
-          <InfoContainer>
-            <Title>{name}</Title>
-            <InfoList>
-              <ListItems>
-                <BoldSpan>Soil type:&nbsp;</BoldSpan>
-                {soil}
-              </ListItems>
-              <ListItems>
-                <BoldSpan>Ideal Temperature:&nbsp;</BoldSpan>
-                {getTemperatureInCelsius(temperature)}ºC
-              </ListItems>
-              <ListItems>
-                <BoldSpan>Planting Season:&nbsp;</BoldSpan>
-                {plantingSeason}
-              </ListItems>
-              <ListItems>
-                <BoldSpan>Days to Harvest:&nbsp;</BoldSpan>
-                {daysToHarvest}
-              </ListItems>
-              <ListItems>
-                <StyledLink to={url}>Additional Info</StyledLink>
-              </ListItems>
-            </InfoList>
-          </InfoContainer>
-          <LoginButtonWrapper>
-            {!isAuthenticated ? (
-              <LoginRequiredDialog />
-            ) : (
-              <NavigationButton
-                buttonText="Go to Planner"
-                destination={PLANNER_ROUTE}
-              />
-            )}
-          </LoginButtonWrapper>
-        </Box>
-      )}
-    </StyledWrapper>
-  );
-};
-
-const StyledWrapper = styled(Wrapper)`
+const StyledWrapper = styled(Wrapper)<{ className: string }>`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -143,7 +57,7 @@ const Box = styled.div`
   }
 `;
 
-const ImageContainer = styled.div`
+const ImageContainer = styled.div<{ src: string }>`
   display: flex;
   width: 100%;
   height: 700px;
@@ -197,4 +111,100 @@ const LoginButtonWrapper = styled.div`
   margin-left: 570px;
   margin-bottom: 8px;
 `;
+
+// Component that renders crop detail information.
+const CropDetails: React.FC = () => {
+  const [cropInfo, setCropInfo] = useState<CropInfo>();
+  const { isAuthenticated } = useAuth0();
+  const { cropName } = useParams();
+  const IMAGE_BASE_PATH = '/images/';
+  let imageSrc = null;
+
+  // Fetch crop data based on cropName
+  useEffect(() => {
+    let ignore = false;
+
+    const fetchCropByName = async () => {
+      try {
+        const res = await fetch(`${BACKEND_URL}/crop/${cropName}`);
+        if (!res.ok) {
+          throw new Error('Failed to fetch crop');
+        }
+        const data = await res.json();
+        if (!ignore) {
+          setCropInfo(data.data);
+        }
+      } catch (error) {
+        console.log('An error occurred:', error);
+      }
+    };
+
+    fetchCropByName();
+
+    // Cleanup function to prevent setting state on an unmounted component
+    return () => {
+      ignore = true;
+    };
+  }, [cropName]);
+
+  // Deconstructing CropInfo if available, if not an empty object is used as fallback
+  const { name, soil, temperature, plantingSeason, daysToHarvest, url } =
+    cropInfo || {};
+
+  // Removes the spaces in the name of the crop
+  const nameWithNoSpaces = name ? name.split(' ').join('') : '';
+
+  // Reconstructing the filepath using IMAGE_BASE_PATH(/images/)nameWithNoSpaces.jpeg
+  imageSrc = `${IMAGE_BASE_PATH}${nameWithNoSpaces}.jpeg`;
+
+  return (
+    <StyledWrapper className="cropdetailwrapper">
+      <NavigationButtonWrapper>
+        <NavigationButton buttonText="Back" destination="/" />
+      </NavigationButtonWrapper>
+      {!cropInfo ? (
+        <div>Loading...</div>
+      ) : (
+        <Box>
+          <ImageContainer src={imageSrc} />
+          <InfoContainer>
+            <Title>{name}</Title>
+            <InfoList>
+              <ListItems>
+                <BoldSpan>Soil type:&nbsp;</BoldSpan>
+                {soil}
+              </ListItems>
+              <ListItems>
+                <BoldSpan>Ideal Temperature:&nbsp;</BoldSpan>
+                {getTemperatureInCelsius(temperature)}ºC
+              </ListItems>
+              <ListItems>
+                <BoldSpan>Planting Season:&nbsp;</BoldSpan>
+                {plantingSeason}
+              </ListItems>
+              <ListItems>
+                <BoldSpan>Days to Harvest:&nbsp;</BoldSpan>
+                {daysToHarvest}
+              </ListItems>
+              <ListItems>
+                {url && <StyledLink to={url}>Additional Info</StyledLink>}
+              </ListItems>
+            </InfoList>
+          </InfoContainer>
+          <LoginButtonWrapper>
+            {!isAuthenticated ? (
+              <LoginRequiredDialog />
+            ) : (
+              <NavigationButton
+                buttonText="Go to Planner"
+                destination={PLANNER_ROUTE}
+              />
+            )}
+          </LoginButtonWrapper>
+        </Box>
+      )}
+    </StyledWrapper>
+  );
+};
+
 export default CropDetails;
