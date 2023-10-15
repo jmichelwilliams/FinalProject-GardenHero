@@ -29,10 +29,7 @@ interface CropTableProps {
 }
 
 interface CustomDayJS {
-  $L: string;
-  $u: undefined;
   $d: Date;
-  $y: number;
 }
 
 // Component that renders the available crops in a table
@@ -174,14 +171,16 @@ const CropTable: React.FC<CropTableProps> = ({ data, onAddToGarden }) => {
           ))}
         </StyledTableBody>
       </StyledTable>
-      <DatePickerDialog
-        open={isDatePickerOpen}
-        onClose={closeDatePicker}
-        handleAddToGarden={handleAddToGarden}
-        selectedCrop={selectedCrop}
-        selectedDate={selectedDate}
-        setSelectedDate={setSelectedDate}
-      />
+      {selectedCrop && (
+        <DatePickerDialog
+          open={isDatePickerOpen}
+          onClose={closeDatePicker}
+          handleAddToGarden={handleAddToGarden}
+          selectedCrop={selectedCrop}
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
+        />
+      )}
       <Snackbar
         open={openSnackbar}
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}

@@ -21,19 +21,16 @@ interface Crop {
 }
 
 interface CustomDayJS {
-  $L: string;
-  $u: undefined;
   $d: Date;
-  $y: number;
 }
 
 interface DatePickerDialogProps {
   open: boolean;
   onClose: () => void;
-  selectedCrop?: Crop;
+  selectedCrop: Crop;
   handleAddToGarden: (crop: Crop) => Promise<void>;
-  selectedDate?: CustomDayJS;
-  setSelectedDate: (date: Dayjs) => void;
+  selectedDate: CustomDayJS | undefined;
+  setSelectedDate: (date: CustomDayJS | undefined) => void;
 }
 
 // Component that renders a modal to allow user to pick a date
@@ -62,7 +59,14 @@ const DatePickerDialog: React.FC<DatePickerDialogProps> = ({
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
                 defaultValue={today}
-                onChange={(date) => setSelectedDate(date as Dayjs)}
+                onChange={(date) => {
+                  if (date) {
+                    const customDayJS: CustomDayJS = { $d: date.toDate() };
+                    setSelectedDate(customDayJS);
+                  } else {
+                    setSelectedDate(undefined);
+                  }
+                }}
               />
             </LocalizationProvider>
           </DialogContent>
