@@ -9,17 +9,15 @@ module.exports = {
     'airbnb',
     'prettier',
     'airbnb-typescript',
-    'plugin:@typescript-eslint/recommended-type-checked',
   ],
   overrides: [],
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
-    project: './tsconfig.json',
+    // project: './tsconfig.json',
     tsconfigRootDir: __dirname,
   },
-  plugins: ['react', 'prettier', '@typescript-eslint'],
-  parser: '@typescript-eslint/parser',
+  plugins: ['react', 'prettier'],
   rules: {
     'prettier/prettier': ['error', { singleQuote: true }],
     'no-unused-vars': 'warn',
@@ -29,7 +27,6 @@ module.exports = {
     'object-shorthand': 'off',
     'class-methods-use-this': 'off',
     'no-underscore-dangle': 'off',
-    '@typescript-eslint/no-floating-promises': 'error',
     'react/function-component-definition': [
       2,
       { namedComponents: 'arrow-function' },

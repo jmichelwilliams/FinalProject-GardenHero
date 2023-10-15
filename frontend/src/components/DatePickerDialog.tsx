@@ -11,6 +11,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { CircularProgress } from '@mui/material';
 
 interface Crop {
+  _id: string;
   name: string;
   soil: string;
   temperature: number;
@@ -18,11 +19,20 @@ interface Crop {
   daysToHarvest: number;
   url: string;
 }
+
+interface CustomDayJS {
+  $L: string;
+  $u: undefined;
+  $d: Date;
+  $y: number;
+}
+
 interface DatePickerDialogProps {
   open: boolean;
   onClose: () => void;
-  selectedCrop: Crop;
+  selectedCrop?: Crop;
   handleAddToGarden: (crop: Crop) => Promise<void>;
+  selectedDate?: CustomDayJS;
   setSelectedDate: (date: Dayjs) => void;
 }
 

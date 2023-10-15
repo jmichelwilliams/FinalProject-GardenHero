@@ -6,14 +6,12 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Button, Snackbar } from '@mui/material';
 import getTemperatureInCelsius from '../util_functions';
 import BACKEND_URL from '../constants';
 import DatePickerDialog from './DatePickerDialog';
-import dayjs, { Dayjs } from 'dayjs';
 
 interface Crop {
   _id: string;
@@ -22,6 +20,7 @@ interface Crop {
   temperature: number;
   plantingSeason: string;
   daysToHarvest: number;
+  url: string;
 }
 
 interface CropTableProps {
@@ -29,8 +28,11 @@ interface CropTableProps {
   onAddToGarden: () => void;
 }
 
-interface CustomDayjs extends Dayjs {
-  $d: string; // Replace 'any' with the appropriate type for $d
+interface CustomDayJS {
+  $L: string;
+  $u: undefined;
+  $d: Date;
+  $y: number;
 }
 
 // Component that renders the available crops in a table
@@ -40,19 +42,27 @@ const CropTable: React.FC<CropTableProps> = ({ data, onAddToGarden }) => {
   const [snackbarMessage, setSnackbarMessage] = useState<string>('');
   const [isDatePickerOpen, setIsDatePickerOpen] = useState<boolean>(false);
   const [selectedCrop, setSelectedCrop] = useState<Crop | null>(null);
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>();
+  const [selectedDate, setSelectedDate] = useState<CustomDayJS | undefined>();
 
   // Function to add to garden in the user's plantbox
   const handleAddToGarden = async (crop: Crop) => {
-    const options = { weekday: 'long', month: 'long', day: 'numeric' };
+    const options: Intl.DateTimeFormatOptions = {
+      weekday: 'long',
+      month: 'long',
+      day: 'numeric',
+    };
 
     const currentDate = new Date();
 
-    const effectiveDate = selectedDate
-      ? (selectedDate as unknown as CustomDayjs).$d
-      : currentDate;
+    const getEffectiveDate = (): Date => {
+      if (selectedDate) {
+        return selectedDate.$d;
+      }
+      return currentDate;
+    };
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const effectiveDate = getEffectiveDate();
+
     const formattedDate = effectiveDate.toLocaleDateString('en-US', options);
 
     // Get the harvest date (selected date + daysToHarvest)
@@ -75,7 +85,8 @@ const CropTable: React.FC<CropTableProps> = ({ data, onAddToGarden }) => {
 
     try {
       const accessToken = await getAccessTokenSilently();
-      const response = await fetch(`${BACKEND_URL}/plantbox/${user.sub}`, {
+      const userId = user?.sub || '';
+      const response = await fetch(`${BACKEND_URL}/plantbox/${userId}`, {
         method: 'PATCH',
         headers: {
           Accept: 'application/json',
@@ -88,7 +99,7 @@ const CropTable: React.FC<CropTableProps> = ({ data, onAddToGarden }) => {
         setSnackbarMessage('Crop added to the garden!');
         setOpenSnackbar(true);
         onAddToGarden();
-        setSelectedDate(null);
+        setSelectedDate(undefined);
       } else {
         throw new Error();
       }
@@ -180,20 +191,6 @@ const CropTable: React.FC<CropTableProps> = ({ data, onAddToGarden }) => {
       />
     </StyledTableContainer>
   );
-};
-
-CropTable.propTypes = {
-  data: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      soil: PropTypes.string.isRequired,
-      temperature: PropTypes.number.isRequired,
-      plantingSeason: PropTypes.string.isRequired,
-      daysToHarvest: PropTypes.number.isRequired,
-    }),
-  ).isRequired,
-  onAddToGarden: PropTypes.func.isRequired,
 };
 
 const StyledTableContainer = styled(TableContainer)`

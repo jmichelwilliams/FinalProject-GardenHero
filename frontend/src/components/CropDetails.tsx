@@ -11,7 +11,8 @@ import LoginRequiredDialog from './LoginRequiredDialog';
 
 const PLANNER_ROUTE = '/planner';
 
-interface CropInfo {
+interface Crop {
+  _id: string;
   name: string;
   soil: string;
   temperature: number;
@@ -21,7 +22,7 @@ interface CropInfo {
 }
 
 interface CropData {
-  data: CropInfo;
+  data: Crop;
 }
 
 const StyledWrapper = styled(Wrapper)<{ className: string }>`
@@ -118,7 +119,7 @@ const LoginButtonWrapper = styled.div`
 
 // Component that renders crop detail information.
 const CropDetails: React.FC = () => {
-  const [cropInfo, setCropInfo] = useState<CropInfo>();
+  const [cropInfo, setCropInfo] = useState<Crop>();
   const { isAuthenticated } = useAuth0();
   const { cropName } = useParams();
   const IMAGE_BASE_PATH = '/images/';

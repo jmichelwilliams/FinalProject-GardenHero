@@ -8,6 +8,11 @@ import BACKEND_URL from '../constants';
 interface Crop {
   _id: string;
   name: string;
+  soil: string;
+  temperature: number;
+  plantingSeason: string;
+  daysToHarvest: number;
+  url: string;
 }
 
 const RowWrapper = styled.div`
@@ -158,7 +163,7 @@ const CropLookup: React.FC = () => {
   };
 
   return (
-    <Wrapper>
+    <Wrapper className="croplookupcontainer">
       <RowWrapper>
         <SearchInput
           type="text"
