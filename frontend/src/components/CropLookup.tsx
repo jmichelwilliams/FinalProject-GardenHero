@@ -8,7 +8,6 @@ import BACKEND_URL from '../constants';
 interface Crop {
   _id: string;
   name: string;
-  // Add other properties here
 }
 
 const RowWrapper = styled.div`

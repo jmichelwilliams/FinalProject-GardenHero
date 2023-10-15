@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -9,10 +9,25 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { CircularProgress } from '@mui/material';
-import PropTypes from 'prop-types';
+
+interface Crop {
+  name: string;
+  soil: string;
+  temperature: number;
+  plantingSeason: string;
+  daysToHarvest: number;
+  url: string;
+}
+interface DatePickerDialogProps {
+  open: boolean;
+  onClose: () => void;
+  selectedCrop: Crop;
+  handleAddToGarden: (crop: Crop) => Promise<void>;
+  setSelectedDate: (date: Dayjs) => void;
+}
 
 // Component that renders a modal to allow user to pick a date
-const DatePickerDialog = ({
+const DatePickerDialog: React.FC<DatePickerDialogProps> = ({
   open,
   onClose,
   selectedCrop,
@@ -37,7 +52,7 @@ const DatePickerDialog = ({
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
                 defaultValue={today}
-                onChange={(date) => setSelectedDate(date)}
+                onChange={(date) => setSelectedDate(date as Dayjs)}
               />
             </LocalizationProvider>
           </DialogContent>
@@ -62,14 +77,4 @@ const DatePickerDialog = ({
   );
 };
 
-DatePickerDialog.propTypes = {
-  open: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
-  selectedCrop: PropTypes.instanceOf(Object),
-  handleAddToGarden: PropTypes.func.isRequired,
-  setSelectedDate: PropTypes.func.isRequired,
-};
-DatePickerDialog.defaultProps = {
-  selectedCrop: {},
-};
 export default DatePickerDialog;

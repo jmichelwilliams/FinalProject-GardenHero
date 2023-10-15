@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 interface WrapperProps {
-  className?: string;
+  className: string;
   children: React.ReactNode;
 }
 

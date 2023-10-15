@@ -13,24 +13,46 @@ import { Button, Snackbar } from '@mui/material';
 import getTemperatureInCelsius from '../util_functions';
 import BACKEND_URL from '../constants';
 import DatePickerDialog from './DatePickerDialog';
+import dayjs, { Dayjs } from 'dayjs';
+
+interface Crop {
+  _id: string;
+  name: string;
+  soil: string;
+  temperature: number;
+  plantingSeason: string;
+  daysToHarvest: number;
+}
+
+interface CropTableProps {
+  data: Crop[];
+  onAddToGarden: () => void;
+}
+
+interface CustomDayjs extends Dayjs {
+  $d: string; // Replace 'any' with the appropriate type for $d
+}
 
 // Component that renders the available crops in a table
-const CropTable = ({ data, onAddToGarden }) => {
+const CropTable: React.FC<CropTableProps> = ({ data, onAddToGarden }) => {
   const { user, getAccessTokenSilently } = useAuth0();
-  const [openSnackbar, setOpenSnackbar] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState('');
-  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
-  const [selectedCrop, setSelectedCrop] = useState(null);
-  const [selectedDate, setSelectedDate] = useState();
+  const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
+  const [snackbarMessage, setSnackbarMessage] = useState<string>('');
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState<boolean>(false);
+  const [selectedCrop, setSelectedCrop] = useState<Crop | null>(null);
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>();
 
   // Function to add to garden in the user's plantbox
-  const handleAddToGarden = async (crop) => {
+  const handleAddToGarden = async (crop: Crop) => {
     const options = { weekday: 'long', month: 'long', day: 'numeric' };
 
     const currentDate = new Date();
 
-    const effectiveDate = selectedDate ? selectedDate.$d : currentDate;
+    const effectiveDate = selectedDate
+      ? (selectedDate as unknown as CustomDayjs).$d
+      : currentDate;
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const formattedDate = effectiveDate.toLocaleDateString('en-US', options);
 
     // Get the harvest date (selected date + daysToHarvest)
@@ -79,7 +101,7 @@ const CropTable = ({ data, onAddToGarden }) => {
   };
 
   // Function to Open Date Picker
-  const openDatePicker = (crop) => {
+  const openDatePicker = (crop: Crop) => {
     setSelectedCrop(crop);
     setIsDatePickerOpen(true);
   };
