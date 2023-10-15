@@ -1,3 +1,4 @@
+const path = require('path');
 module.exports = {
   env: {
     browser: true,
@@ -10,14 +11,14 @@ module.exports = {
     'prettier',
     'airbnb-typescript',
   ],
-  overrides: [],
+  parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
-    // project: './tsconfig.json',
+    project: './tsconfig.json',
     tsconfigRootDir: __dirname,
   },
-  plugins: ['react', 'prettier'],
+  plugins: ['react', 'prettier', '@typescript-eslint'],
   rules: {
     'prettier/prettier': ['error', { singleQuote: true }],
     'no-unused-vars': 'warn',
@@ -32,4 +33,12 @@ module.exports = {
       { namedComponents: 'arrow-function' },
     ],
   },
+  overrides: [
+    {
+      files: [
+        path.join(__dirname, 'frontend/**/*.tsx'),
+        path.join(__dirname, 'frontend/**/*.ts'),
+      ],
+    },
+  ],
 };
