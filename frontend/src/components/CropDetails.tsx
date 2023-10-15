@@ -20,6 +20,10 @@ interface CropInfo {
   url: string;
 }
 
+interface CropData {
+  data: CropInfo;
+}
+
 const StyledWrapper = styled(Wrapper)<{ className: string }>`
   display: flex;
   flex-direction: row;
@@ -130,7 +134,7 @@ const CropDetails: React.FC = () => {
         if (!res.ok) {
           throw new Error('Failed to fetch crop');
         }
-        const data = await res.json();
+        const data = (await res.json()) as CropData;
         if (!ignore) {
           setCropInfo(data.data);
         }
@@ -139,7 +143,7 @@ const CropDetails: React.FC = () => {
       }
     };
 
-    fetchCropByName();
+    fetchCropByName().catch(console.error);
 
     // Cleanup function to prevent setting state on an unmounted component
     return () => {
