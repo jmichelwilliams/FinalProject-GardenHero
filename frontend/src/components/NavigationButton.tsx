@@ -1,10 +1,16 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
-import PropTypes from 'prop-types';
 
+interface NavigationButtonProps {
+  buttonText: string;
+  destination: string;
+}
 // Component that renders a Navigation button, can be customised using buttonText and destination
-const NavigationButton = ({ buttonText, destination }) => {
+const NavigationButton: React.FC<NavigationButtonProps> = ({
+  buttonText,
+  destination,
+}) => {
   const navigate = useNavigate();
 
   const handleNavigate = () => {
@@ -26,8 +32,4 @@ const NavigationButton = ({ buttonText, destination }) => {
   );
 };
 
-NavigationButton.propTypes = {
-  buttonText: PropTypes.string.isRequired,
-  destination: PropTypes.string.isRequired,
-};
 export default NavigationButton;

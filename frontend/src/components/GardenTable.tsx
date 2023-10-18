@@ -6,24 +6,73 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Button, Snackbar } from '@mui/material';
 import getTemperatureInCelsius from '../util_functions';
 import BACKEND_URL from '../constants';
 
+interface GardenCrop {
+  _id: string;
+  name: string;
+  soil: string;
+  temperature: number;
+  plantedOn: string;
+  harvestDate: number;
+}
+
+interface GardenTableProps {
+  data: GardenCrop[];
+  onRemoveFromGarden: () => void;
+}
+
+const StyledTableContainer = styled(TableContainer)`
+  width: 100%;
+  height: 40%;
+  margin: 16px;
+`;
+
+const StyledTable = styled(Table)`
+  min-width: 650px;
+`;
+
+const StyledTableHeadRow = styled(TableRow)`
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: #fefae0;
+`;
+
+const StyledTableHeadCell = styled(TableCell)`
+  &:first-child {
+    left: 0;
+  }
+  font-weight: bold !important;
+  color: #606c38 !important;
+  font-size: 16px !important;
+`;
+
+const StyledTableBody = styled(TableBody)`
+  overflow-y: auto;
+  max-height: 200px;
+`;
+
 // Component that renders a table with the data supplied
-const GardenTable = ({ data, onRemoveFromGarden }) => {
+const GardenTable: React.FC<GardenTableProps> = ({
+  data,
+  onRemoveFromGarden,
+}) => {
   const { user, getAccessTokenSilently } = useAuth0();
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
 
   // Function to handle the removal of a crop from the user's garden
-  const handleRemoveFromGarden = async (crop) => {
+  const handleRemoveFromGarden = async (crop: GardenCrop) => {
     try {
       const accessToken = await getAccessTokenSilently();
-      const response = await fetch(`${BACKEND_URL}/plantbox/${user.sub}`, {
+      const userId = user?.sub || '';
+
+      const response = await fetch(`${BACKEND_URL}/plantbox/${userId}`, {
         method: 'DELETE',
         headers: {
           Accept: 'application/json',
@@ -105,48 +154,4 @@ const GardenTable = ({ data, onRemoveFromGarden }) => {
   );
 };
 
-GardenTable.propTypes = {
-  data: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      soil: PropTypes.string.isRequired,
-      temperature: PropTypes.number.isRequired,
-      plantingSeason: PropTypes.string.isRequired,
-      daysToHarvest: PropTypes.number.isRequired,
-    }),
-  ).isRequired,
-  onRemoveFromGarden: PropTypes.func.isRequired,
-};
-
-const StyledTableContainer = styled(TableContainer)`
-  width: 100%;
-  height: 40%;
-  margin: 16px;
-`;
-
-const StyledTable = styled(Table)`
-  min-width: 650px;
-`;
-
-const StyledTableHeadRow = styled(TableRow)`
-  position: sticky;
-  top: 0;
-  z-index: 1;
-  background-color: #fefae0;
-`;
-
-const StyledTableHeadCell = styled(TableCell)`
-  &:first-child {
-    left: 0;
-  }
-  font-weight: bold !important;
-  color: #606c38 !important;
-  font-size: 16px !important;
-`;
-
-const StyledTableBody = styled(TableBody)`
-  overflow-y: auto;
-  max-height: 200px;
-`;
 export default GardenTable;

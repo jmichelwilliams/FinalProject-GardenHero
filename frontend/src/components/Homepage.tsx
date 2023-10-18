@@ -1,28 +1,10 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import CropLookup from './CropLookup';
 import Header from './Header';
 import Wrapper from './Wrapper';
 import logo from '../images/GardenHeroLogo.png';
-
-// Component that renders the homepage
-const Homepage = () => (
-  <StyledWrapper>
-    <Header />
-    <TitleBox>
-      <Image src={logo} alt="GardenHero Logo" />
-      <Title>Garden Hero</Title>
-      <SubTitle>
-        Need to keep track of your crops? Look no further. Garden hero will save
-        the day!
-      </SubTitle>
-    </TitleBox>
-    <StyledParagraph>
-      Starting planning by searching our available crops!
-    </StyledParagraph>
-    <CropLookup />
-  </StyledWrapper>
-);
 
 const StyledWrapper = styled(Wrapper)`
   height: 100vh;
@@ -55,4 +37,28 @@ const StyledParagraph = styled.p`
   text-align: center;
   margin-top: 0;
 `;
+// Component that renders the homepage
+const Homepage: React.FC = () => {
+  const location = useLocation();
+  const isPlannerPage = location.pathname === '/planner';
+
+  return (
+    <StyledWrapper className="homepageWrapper">
+      <Header isPlannerPage={isPlannerPage} />
+      <TitleBox>
+        <Image src={logo} alt="GardenHero Logo" />
+        <Title>Garden Hero</Title>
+        <SubTitle>
+          Need to keep track of your crops? Look no further. Garden hero will
+          save the day!
+        </SubTitle>
+      </TitleBox>
+      <StyledParagraph>
+        Starting planning by searching our available crops!
+      </StyledParagraph>
+      <CropLookup />
+    </StyledWrapper>
+  );
+};
+
 export default Homepage;

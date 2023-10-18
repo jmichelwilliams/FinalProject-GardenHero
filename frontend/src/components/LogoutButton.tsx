@@ -3,7 +3,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Button } from '@mui/material';
 
 // Component that renders a log out button
-const LogoutButton = () => {
+const LogoutButton: React.FC = () => {
   const { logout } = useAuth0();
 
   const handleLogout = () => {

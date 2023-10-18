@@ -1,10 +1,13 @@
 import React from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import Button from '@mui/material/Button';
-import PropTypes from 'prop-types';
 
+interface LoginButtonProps {
+  buttonText: string;
+  isSmall: boolean;
+}
 // Component that renders a login button
-const LoginButton = ({ buttonText, isSmall }) => {
+const LoginButton: React.FC<LoginButtonProps> = ({ buttonText, isSmall }) => {
   const { loginWithRedirect, isLoading } = useAuth0();
   const handleLogin = async () => {
     if (isLoading) {
@@ -30,16 +33,6 @@ const LoginButton = ({ buttonText, isSmall }) => {
       {buttonText}
     </Button>
   );
-};
-
-LoginButton.propTypes = {
-  buttonText: PropTypes.string,
-  isSmall: PropTypes.bool,
-};
-
-LoginButton.defaultProps = {
-  buttonText: 'Login / Register',
-  isSmall: false,
 };
 
 export default LoginButton;

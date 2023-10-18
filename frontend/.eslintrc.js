@@ -1,16 +1,24 @@
+const path = require('path');
 module.exports = {
   env: {
     browser: true,
     es2021: true,
     node: true,
   },
-  extends: ['plugin:react/recommended', 'airbnb', 'prettier'],
-  overrides: [],
+  extends: [
+    'plugin:react/recommended',
+    'airbnb',
+    'prettier',
+    'airbnb-typescript',
+  ],
+  parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
+    project: './tsconfig.json',
+    tsconfigRootDir: __dirname,
   },
-  plugins: ['react', 'prettier'],
+  plugins: ['react', 'prettier', '@typescript-eslint'],
   rules: {
     'prettier/prettier': ['error', { singleQuote: true }],
     'no-unused-vars': 'warn',
@@ -25,4 +33,9 @@ module.exports = {
       { namedComponents: 'arrow-function' },
     ],
   },
+  overrides: [
+    {
+      files: ['frontend/**/*.tsx', 'frontend/**/*.ts'],
+    },
+  ],
 };

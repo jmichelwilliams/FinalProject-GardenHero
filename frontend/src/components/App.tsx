@@ -20,7 +20,7 @@ const theme = createTheme({
 });
 
 // This function renders the App
-const App = () => (
+const App: React.FC = () => (
   <Router>
     <GlobalStyle />
     <ThemeProvider theme={theme}>

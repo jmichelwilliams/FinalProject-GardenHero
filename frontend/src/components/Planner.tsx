@@ -9,27 +9,48 @@ import Header from './Header';
 import Wrapper from './Wrapper';
 import BACKEND_URL from '../constants';
 
+const TableWrapper = styled(Wrapper)`
+  flex-direction: row;
+  height: 100vh;
+`;
+const PlannerWrapper = styled(Wrapper)`
+  display: flex;
+  align-items: flex-end;
+  margin-left: 70px;
+  margin-right: 16px;
+  height: 100vh;
+`;
+
+const SubTitle = styled.h3`
+  text-align: center;
+  font-size: 28px;
+  color: #606c38;
+  margin-bottom: 0;
+`;
+
 // Component that renders the planner page
-const Planner = () => {
+const Planner: React.FC = () => {
   const { user, isLoading, getAccessTokenSilently } = useAuth0();
   const [tableData, setTableData] = useState([]);
   const [garden, setGarden] = useState([]);
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState<Date | [Date, Date] | null>(new Date());
 
   // Used to disable the past dates on the calendar
-  const tileDisabled = ({ date: calendarDate }) =>
-    calendarDate < new Date().setHours(0, 0, 0, 0);
+  const tileDisabled = ({ date: calendarDate }: { date: Date }): boolean =>
+    calendarDate.getTime() < new Date().setHours(0, 0, 0, 0);
 
   // Function to change the date on the calendar
-  const handleChange = (nextDate) => {
-    setDate(nextDate);
+  const handleChange = (value: Date | [Date, Date] | null) => {
+    if (value instanceof Date) {
+      setDate(value);
+    }
   };
 
   // Function to fetch the user's garden
   const fetchGardenData = async () => {
     try {
       const accessToken = await getAccessTokenSilently();
-      const res = await fetch(`${BACKEND_URL}/plantbox/${user.sub}`, {
+      const res = await fetch(`${BACKEND_URL}/plantbox/${user?.sub}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -84,19 +105,19 @@ const Planner = () => {
   };
 
   return (
-    <TableWrapper>
+    <TableWrapper className="tablewrapper">
       <div>
         <SubTitle>Available Crops</SubTitle>
         <CropTable data={tableData} onAddToGarden={handleChangeToGarden} />
         <SubTitle>Your Garden</SubTitle>
         <GardenTable data={garden} onRemoveFromGarden={handleChangeToGarden} />
       </div>
-      <PlannerWrapper>
+      <PlannerWrapper className="plannerwrapper">
         <Header isPlannerPage />
         <Weather />
         <StyledCalendar
           value={date}
-          onChange={handleChange}
+          onChange={(value: any) => handleChange(value)}
           tileDisabled={tileDisabled}
         />
       </PlannerWrapper>
@@ -104,22 +125,4 @@ const Planner = () => {
   );
 };
 
-const TableWrapper = styled(Wrapper)`
-  flex-direction: row;
-  height: 100vh;
-`;
-const PlannerWrapper = styled(Wrapper)`
-  display: flex;
-  align-items: flex-end;
-  margin-left: 70px;
-  margin-right: 16px;
-  height: 100vh;
-`;
-
-const SubTitle = styled.h3`
-  text-align: center;
-  font-size: 28px;
-  color: #606c38;
-  margin-bottom: 0;
-`;
 export default Planner;
