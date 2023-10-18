@@ -3,6 +3,14 @@ import { useAuth0 } from '@auth0/auth0-react';
 import styled from 'styled-components';
 import BACKEND_URL from '../constants';
 
+const ProfileName = styled.h2`
+  margin-right: 16px;
+`;
+
+const StyledProfileName = styled.span`
+  color: #bc6c25;
+`;
+
 // Component to render the profile information
 const Profile: React.FC = () => {
   const { user, isAuthenticated, isLoading, getAccessTokenSilently } =
@@ -49,11 +57,4 @@ const Profile: React.FC = () => {
   );
 };
 
-const ProfileName = styled.h2`
-  margin-right: 16px;
-`;
-
-const StyledProfileName = styled.span`
-  color: #bc6c25;
-`;
 export default Profile;
