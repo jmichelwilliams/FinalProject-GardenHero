@@ -29,7 +29,6 @@ interface DatePickerDialogProps {
   onClose: () => void;
   selectedCrop: Crop;
   handleAddToGarden: (crop: Crop) => Promise<void>;
-  selectedDate: CustomDayJS | undefined;
   setSelectedDate: (date: CustomDayJS | undefined) => void;
 }
 

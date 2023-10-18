@@ -32,6 +32,37 @@ interface CustomDayJS {
   $d: Date;
 }
 
+const StyledTableContainer = styled(TableContainer)`
+  width: 100%;
+  height: 40%;
+  margin: 16px;
+`;
+
+const StyledTable = styled(Table)`
+  min-width: 650px;
+  table-layout: fixed;
+`;
+
+const StyledTableHeadRow = styled(TableRow)`
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: #fefae0;
+`;
+
+const StyledTableHeadCell = styled(TableCell)`
+  &:first-child {
+    left: 0;
+  }
+  font-weight: bold !important;
+  color: #606c38 !important;
+  font-size: 16px !important;
+`;
+
+const StyledTableBody = styled(TableBody)`
+  overflow-y: auto;
+  max-height: 200px;
+`;
 // Component that renders the available crops in a table
 const CropTable: React.FC<CropTableProps> = ({ data, onAddToGarden }) => {
   const { user, getAccessTokenSilently } = useAuth0();
@@ -177,7 +208,6 @@ const CropTable: React.FC<CropTableProps> = ({ data, onAddToGarden }) => {
           onClose={closeDatePicker}
           handleAddToGarden={handleAddToGarden}
           selectedCrop={selectedCrop}
-          selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}
         />
       )}
@@ -191,37 +221,5 @@ const CropTable: React.FC<CropTableProps> = ({ data, onAddToGarden }) => {
     </StyledTableContainer>
   );
 };
-
-const StyledTableContainer = styled(TableContainer)`
-  width: 100%;
-  height: 40%;
-  margin: 16px;
-`;
-
-const StyledTable = styled(Table)`
-  min-width: 650px;
-  table-layout: fixed;
-`;
-
-const StyledTableHeadRow = styled(TableRow)`
-  position: sticky;
-  top: 0;
-  z-index: 1;
-  background-color: #fefae0;
-`;
-
-const StyledTableHeadCell = styled(TableCell)`
-  &:first-child {
-    left: 0;
-  }
-  font-weight: bold !important;
-  color: #606c38 !important;
-  font-size: 16px !important;
-`;
-
-const StyledTableBody = styled(TableBody)`
-  overflow-y: auto;
-  max-height: 200px;
-`;
 
 export default CropTable;
