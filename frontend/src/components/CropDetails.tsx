@@ -154,7 +154,7 @@ const CropDetails: React.FC = () => {
 
   // Deconstructing CropInfo if available, if not an empty object is used as fallback
   const { name, soil, temperature, plantingSeason, daysToHarvest, url } =
-    cropInfo || {};
+    cropInfo || ({} as Crop);
 
   // Removes the spaces in the name of the crop
   const nameWithNoSpaces = name ? name.split(' ').join('') : '';

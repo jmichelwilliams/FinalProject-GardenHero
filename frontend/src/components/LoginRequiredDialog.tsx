@@ -8,7 +8,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import LoginButton from './LoginButton';
 
 // Component to render the login dialog used in the cropDetails page
-const LoginRequiredDialog = () => {
+const LoginRequiredDialog: React.FC = () => {
   const [open, setOpen] = React.useState(false);
 
   // Function to open dialog

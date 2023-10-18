@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import BACKEND_URL from '../constants';
 
 // Component to render the profile information
-const Profile = () => {
+const Profile: React.FC = () => {
   const { user, isAuthenticated, isLoading, getAccessTokenSilently } =
     useAuth0();
 
@@ -43,7 +43,7 @@ const Profile = () => {
   return (
     <div>
       <ProfileName>
-        Hello! <StyledProfileName>{user.nickname}</StyledProfileName>
+        Hello! {user && <StyledProfileName>{user.nickname}</StyledProfileName>}
       </ProfileName>
     </div>
   );

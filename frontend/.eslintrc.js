@@ -35,10 +35,7 @@ module.exports = {
   },
   overrides: [
     {
-      files: [
-        path.join(__dirname, 'frontend/**/*.tsx'),
-        path.join(__dirname, 'frontend/**/*.ts'),
-      ],
+      files: ['frontend/**/*.tsx', 'frontend/**/*.ts'],
     },
   ],
 };

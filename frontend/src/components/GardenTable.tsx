@@ -6,7 +6,6 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Button, Snackbar } from '@mui/material';
