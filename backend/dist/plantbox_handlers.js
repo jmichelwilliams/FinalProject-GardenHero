@@ -56,7 +56,7 @@ const getUserPlantbox = (req, res) => __awaiter(void 0, void 0, void 0, function
         yield client.connect();
         const collection = db.collection(plantBoxCollection);
         const result = yield collection.findOne({
-            _id: new mongodb_1.ObjectId(userid),
+            _id: userid,
         });
         if (!result) {
             res.status(400).json({ status: 400, message: 'Plantbox not found!' });
@@ -87,7 +87,7 @@ const createPlantbox = (userid, email) => __awaiter(void 0, void 0, void 0, func
         yield client.connect();
         const collection = db.collection(plantBoxCollection);
         const newPlantbox = {
-            _id: new mongodb_1.ObjectId(userid),
+            _id: userid,
             user: email,
             garden: [],
         };
@@ -120,7 +120,7 @@ const addToGarden = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         const updateGarden = {
             $push: { garden: crop },
         };
-        const result = yield collection.updateOne({ _id: new mongodb_1.ObjectId(userid) }, updateGarden);
+        const result = yield collection.updateOne({ _id: userid }, updateGarden);
         if (result.modifiedCount === 1) {
             res.status(200).json({ status: 200, message: 'Crop added successfully' });
         }
@@ -154,7 +154,7 @@ const removeFromGarden = (req, res) => __awaiter(void 0, void 0, void 0, functio
         const updateGarden = {
             $pull: { garden: crop },
         };
-        const result = yield collection.updateOne({ _id: new mongodb_1.ObjectId(userid) }, updateGarden);
+        const result = yield collection.updateOne({ _id: userid }, updateGarden);
         if (result.modifiedCount === 1) {
             res
                 .status(200)

@@ -80,7 +80,7 @@ const checkIfUserExists = (sub) => __awaiter(void 0, void 0, void 0, function* (
         const db = client.db(dbName);
         yield client.connect();
         const collection = db.collection(userCollection);
-        const existingUser = yield collection.findOne({ _id: new mongodb_1.ObjectId(sub) });
+        const existingUser = yield collection.findOne({ _id: sub });
         return existingUser;
     }
     catch (error) {
@@ -104,7 +104,7 @@ const createUser = (sub, email, nickname, picture) => __awaiter(void 0, void 0, 
         yield client.connect();
         const collection = db.collection(userCollection);
         const newUser = {
-            _id: new mongodb_1.ObjectId(sub),
+            _id: sub,
             email,
             nickname,
             picture,
