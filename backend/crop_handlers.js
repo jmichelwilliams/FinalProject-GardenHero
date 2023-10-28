@@ -12,7 +12,7 @@ const options = {
 };
 
 // Function to get all crops
-const getAllCrops = async (req, res) => {
+export const getAllCrops = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   const db = client.db(dbName);
 
@@ -31,7 +31,7 @@ const getAllCrops = async (req, res) => {
 };
 
 // Function for finding a specific crop by crop name
-const getCrop = async (req, res) => {
+export const getCrop = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   const db = client.db(dbName);
   const { cropname } = req.params;
@@ -56,8 +56,4 @@ const getCrop = async (req, res) => {
   } finally {
     client.close();
   }
-};
-module.exports = {
-  getAllCrops,
-  getCrop,
 };
