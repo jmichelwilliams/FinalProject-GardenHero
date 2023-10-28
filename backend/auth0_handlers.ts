@@ -1,16 +1,27 @@
-const fetch = require('node-fetch');
-require('dotenv').config({ path: '../.env' });
+import { Request, Response, NextFunction } from 'express';
+import fetch from 'node-fetch';
+import * as dotenv from 'dotenv';
+dotenv.config({ path: '../.env' });
+
 const jsonWebToken = require('jsonwebtoken');
 const jsonWebKeySetUrl = process.env.JWKS_URL;
 
 // Function to get Auth0 Public key, used to validate access token
-const getAuth0PublicKey = async (keyId) => {
+export const getAuth0PublicKey = async (keyId: string) => {
   try {
+    if (!keyId) {
+      throw new Error('keyId is undefined');
+    }
+    if (!jsonWebKeySetUrl) {
+      throw new Error('Environment variables not properly set');
+    }
     const response = await fetch(jsonWebKeySetUrl);
 
     const jwks = await response.json();
 
-    const publicKey = jwks.keys.find((key) => key.kid === keyId);
+    const publicKey = jwks.keys.find(
+      (key: { kid: string }) => key.kid === keyId,
+    );
 
     if (!publicKey) {
       throw new Error('Public key not found for kid');
@@ -24,7 +35,11 @@ const getAuth0PublicKey = async (keyId) => {
 };
 
 // Function to validate access token
-const validateAccessToken = async (req, res, next) => {
+export const validateAccessToken = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     // Taking the token after Bearer in the authorization header
     const accessToken = req.headers?.authorization?.split(' ')[1];
@@ -54,13 +69,9 @@ const validateAccessToken = async (req, res, next) => {
     }
   } catch (error) {
     console.log('error: ', error);
-    res
-      .status(500)
-      .json({ status: 500, error: error.message || 'Internal Server Error' });
+    res.status(500).json({
+      status: 500,
+      error: (error as Error).message || 'Internal Server Error',
+    });
   }
-};
-
-module.exports = {
-  getAuth0PublicKey,
-  validateAccessToken,
 };

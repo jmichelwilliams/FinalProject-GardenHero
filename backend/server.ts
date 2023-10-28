@@ -1,16 +1,16 @@
-const express = require('express');
-const morgan = require('morgan');
-const cors = require('cors');
+import express, { Request, Response } from 'express';
+import morgan from 'morgan';
+import cors, { CorsOptions } from 'cors';
 
-const { getAllCrops, getCrop } = require('./crop_handlers');
-const { logInUser } = require('./user_handlers');
-const { getWeather } = require('./weather_handlers');
-const {
+import { getAllCrops, getCrop } from './crop_handlers';
+import { logInUser } from './user_handlers';
+import getWeather from './weather_handlers';
+import {
   getUserPlantbox,
   addToGarden,
   removeFromGarden,
-} = require('./plantbox_handlers');
-const { validateAccessToken } = require('./auth0_handlers');
+} from './plantbox_handlers';
+import { validateAccessToken } from './auth0_handlers';
 
 const app = express();
 
@@ -23,9 +23,9 @@ const allowedOrigins = [
   'https://garden-hero.vercel.app',
 ];
 
-const corsOptions = {
+const corsOptions: CorsOptions = {
   origin: (origin, callback) => {
-    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
@@ -51,7 +51,7 @@ app.patch('/plantbox/:userid', validateAccessToken, addToGarden);
 app.delete('/plantbox/:userid', validateAccessToken, removeFromGarden);
 
 // catch-all endpoint
-app.get('*', (req, res) => {
+app.get('*', (req: Request, res: Response) => {
   res.status(404).json({
     status: 404,
     message: 'This is obviously not what you are looking for.',

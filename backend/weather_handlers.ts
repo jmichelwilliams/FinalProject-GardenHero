@@ -1,8 +1,10 @@
-const axios = require('axios');
+import { Request, Response } from 'express';
+import axios from 'axios';
+
 const API_KEY = process.env.WEATHER_API_KEY;
 
 // Function to fetch the weather information from the API
-const getWeather = async (req, res) => {
+const getWeather = async (req: Request, res: Response) => {
   const options = {
     method: 'GET',
     url: 'https://weatherapi-com.p.rapidapi.com/forecast.json',
@@ -24,4 +26,4 @@ const getWeather = async (req, res) => {
   }
 };
 
-module.exports = { getWeather };
+export default getWeather;
