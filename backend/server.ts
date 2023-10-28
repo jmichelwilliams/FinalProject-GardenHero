@@ -4,7 +4,7 @@ import cors, { CorsOptions } from 'cors';
 
 import { getAllCrops, getCrop } from './crop_handlers';
 import { logInUser } from './user_handlers';
-import { getWeather } from './weather_handlers';
+import getWeather from './weather_handlers';
 import {
   getUserPlantbox,
   addToGarden,
