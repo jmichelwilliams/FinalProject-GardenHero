@@ -2,10 +2,10 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "./dist/server.js",
   "scripts": {
-    "start": "node app.js",
-    "dev:backend": "nodemon app.js"
+    "start": "node ./dist/server.js",
+    "dev:backend": "nodemon ./dist/server.js"
   },
   "author": "James Michel-Williams",
   "license": "ISC",
