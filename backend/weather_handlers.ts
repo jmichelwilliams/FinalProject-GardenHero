@@ -26,4 +26,4 @@ const getWeather = async (req: Request, res: Response) => {
   }
 };
 
-module.exports = { getWeather };
+export default getWeather;
