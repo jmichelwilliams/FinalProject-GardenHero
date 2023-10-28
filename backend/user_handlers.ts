@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { MongoClient, MongoClientOptions, ObjectId } from 'mongodb';
+import { MongoClient, MongoClientOptions } from 'mongodb';
 const { createPlantbox } = require('./plantbox_handlers');
 import * as dotenv from 'dotenv';
 dotenv.config({ path: '../.env' });
@@ -19,7 +19,7 @@ const options: Options = {
 };
 
 interface User {
-  _id: ObjectId;
+  _id: string;
   email: string;
   nickname: string;
   picture: string;
@@ -66,7 +66,7 @@ const checkIfUserExists = async (sub: string) => {
     await client.connect();
     const collection = db.collection(userCollection);
 
-    const existingUser = await collection.findOne({ _id: new ObjectId(sub) });
+    const existingUser = await collection.findOne({ _id: sub as any });
     return existingUser;
   } catch (error) {
     throw error;
@@ -96,13 +96,13 @@ const createUser = async (
     await client.connect();
     const collection = db.collection(userCollection);
     const newUser: User = {
-      _id: new ObjectId(sub),
+      _id: sub,
       email,
       nickname,
       picture,
     };
 
-    await collection.insertOne(newUser);
+    await collection.insertOne(newUser as any);
     return newUser;
   } catch (error) {
     throw error;

@@ -32,14 +32,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCrop = exports.getAllCrops = exports.options = void 0;
+exports.getCrop = exports.getAllCrops = void 0;
 const mongodb_1 = require("mongodb");
 const dotenv = __importStar(require("dotenv"));
 dotenv.config({ path: '../.env' });
 const { MONGO_URI } = process.env;
 const dbName = process.env.DB_NAME;
 const cropCollection = process.env.CROP_COLLECTION;
-exports.options = {
+const options = {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 };
@@ -50,7 +50,7 @@ const getAllCrops = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         if (!MONGO_URI || !dbName || !cropCollection) {
             throw new Error('Environment variables not properly set');
         }
-        client = new mongodb_1.MongoClient(MONGO_URI, exports.options);
+        client = new mongodb_1.MongoClient(MONGO_URI, options);
         const db = client.db(dbName);
         yield client.connect();
         const collection = db.collection(cropCollection);
@@ -75,7 +75,7 @@ const getCrop = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (!MONGO_URI || !dbName || !cropCollection) {
             throw new Error('Environment variables not properly set');
         }
-        client = new mongodb_1.MongoClient(MONGO_URI, exports.options);
+        client = new mongodb_1.MongoClient(MONGO_URI, options);
         const db = client.db(dbName);
         const { cropname } = req.params;
         const capitalizedFirstLetterOfCropName = cropname.charAt(0).toUpperCase() + cropname.slice(1);

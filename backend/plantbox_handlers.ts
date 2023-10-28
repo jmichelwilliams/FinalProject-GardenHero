@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { MongoClient, MongoClientOptions, ObjectId } from 'mongodb';
+import { MongoClient, MongoClientOptions } from 'mongodb';
 
 import * as dotenv from 'dotenv';
 dotenv.config({ path: '../.env' });
@@ -19,7 +19,7 @@ const options: Options = {
 };
 
 interface GardenPlant {
-  _id: ObjectId;
+  _id: string;
   name: string;
   soil: string;
   temperature: number;
@@ -30,7 +30,7 @@ interface GardenPlant {
   harvestDate: string;
 }
 interface Plantbox {
-  _id: ObjectId;
+  _id: string;
   user: string;
   garden: GardenPlant[];
 }
@@ -51,7 +51,7 @@ export const getUserPlantbox = async (req: Request, res: Response) => {
     const collection = db.collection(plantBoxCollection);
 
     const result = await collection.findOne({
-      _id: new ObjectId(userid),
+      _id: userid as any,
     });
 
     if (!result) {
@@ -86,12 +86,12 @@ export const createPlantbox = async (userid: string, email: string) => {
     const collection = db.collection(plantBoxCollection);
 
     const newPlantbox: Plantbox = {
-      _id: new ObjectId(userid),
+      _id: userid,
       user: email,
       garden: [],
     };
 
-    await collection.insertOne(newPlantbox);
+    await collection.insertOne(newPlantbox as any);
     return newPlantbox;
   } catch (error) {
     throw new Error(`Failed to create plantbox: ${(error as Error).message}`);
@@ -123,7 +123,7 @@ export const addToGarden = async (req: Request, res: Response) => {
     };
 
     const result = await collection.updateOne(
-      { _id: new ObjectId(userid) },
+      { _id: userid as any },
       updateGarden,
     );
 
@@ -163,7 +163,7 @@ export const removeFromGarden = async (req: Request, res: Response) => {
     };
 
     const result = await collection.updateOne(
-      { _id: new ObjectId(userid) },
+      { _id: userid as any },
       updateGarden,
     );
 
